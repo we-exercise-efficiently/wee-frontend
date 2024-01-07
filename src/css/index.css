@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/**
+    해당 지시어는 무시해도 무방함
+    2024.01.07 LJM
+**/
