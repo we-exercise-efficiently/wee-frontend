@@ -20,7 +20,7 @@ export default function NavBar() {
   };
 
   return (
-    <div className="sticky top-0">
+    <div className="sticky top-0 z-50">
       {/* Sticky Bar */}
       <div className="relative flex flex-row justify-center items-center bg-blue-500 px-10 py-2">
         <div className="absolute left-10 hidden sm:block">
