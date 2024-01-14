@@ -1,21 +1,97 @@
+import { useEffect, useRef, useState } from "react";
+
 /**
  * LJM 2024.01.08
  * @returns 홈페이지 Ai 추천 컴포넌트
  */
 export default function AiRecommand() {
-  return (
-    <div className="px-16 mt-12 flex flex-col justify-start items-stretch">
-      <div className="flex flex-col mt-8 gap-4">
-        <div className="flex flex-col h-96 bg-slate-300 rounded-xl justify-around items-center">
-          <div className="flex flex-col justify-center items-center gap-2 pt-12">
-            <h2 className="text-2xl font-bold">스마트한 AI 가</h2>
-            <h2 className="text-2xl font-bold">개인 맞춤형으로 추천해주는</h2>
-            <h2 className="text-2xl font-bold">운동 루틴을 만나보세요</h2>
-          </div>
+  const targetRef = useRef<HTMLDivElement | null>(null);
+  const [isView, setIsView] = useState<boolean>(false);
 
-          <div className="transition duration-300 cursor-pointer ease-in-out hover:bg-slate-200 hover:text-slate-700 px-12 py-4 rounded-xl text-slate-200 bg-slate-800">
-            <h2>AI 운동루틴 추천 받아보기</h2>
+  useEffect(() => {
+    const options: IntersectionObserverInit = {
+      root: null,
+      rootMargin: "0px",
+      threshold: 0.5,
+    };
+
+    const callback: IntersectionObserverCallback = (entries, _) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          console.log("HELLO");
+          setIsView(true);
+        } else {
+          console.log("BYE BYE");
+          setIsView(false);
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(callback, options);
+
+    if (targetRef.current) {
+      observer.observe(targetRef.current);
+    }
+
+    return () => {
+      if (targetRef.current) {
+        observer.unobserve(targetRef.current);
+      }
+    };
+  }, []);
+
+  return (
+    <div
+      ref={targetRef}
+      className="px-16 mt-12 flex flex-col justify-start items-stretch"
+    >
+      <div className="flex flex-col mt-8 gap-4">
+        <div className="flex flex-row h-96 bg-themeDark rounded-xl justify-center items-center">
+          <div className="text-white bg-black p-4 rounded-full">
+            <h2>A</h2>
           </div>
+          {/* Text-A */}
+          <div
+            className={`transition-all duration-500 delay-300 ease-in-out relative h-full w-80  ${
+              isView && "sm:w-3/5"
+            } flex flex-row justify-center items-center`}
+          >
+            <div className="p-12 absolute gap-4 border-4 border-themeDark right-0 z-30 w-80 h-80 bg-themeBlue rounded-full flex flex-col justify-center items-center text-white">
+              <div className="flex flex-col justify-center items-center">
+                <div className="h-2/5 flex-col mt-10">
+                  <h2 className="font-extrabold text-4xl">SMART AI ROUTINE</h2>
+                </div>
+                <div className="h-3/5 flex flex-row justify-between gap-2 items-center">
+                  <h2 className="text-sm">
+                    스마트한 AI가 개인 맞춤형으로 추천해주는 운동 루틴을
+                    만나보세요.
+                  </h2>
+
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="2.5"
+                    stroke="currentColor"
+                    className="w-36 h-36"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="m12.75 15 3-3m0 0-3-3m3 3h-7.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <div className="absolute border-4 border-themeDark inset-0 m-auto z-20 w-80 h-80 bg-gray-400 rounded-full"></div>
+            <div className="pl-12 font-bold text-themeDark   text-6xl flex flex-row items-center justify-start absolute border-4 border-themeDark left-0 z-10 w-80 h-80 bg-themeLime rounded-full">
+              <h2>:)</h2>
+            </div>
+          </div>
+          {/* Circles */}
+          <div className="text-white bg-black p-4 rounded-full">I</div>
+          {/* Text-I */}
         </div>
       </div>
     </div>

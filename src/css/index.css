@@ -23,3 +23,10 @@
 .slick-active .custom-dot {
   background-color: rgb(51 65 85 / var(--tw-bg-opacity));
 }
+
+.truncate-3-lines {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+}
