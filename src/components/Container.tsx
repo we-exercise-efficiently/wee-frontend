@@ -18,7 +18,7 @@ export default function Container({ children }: IContainerProps) {
       {/* relative 는 NavBar sticky 때문 */}
       <TopBar />
       <NavBar />
-      <div className="bg-red-500 min-h-[200vh] overflow-hidden">
+      <div className="bg-white min-h-[100vh] overflow-hidden">
         {/* BODY */}
         {children}
       </div>
