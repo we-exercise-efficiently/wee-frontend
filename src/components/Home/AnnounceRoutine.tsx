@@ -9,7 +9,7 @@ export default function AnnounceRoutine() {
         루틴 정보를 소개하는 간단한 텍스트를 입력해주세요
       </h2>
       <div
-        className="bg-blue-500 p-1 sm:grid flex flex-col w-full min-h-[32rem] gap-1 rounded-xl mt-4"
+        className="bg-themeBlue p-1 sm:grid flex flex-col w-full min-h-[32rem] gap-1 rounded-xl mt-4"
         style={{
           gridTemplateColumns: "1fr 1fr 1fr 1fr",
           gridTemplateRows: "2fr 3fr",

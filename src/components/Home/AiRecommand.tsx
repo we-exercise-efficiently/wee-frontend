@@ -47,8 +47,8 @@ export default function AiRecommand() {
     >
       <div className="flex flex-col mt-8 gap-4">
         <div className="flex flex-row h-96 bg-themeDark rounded-xl justify-center items-center">
-          <div className="text-white bg-black p-4 rounded-full">
-            <h2>A</h2>
+          <div className="text-white px-4">
+            <h2 className="font-bungee-outline text-6xl">A</h2>
           </div>
           {/* Text-A */}
           <div
@@ -90,7 +90,9 @@ export default function AiRecommand() {
             </div>
           </div>
           {/* Circles */}
-          <div className="text-white bg-black p-4 rounded-full">I</div>
+          <div className="text-white px-4">
+            <h2 className="font-bungee-outline text-6xl">I</h2>
+          </div>
           {/* Text-I */}
         </div>
       </div>

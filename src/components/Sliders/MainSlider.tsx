@@ -25,17 +25,25 @@ export default function MainSlider() {
   return (
     <div className="flex flex-col bg-amber-600">
       <Slider {...settings} dotsClass="slick-dots custom-dots">
-        <div className="w-screen bg-slate-600 h-96">
-          <h3>1</h3>
+        <div className="w-screen bg-themeDark h-96 text-white font-bold text-6xl">
+          <div className="w-full h-full flex flex-col justify-center items-center">
+            <h3>1</h3>
+          </div>
         </div>
-        <div className="w-screen bg-slate-500 h-96">
-          <h3>2</h3>
+        <div className="w-screen bg-themeLime h-96 text-white font-bold text-6xl">
+          <div className="w-full h-full flex flex-col justify-center items-center">
+            <h3>2</h3>
+          </div>
         </div>
-        <div className="w-screen bg-slate-400 h-96">
-          <h3>3</h3>
+        <div className="w-screen bg-themeDark h-96 text-white font-bold text-6xl">
+          <div className="w-full h-full flex flex-col justify-center items-center">
+            <h3>3</h3>
+          </div>
         </div>
-        <div className="w-screen bg-slate-300 h-96">
-          <h3>4</h3>
+        <div className="w-screen bg-themeLime h-96 text-white font-bold text-6xl">
+          <div className="w-full h-full flex flex-col justify-center items-center">
+            <h3>4</h3>
+          </div>
         </div>
       </Slider>
     </div>
