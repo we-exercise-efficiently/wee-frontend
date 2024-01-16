@@ -10,25 +10,25 @@
 //
 ///////////////////////////////////////
 
-import axios from "axios";
-import { ILoginDataProps } from "../pages/Login";
+// import axios from "axios";
+// import { ILoginDataProps } from "../pages/Login";
 
-/**
- * LJM 2024.01.07
- * @param data login interface
- * @returns 로그인 요청 API 함수 (POST)
- */
-export function postLogin(data: ILoginDataProps) {
-  const url = `${process.env.REACT_APP_BASE_URL}/api/login`;
-  return axios.post(url, data);
-}
+// /**
+//  * LJM 2024.01.07
+//  * @param data login interface
+//  * @returns 로그인 요청 API 함수 (POST)
+//  */
+// export function postLogin(data: ILoginDataProps) {
+//   const url = `${process.env.REACT_APP_BASE_URL}/api/login`;
+//   return axios.post(url, data);
+// }
 
-/**
- * LJM 2024.01.07
- * @returns 회원가입 요청 API 함수 (POST)
- */
-export function postSignup() {
-  const url = `${process.env.REACT_APP_BASE_URL}/api/signup`;
+// /**
+//  * LJM 2024.01.07
+//  * @returns 회원가입 요청 API 함수 (POST)
+//  */
+// export function postSignup() {
+//   const url = `${process.env.REACT_APP_BASE_URL}/api/signup`;
 
-  return console.log(url);
-}
+//   return console.log(url);
+// }
