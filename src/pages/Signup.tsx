@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import Container from "../components/Container";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
@@ -23,7 +22,7 @@ export default function Signup() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    // formState: { errors },
   } = useForm<ISignupProps>();
 
   const [isPage, setIsPage] = useState(0);
