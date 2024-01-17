@@ -1,5 +1,5 @@
 import Container from "../components/Container";
-import { useForm } from "react-hook-form";
+import { FieldErrors, useForm } from "react-hook-form";
 import { useState } from "react";
 
 interface ISignupProps {
@@ -22,7 +22,9 @@ export default function Signup() {
   const {
     register,
     handleSubmit,
-    // formState: { errors },
+    formState: { errors },
+    getValues,
+    setError,
   } = useForm<ISignupProps>();
 
   const [isPage, setIsPage] = useState(0);
@@ -34,6 +36,7 @@ export default function Signup() {
     select1: false,
     select2: false,
   });
+  const [isTermMessage, setIsTermMessage] = useState<string>("");
 
   const onNextPage = () => {
     setIsPage((current) => (current += 1));
@@ -48,9 +51,49 @@ export default function Signup() {
       select1: true,
       select2: true,
     });
+    onRemoveMessage();
   };
 
-  const onValid = () => {};
+  const onRemoveMessage = () => {
+    if (isTerms.needs1 && isTerms.needs2 && isTerms.needs3) {
+      // 전부다 눌렸을 경우
+      setIsTermMessage("");
+      // 공백란으로
+    }
+  };
+
+  const onValid = (data: ISignupProps) => {
+    if (isTerms.needs1 && isTerms.needs2 && isTerms.needs3) {
+      // 필수 선택란을 전부 선택했을 시
+      try {
+        // 추후 API 추가
+      } catch (error) {
+      } finally {
+        console.log(data);
+      }
+    } else {
+      setIsTermMessage("* 필수 선택란을 선택해 주세요.");
+    }
+  };
+
+  const onFailedFirst = (errors: FieldErrors) => {
+    // 첫 에러처리
+    if (errors) {
+      if (
+        !errors.signupId &&
+        !errors.signupPassword &&
+        !errors.signupPasswordCheck
+      ) {
+        if (getValues("signupPassword") === getValues("signupPasswordCheck")) {
+          onNextPage();
+        } else {
+          setError("signupPasswordCheck", {
+            message: "* 비밀번호가 일치하지 않습니다",
+          });
+        }
+      }
+    }
+  };
 
   return (
     <Container>
@@ -90,50 +133,71 @@ export default function Signup() {
                 <label className="mb-1" htmlFor="loginId">
                   이메일 또는 아이디
                 </label>
-                <input
-                  {...register("signupId", {
-                    minLength: {
-                      message: "아이디는 최소 5글자 이상입니다.",
-                      value: 5,
-                    },
-                  })}
-                  placeholder="name@weemail.com"
-                  id="signupId"
-                  className="rounded-sm border-2 px-2 py-2 bg-transparent border-themeLime"
-                />
+                <div className="w-full relative">
+                  <input
+                    {...register("signupId", {
+                      required: "* 아이디를 입력해 주세요.",
+                      minLength: {
+                        message: "* 아이디는 최소 5글자 이상입니다.",
+                        value: 5,
+                      },
+                    })}
+                    placeholder="name@weemail.com"
+                    id="signupId"
+                    className="w-full rounded-sm border-2 px-2 py-2 bg-transparent border-themeLime"
+                  />
+                  <p className="absolute left-0 -bottom-5 text-xs text-red-400">
+                    {errors?.signupId?.message}
+                  </p>
+                </div>
+
                 <label className="mb-1 mt-6" htmlFor="signupPassword">
                   비밀번호
                 </label>
-                <input
-                  {...register("signupPassword", {
-                    minLength: {
-                      message: "비밀번호는 최소 8글자 이상입니다.",
-                      value: 8,
-                    },
-                  })}
-                  type="password"
-                  placeholder="비밀번호"
-                  id="signupPassword"
-                  className="rounded-sm border-2 px-2 py-2 bg-transparent border-themeLime focus:bg-transparent"
-                />
+                <div className="w-full relative">
+                  <input
+                    {...register("signupPassword", {
+                      required: "* 비밀번호를 입력해 주세요.",
+                      minLength: {
+                        message: "* 비밀번호는 최소 8글자 이상입니다.",
+                        value: 8,
+                      },
+                    })}
+                    type="password"
+                    placeholder="비밀번호"
+                    id="signupPassword"
+                    className="w-full rounded-sm border-2 px-2 py-2 bg-transparent border-themeLime focus:bg-transparent"
+                  />
+                  <p className="absolute left-0 -bottom-5 text-xs text-red-400">
+                    {errors?.signupPassword?.message}
+                  </p>
+                </div>
                 <label className="mb-1 mt-6" htmlFor="signupPasswordCheck">
                   비밀번호 확인
                 </label>
-                <input
-                  {...register("signupPasswordCheck", {
-                    minLength: {
-                      message: "비밀번호는 최소 8글자 이상입니다.",
-                      value: 8,
-                    },
-                  })}
-                  type="password"
-                  placeholder="비밀번호 확인"
-                  id="signupPassword"
-                  className="rounded-sm border-2 px-2 py-2 bg-transparent border-themeLime focus:bg-transparent"
-                />
+                <div className="w-full relative">
+                  <input
+                    {...register("signupPasswordCheck", {
+                      required: "* 비밀번호를 입력해 주세요.",
+                      minLength: {
+                        message: "* 비밀번호는 최소 8글자 이상입니다.",
+                        value: 8,
+                      },
+                    })}
+                    type="password"
+                    placeholder="비밀번호 확인"
+                    id="signupPassword"
+                    className="w-full rounded-sm border-2 px-2 py-2 bg-transparent border-themeLime focus:bg-transparent"
+                  />
+                  <p className="absolute left-0 -bottom-5 text-xs text-red-400">
+                    {errors?.signupPasswordCheck?.message}
+                  </p>
+                </div>
 
                 <div
-                  onClick={onNextPage}
+                  onClick={handleSubmit(() => {
+                    console.log("NEXT");
+                  }, onFailedFirst)}
                   className="cursor-pointer mt-12 text-center w-full py-2 bg-themeLime text-themeDark font-bold text-sm border-2 border-themeLime rounded-full"
                 >
                   다음
@@ -151,20 +215,26 @@ export default function Signup() {
                 <label className="mb-1 mt-12" htmlFor="loginId">
                   닉네임
                 </label>
-                <input
-                  {...register("signupNickname", {
-                    minLength: {
-                      message: "닉네임은 최소 2글자 이상입니다.",
-                      value: 2,
-                    },
-                  })}
-                  placeholder="닉네임 입력"
-                  id="signupNickname"
-                  className="rounded-sm border-2 px-2 py-2 bg-transparent border-themeLime"
-                />
+                <div className="w-full relative">
+                  <input
+                    {...register("signupNickname", {
+                      required: "* 닉네임을 입력해 주세요.",
+                      minLength: {
+                        message: "* 닉네임은 최소 2글자 이상입니다.",
+                        value: 2,
+                      },
+                    })}
+                    placeholder="닉네임 입력"
+                    id="signupNickname"
+                    className="w-full rounded-sm border-2 px-2 py-2 bg-transparent border-themeLime"
+                  />
+                  <p className="absolute left-0 -bottom-5 text-xs text-red-400">
+                    {errors?.signupNickname?.message}
+                  </p>
+                </div>
 
                 <div
-                  onClick={onNextPage}
+                  onClick={handleSubmit(onNextPage)}
                   className="cursor-pointer mt-28 text-center w-full py-2 bg-themeLime text-themeDark font-bold text-sm border-2 border-themeLime rounded-full"
                 >
                   다음
@@ -180,7 +250,7 @@ export default function Signup() {
                 <h2 className="text-xl font-bold">WEE 서비스 이용약관에</h2>
                 <h2 className="text-xl font-bold">동의 해주세요.</h2>
 
-                <div className="flex mt-8 w-72 flex-col">
+                <div className="flex mt-8 w-72 flex-col relative">
                   <div
                     onClick={onSelectAll}
                     className="flex flex-row justify-start items-center gap-2 pb-2 border-gray-500 border-b w-72"
@@ -217,6 +287,7 @@ export default function Signup() {
                           needs1: !prev.needs1,
                         };
                       });
+                      onRemoveMessage();
                     }}
                     className="cursor-pointer flex flex-row justify-start items-center gap-2 pb-2 mt-2 w-72"
                   >
@@ -246,6 +317,7 @@ export default function Signup() {
                           needs2: !prev.needs2,
                         };
                       });
+                      onRemoveMessage();
                     }}
                     className="cursor-pointer flex flex-row justify-start items-center gap-2 pb-2 mt-1 w-72"
                   >
@@ -275,6 +347,7 @@ export default function Signup() {
                           needs3: !prev.needs3,
                         };
                       });
+                      onRemoveMessage();
                     }}
                     className="cursor-pointer flex flex-row justify-start items-center gap-2 pb-2 mt-1 w-72"
                   >
@@ -306,6 +379,7 @@ export default function Signup() {
                           select1: !prev.select1,
                         };
                       });
+                      onRemoveMessage();
                     }}
                     className="cursor-pointer flex flex-row justify-start items-center gap-2 pb-2 mt-1 w-72"
                   >
@@ -337,6 +411,7 @@ export default function Signup() {
                           select2: !prev.select2,
                         };
                       });
+                      onRemoveMessage();
                     }}
                     className="cursor-pointer flex flex-row justify-start items-center gap-2 pb-2 mt-1 w-72"
                   >
@@ -357,6 +432,9 @@ export default function Signup() {
 
                     <h2 className="text-xs">[선택] 광고성 정보 수신 동의</h2>
                   </div>
+                  <p className="absolute left-0 -bottom-5 text-xs text-red-400">
+                    {isTermMessage}
+                  </p>
                 </div>
 
                 <button className="cursor-pointer mt-12 text-center w-full py-2 bg-themeLime text-themeDark font-bold text-sm border-2 border-themeLime rounded-full">
