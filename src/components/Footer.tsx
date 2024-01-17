@@ -12,61 +12,65 @@ export default function Footer() {
         {/* TABLE */}
         <div>
           <table>
-            <tr>
-              <th className="text-sm text-center sm:text-left px-2 sm:px-8 pb-2">
-                새로운 소식
-              </th>
-              <th className="text-sm text-center sm:text-left px-2 sm:px-8 pb-2">
-                도움말
-              </th>
-              <th className="text-sm text-center sm:text-left px-2 sm:px-8 pb-2">
-                ABOUT WEE
-              </th>
-            </tr>
-            <tr>
-              <td className="invisible" />
-              <td className="text-xs text-center sm:text-left px-8 py-2">
-                <p className="w-fit transition-all cursor-pointer duration-300 ease-in-out border-transparent border-b pb-1 hover:border-slate-100">
-                  로그인 안내
-                </p>
-              </td>
-              <td className="text-xs text-center sm:text-left px-8 py-2">
-                <p className="w-fit transition-all cursor-pointer duration-300 ease-in-out border-transparent border-b pb-1 hover:border-slate-100">
-                  소식
-                </p>
-              </td>
-            </tr>
-            <tr>
-              <td className="invisible" />
-              <td className="text-xs text-center sm:text-left px-8 py-2">
-                <p className="w-fit transition-all cursor-pointer duration-300 ease-in-out border-transparent border-b pb-1 hover:border-slate-100">
-                  AI 루틴 이용 안내
-                </p>
-              </td>
-              <td className="text-xs text-center sm:text-left px-8 py-2">
-                <p className="w-fit transition-all cursor-pointer duration-300 ease-in-out border-transparent border-b pb-1 hover:border-slate-100">
-                  지속 가능성
-                </p>
-              </td>
-            </tr>
-            <tr>
-              <td className="invisible" />
-              <td className="text-xs text-center sm:text-left px-8 py-2">
-                <p className="w-fit transition-all cursor-pointer duration-300 ease-in-out border-transparent border-b pb-1 hover:border-slate-100">
-                  공지사항
-                </p>
-              </td>
-              <td className="invisible" />
-            </tr>
-            <tr>
-              <td className="invisible" />
-              <td className="text-xs text-center sm:text-left px-8 py-2">
-                <p className="w-fit transition-all cursor-pointer duration-300 ease-in-out border-transparent border-b pb-1 hover:border-slate-100">
-                  문의하기
-                </p>
-              </td>
-              <td className="invisible" />
-            </tr>
+            <thead>
+              <tr>
+                <th className="text-sm text-center sm:text-left px-2 sm:px-8 pb-2">
+                  새로운 소식
+                </th>
+                <th className="text-sm text-center sm:text-left px-2 sm:px-8 pb-2">
+                  도움말
+                </th>
+                <th className="text-sm text-center sm:text-left px-2 sm:px-8 pb-2">
+                  ABOUT WEE
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td className="invisible"></td>
+                <td className="text-xs text-center sm:text-left px-8 py-2">
+                  <p className="w-fit transition-all cursor-pointer duration-300 ease-in-out border-transparent border-b pb-1 hover:border-slate-100">
+                    로그인 안내
+                  </p>
+                </td>
+                <td className="text-xs text-center sm:text-left px-8 py-2">
+                  <p className="w-fit transition-all cursor-pointer duration-300 ease-in-out border-transparent border-b pb-1 hover:border-slate-100">
+                    소식
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td className="invisible"></td>
+                <td className="text-xs text-center sm:text-left px-8 py-2">
+                  <p className="w-fit transition-all cursor-pointer duration-300 ease-in-out border-transparent border-b pb-1 hover:border-slate-100">
+                    AI 루틴 이용 안내
+                  </p>
+                </td>
+                <td className="text-xs text-center sm:text-left px-8 py-2">
+                  <p className="w-fit transition-all cursor-pointer duration-300 ease-in-out border-transparent border-b pb-1 hover:border-slate-100">
+                    지속 가능성
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td className="invisible"></td>
+                <td className="text-xs text-center sm:text-left px-8 py-2">
+                  <p className="w-fit transition-all cursor-pointer duration-300 ease-in-out border-transparent border-b pb-1 hover:border-slate-100">
+                    공지사항
+                  </p>
+                </td>
+                <td className="invisible"></td>
+              </tr>
+              <tr>
+                <td className="invisible"></td>
+                <td className="text-xs text-center sm:text-left px-8 py-2">
+                  <p className="w-fit transition-all cursor-pointer duration-300 ease-in-out border-transparent border-b pb-1 hover:border-slate-100">
+                    문의하기
+                  </p>
+                </td>
+                <td className="invisible"></td>
+              </tr>
+            </tbody>
           </table>
         </div>
       </div>
