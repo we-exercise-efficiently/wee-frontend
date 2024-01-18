@@ -49,3 +49,18 @@
     transform: translateX(0);
   }
 }
+
+.color-facebook {
+  background-color: #425a95;
+  color: white;
+}
+
+.color-naver {
+  background-color: #5bb134;
+  color: white;
+}
+
+.color-kakao {
+  background-color: #fade4b;
+  color: #3a1d1d;
+}

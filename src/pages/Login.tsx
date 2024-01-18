@@ -1,6 +1,8 @@
 import { useForm } from "react-hook-form";
 import Container from "../components/Container";
-import { useNavigate } from "react-router-dom";
+import useScrollReset from "../utils/useScrollReset";
+import { SiFacebook, SiGoogle, SiKakao, SiNaver } from "react-icons/si";
+import { postLogin } from "../apis/apis";
 
 export interface ILoginDataProps {
   loginId: string;
@@ -13,9 +15,22 @@ export interface ILoginDataProps {
  */
 export default function Login() {
   const { register, handleSubmit } = useForm<ILoginDataProps>();
-  const nav = useNavigate();
+  const reset = useScrollReset();
 
-  const onValid = () => {};
+  /**
+   * validation 통과 시 실행 될 함수
+   * @param data 로그인 데이터
+   */
+  const onValid = async (data: ILoginDataProps) => {
+    try {
+      const response = await postLogin(data);
+      if (response.status === 200) {
+      }
+    } catch (error) {
+    } finally {
+      console.log(data);
+    }
+  };
 
   return (
     <Container>
@@ -38,9 +53,11 @@ export default function Login() {
                   value: 5,
                 },
               })}
+              type="text"
+              autoComplete="off"
               placeholder="name@weemail.com"
               id="loginId"
-              className="rounded-sm border-2 px-2 py-2 bg-transparent border-themeLime"
+              className="rounded-sm border-2 px-2 py-2 bg-transparent border-themeLime focus:outline-none focus:bg-transparent"
             />
             <label className="mb-1 mt-4">비밀번호</label>
             <input
@@ -50,9 +67,11 @@ export default function Login() {
                   value: 8,
                 },
               })}
+              type="password"
+              autoComplete="off"
               placeholder="비밀번호"
               id="loginPassword"
-              className="rounded-sm border-2 px-2 py-2 bg-transparent border-themeLime focus:bg-transparent"
+              className="rounded-sm border-2 px-2 py-2 bg-transparent border-themeLime focus:outline-none focus:bg-transparent"
             />
 
             <button className="mt-12 text-center w-full py-2 bg-themeLime text-themeDark font-bold text-sm border-2 border-themeLime rounded-full">
@@ -66,16 +85,24 @@ export default function Login() {
             </h2>
           </div>
           <div className="mt-8 flex flex-row items-center justify-around">
-            <div className="w-12 h-12 rounded-full bg-themeBlue" />
-            <div className="w-12 h-12 rounded-full bg-themeBlue" />
-            <div className="w-12 h-12 rounded-full bg-themeBlue" />
-            <div className="w-12 h-12 rounded-full bg-themeBlue" />
+            <div className="cursor-pointer flex flex-col justify-center items-center w-12 h-12 rounded-full color-kakao">
+              <SiKakao fontSize={28} />
+            </div>
+            <div className="cursor-pointer flex flex-col justify-center items-center w-12 h-12 rounded-full color-naver">
+              <SiNaver />
+            </div>
+            <div className="cursor-pointer flex flex-col justify-center items-center w-12 h-12 rounded-full color-facebook">
+              <SiFacebook />
+            </div>
+            <div className="cursor-pointer flex flex-col justify-center items-center w-12 h-12 rounded-full bg-white text-themeDark">
+              <SiGoogle />
+            </div>
           </div>
           <div className="flex-row flex mt-8 justify-between items-center">
             <h2 className="text-sm font-bold">아직 회원이 아니신가요?</h2>
             <p
               onClick={() => {
-                nav("/signup");
+                reset("/signup");
               }}
               className="text-sm underline cursor-pointer"
             >

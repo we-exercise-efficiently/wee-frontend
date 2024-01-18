@@ -1,6 +1,7 @@
 import Container from "../components/Container";
-import { FieldErrors, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useState } from "react";
+import useScrollReset from "../utils/useScrollReset";
 
 interface ISignupProps {
   signupId: string;
@@ -18,6 +19,11 @@ interface ITermsProps {
   select2: boolean;
 }
 
+/**
+ * LJM 2024.01.18
+ *
+ * @returns 회원가입 페이지
+ */
 export default function Signup() {
   const {
     register,
@@ -25,9 +31,14 @@ export default function Signup() {
     formState: { errors },
     getValues,
     setError,
+    trigger,
+    clearErrors,
   } = useForm<ISignupProps>();
 
   const [isPage, setIsPage] = useState(0);
+  // 회원가입 시 넘어가는 페이지 state
+  const [isTermMessage, setIsTermMessage] = useState<string>("");
+  // 이용약관 메세지
   const [isTerms, setIsTerms] = useState<ITermsProps>({
     all: false,
     needs1: false,
@@ -35,13 +46,20 @@ export default function Signup() {
     needs3: false,
     select1: false,
     select2: false,
-  });
-  const [isTermMessage, setIsTermMessage] = useState<string>("");
+  }); // 동의 체크여부
 
+  const reset = useScrollReset();
+
+  /**
+   * 다음 페이지 함수
+   */
   const onNextPage = () => {
     setIsPage((current) => (current += 1));
   };
 
+  /**
+   * 모든 동의여부 체크 함수
+   */
   const onSelectAll = () => {
     setIsTerms({
       all: true,
@@ -54,6 +72,9 @@ export default function Signup() {
     onRemoveMessage();
   };
 
+  /**
+   * 메세지를 비우는 함수 (동의 체크 메세지)
+   */
   const onRemoveMessage = () => {
     if (isTerms.needs1 && isTerms.needs2 && isTerms.needs3) {
       // 전부다 눌렸을 경우
@@ -62,11 +83,16 @@ export default function Signup() {
     }
   };
 
+  /**
+   * validation 을 만족 시켰을 시 실행될 함수
+   * @param data 회원가입 데이터
+   */
   const onValid = (data: ISignupProps) => {
     if (isTerms.needs1 && isTerms.needs2 && isTerms.needs3) {
       // 필수 선택란을 전부 선택했을 시
       try {
         // 추후 API 추가
+        reset("/");
       } catch (error) {
       } finally {
         console.log(data);
@@ -76,21 +102,39 @@ export default function Signup() {
     }
   };
 
-  const onFailedFirst = (errors: FieldErrors) => {
-    // 첫 에러처리
-    if (errors) {
-      if (
-        !errors.signupId &&
-        !errors.signupPassword &&
-        !errors.signupPasswordCheck
-      ) {
-        if (getValues("signupPassword") === getValues("signupPasswordCheck")) {
-          onNextPage();
-        } else {
-          setError("signupPasswordCheck", {
-            message: "* 비밀번호가 일치하지 않습니다",
-          });
-        }
+  /**
+   * 첫번째 회원가입 탭 유효성 검사 추후 duplicate 사용 예정
+   *
+   * back-end 와 추후 validation 설정 논의
+   */
+  const onFirstTab = async () => {
+    const isIdValid = await trigger("signupId");
+    const isPasswordValid = await trigger("signupPassword");
+    const isPasswordCheckValid = await trigger("signupPasswordCheck");
+
+    if (isIdValid && isPasswordValid && isPasswordCheckValid) {
+      if (getValues("signupPassword") === getValues("signupPasswordCheck")) {
+        onNextPage();
+      } else {
+        setError("signupPasswordCheck", {
+          message: "* 비밀번호가 일치하지 않습니다",
+        });
+      }
+    }
+  };
+
+  /**
+   * 두번째 회원가입 탭 유효성 검사 추후 duplicate 사용 예정
+   */
+  const onSecondTab = async () => {
+    const isNicknameValid = await trigger("signupNickname");
+
+    if (isNicknameValid) {
+      // 닉네임 유효성이 통과했을 경우
+      try {
+        onNextPage();
+      } catch (error) {
+      } finally {
       }
     }
   };
@@ -102,6 +146,7 @@ export default function Signup() {
           {/* TEXT-BOX */}
           <h1 className="text-4xl font-bold">회원 가입</h1>
         </div>
+        {/* UNDERLINE BAR */}
         <div className="flex-row flex mb-8">
           <div
             className={`h-2 w-56 border-b-2 ${
@@ -120,6 +165,7 @@ export default function Signup() {
           />
         </div>
         <div>
+          {/* FORM DATA */}
           <form
             onSubmit={handleSubmit(onValid)}
             className="flex flex-row w-auto"
@@ -129,6 +175,7 @@ export default function Signup() {
                 isPage === 0 ? "flex" : "hidden"
               } flex-col justify-center items-center fade-in`}
             >
+              {/* FIRST PAGE */}
               <div id="first" className={`flex flex-col w-72`}>
                 <label className="mb-1" htmlFor="loginId">
                   이메일 또는 아이디
@@ -142,9 +189,14 @@ export default function Signup() {
                         value: 5,
                       },
                     })}
+                    onChange={() => {
+                      clearErrors("signupId");
+                    }}
+                    type="text"
+                    autoComplete="off"
                     placeholder="name@weemail.com"
                     id="signupId"
-                    className="w-full rounded-sm border-2 px-2 py-2 bg-transparent border-themeLime"
+                    className="focus:outline-none focus:bg-transparent w-full rounded-sm border-2 px-2 py-2 bg-transparent border-themeLime"
                   />
                   <p className="absolute left-0 -bottom-5 text-xs text-red-400">
                     {errors?.signupId?.message}
@@ -163,10 +215,14 @@ export default function Signup() {
                         value: 8,
                       },
                     })}
+                    onChange={() => {
+                      clearErrors("signupPassword");
+                    }}
                     type="password"
+                    autoComplete="off"
                     placeholder="비밀번호"
                     id="signupPassword"
-                    className="w-full rounded-sm border-2 px-2 py-2 bg-transparent border-themeLime focus:bg-transparent"
+                    className="focus:outline-none w-full rounded-sm border-2 px-2 py-2 bg-transparent border-themeLime focus:bg-transparent"
                   />
                   <p className="absolute left-0 -bottom-5 text-xs text-red-400">
                     {errors?.signupPassword?.message}
@@ -184,10 +240,14 @@ export default function Signup() {
                         value: 8,
                       },
                     })}
+                    onChange={() => {
+                      clearErrors("signupPasswordCheck");
+                    }}
                     type="password"
+                    autoComplete="off"
                     placeholder="비밀번호 확인"
-                    id="signupPassword"
-                    className="w-full rounded-sm border-2 px-2 py-2 bg-transparent border-themeLime focus:bg-transparent"
+                    id="signupPasswordCheck"
+                    className="focus:outline-none w-full rounded-sm border-2 px-2 py-2 bg-transparent border-themeLime focus:bg-transparent"
                   />
                   <p className="absolute left-0 -bottom-5 text-xs text-red-400">
                     {errors?.signupPasswordCheck?.message}
@@ -195,9 +255,7 @@ export default function Signup() {
                 </div>
 
                 <div
-                  onClick={handleSubmit(() => {
-                    console.log("NEXT");
-                  }, onFailedFirst)}
+                  onClick={onFirstTab}
                   className="cursor-pointer mt-12 text-center w-full py-2 bg-themeLime text-themeDark font-bold text-sm border-2 border-themeLime rounded-full"
                 >
                   다음
@@ -209,6 +267,7 @@ export default function Signup() {
                 isPage === 1 ? "flex" : "hidden"
               } flex-col justify-center items-center fade-in`}
             >
+              {/* SECOND PAGE */}
               <div id="second" className={`flex flex-col w-72`}>
                 <h2 className="text-xl font-bold">WEE 와 함께하실 회원님을</h2>
                 <h2 className="text-xl font-bold">어떻게 불러드릴까요?</h2>
@@ -224,9 +283,14 @@ export default function Signup() {
                         value: 2,
                       },
                     })}
+                    onChange={() => {
+                      clearErrors("signupNickname");
+                    }}
                     placeholder="닉네임 입력"
+                    autoComplete="off"
+                    type="text"
                     id="signupNickname"
-                    className="w-full rounded-sm border-2 px-2 py-2 bg-transparent border-themeLime"
+                    className="focus:outline-none focus:bg-transparent w-full rounded-sm border-2 px-2 py-2 bg-transparent border-themeLime"
                   />
                   <p className="absolute left-0 -bottom-5 text-xs text-red-400">
                     {errors?.signupNickname?.message}
@@ -234,7 +298,7 @@ export default function Signup() {
                 </div>
 
                 <div
-                  onClick={handleSubmit(onNextPage)}
+                  onClick={onSecondTab}
                   className="cursor-pointer mt-28 text-center w-full py-2 bg-themeLime text-themeDark font-bold text-sm border-2 border-themeLime rounded-full"
                 >
                   다음
@@ -246,7 +310,8 @@ export default function Signup() {
                 isPage === 2 ? "flex" : "hidden"
               } flex-col justify-center items-center fade-in`}
             >
-              <div id="second" className={`flex flex-col w-72`}>
+              {/* THIRD PAGE */}
+              <div id="third" className={`flex flex-col w-72`}>
                 <h2 className="text-xl font-bold">WEE 서비스 이용약관에</h2>
                 <h2 className="text-xl font-bold">동의 해주세요.</h2>
 
@@ -437,6 +502,7 @@ export default function Signup() {
                   </p>
                 </div>
 
+                {/* SIGNUP BUTTON */}
                 <button className="cursor-pointer mt-12 text-center w-full py-2 bg-themeLime text-themeDark font-bold text-sm border-2 border-themeLime rounded-full">
                   동의하고 가입하기
                 </button>
