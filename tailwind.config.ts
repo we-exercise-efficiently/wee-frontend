@@ -9,6 +9,10 @@ export default {
         themeLime: "#d1fd0a",
         themeDark: "#040f15",
       },
+
+      fontFamily: {
+        "bungee-outline": ["Bungee Outline", "sans-serif"],
+      },
     },
   },
   plugins: [],
