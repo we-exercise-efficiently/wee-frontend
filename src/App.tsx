@@ -3,7 +3,7 @@ import Home from './pages/Home';
 import TodoList from './pages/TodoList';
 import Community from './pages/Community';
 import Login from './pages/Login';
-// import MyPage from "./pages/MyPage";
+import MyPage from "./pages/MyPage";
 import Signup from "./pages/Signup";
 
 export default function App() {
