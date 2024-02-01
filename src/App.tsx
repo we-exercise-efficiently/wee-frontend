@@ -13,7 +13,7 @@ export default function App() {
       <Route path={`/login`} element={<Login />} />
       <Route path={`/todo`} element={<TodoList />} />
       <Route path={`/community`} element={<Community />} />
-      {/* <Route path={`/mypage`} element={<MyPage />} /> */}
+      <Route path={`/mypage`} element={<MyPage />} />
       <Route path={`/signup`} element={<Signup />} />
     </Routes>
   );
