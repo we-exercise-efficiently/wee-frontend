@@ -94,6 +94,7 @@ export default function Signup() {
       try {
         // 추후 API 추가
         const response = await postSignup(data);
+        console.log(response);
         reset("/");
       } catch (error) {
       } finally {
