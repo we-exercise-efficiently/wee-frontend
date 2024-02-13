@@ -9,6 +9,7 @@
 // }
 
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Container from '../components/Container';
 
 interface Post {
@@ -28,6 +29,8 @@ export default function Community() {
   const [postCount, setPostCount] = useState(10); // 초기값: 10개
   // 토글 상태
   const [toggle, setToggle] = useState(false);
+  // useNavigate 훅을 사용하여 navigate 객체 가져오기
+  const navigate = useNavigate();
 
   const posts: Post[] = [
     { id: 1, title: '게시물 1', likes: 10, views: 100, date: '2024-01-30' },
@@ -45,26 +48,41 @@ export default function Community() {
     setSortBy(sortBy);
   };
 
-  const filteredPosts = posts.filter((post) =>
-    post.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // const filteredPosts = posts.filter((post) =>
+  //   post.title.toLowerCase().includes(searchTerm.toLowerCase())
+  // );
 
-  const sortPosts = (sortBy: string) => (a: Post, b: Post): number => {
-    if (sortBy === 'latest') {
-      return new Date(b.date).getTime() - new Date(a.date).getTime();
-    } else if (sortBy === 'likes') {
-      return b.likes - a.likes;
-    } else if (sortBy === 'views') {
-      return b.views - a.views;
-    }
-    return 0;
-  };
+  // const sortPosts = (sortBy: string) => (a: Post, b: Post): number => {
+  //   if (sortBy === 'latest') {
+  //     return new Date(b.date).getTime() - new Date(a.date).getTime();
+  //   } else if (sortBy === 'likes') {
+  //     return b.likes - a.likes;
+  //   } else if (sortBy === 'views') {
+  //     return b.views - a.views;
+  //   }
+  //   return 0;
+  // };
 
   // 게시글 개수 변경 핸들러
   const handlePostCountChange = (count: number) => {
     setPostCount(count);
     setToggle(false); // 토글 닫기
   };
+
+  // 글쓰기 버튼 클릭 핸들러
+  const handleWritePost = () => {
+    // 글쓰기 페이지로 이동
+    navigate('/write');
+  };
+
+  // 게시글 보기 핸들러
+  const handleViewPost = (postId: number) => {
+    // 게시글 페이지 URL에 해당하는 경로 생성
+    const postPath = `/post/${postId}`;
+    // 해당 경로로 이동
+    navigate(postPath);
+  };
+
 
   return (
     // <Container>
@@ -137,7 +155,7 @@ export default function Community() {
             <ul className="space-y-2">
               <li>
                 {/* 각 링크는 필요에 따라 수정하세요 */}
-                <a href="#" className="text-blue-500 hover:underline">글쓰기</a>
+                <button onClick={handleWritePost} className="text-blue-500 hover:underline">글쓰기</button>
               </li>
               <li>
                 <a href="#" className="text-blue-500 hover:underline">크루모집방</a>
@@ -176,7 +194,7 @@ export default function Community() {
             
             {/* 게시글 개수 토글 */}
             <div className="relative">
-              <button onClick={() => setToggle(!toggle)} className="px-8 py-2 bg-gray-200 text-gary-500 rounded-md border border-gray-500 hover:bg-gray-200 hover:text-black-500 transition duration-300 flex items-center justify-center border-gray-500">
+              <button onClick={() => setToggle(!toggle)} className="px-8 py-2 bg-gray-200 text-gary-500 rounded-md border border-black-500 hover:bg-gray-200 hover:text-black-500 transition duration-300 flex items-center justify-center border-gray-500">
                 {postCount}개 보기
                 <svg className={`w-5 h-5 ml-2 transform ${toggle && 'rotate-180'}`} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                   <path fillRule="evenodd" d="M6.293 6.293a1 1 0 011.414 0L10 8.586l2.293-2.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd" />
@@ -198,7 +216,7 @@ export default function Community() {
             <ul className="space-y-4">
               {/* 게시글 아이템을 출력하는 로직 */}
               {posts.map((post) => (
-                <li key={post.id} className="bg-white p-4 rounded-md shadow-md">
+                <li key={post.id} className="bg-white p-4 rounded-md shadow-md cursor-pointer" onClick={() => handleViewPost(post.id)}>
                   <h3 className="text-lg font-semibold mb-2">{post.title}</h3>
                   <p className="text-gray-500">Likes: {post.likes} | Views: {post.views}</p>
                   {/* 추가적인 정보 표시 가능 */}
