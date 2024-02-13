@@ -14,6 +14,10 @@ import axios from "axios";
 import { ILoginDataProps } from "../pages/Login";
 import { ISignupProps } from "../pages/Signup";
 
+const instance = axios.create({
+  withCredentials: true,
+});
+
 /**
  * LJM 2024.01.07
  * @param data login interface
@@ -21,8 +25,7 @@ import { ISignupProps } from "../pages/Signup";
  */
 export function postLogin(data: ILoginDataProps) {
   const url = `${import.meta.env.VITE_BASE_URL}/wee/user/login`;
-  console.log(url);
-  return axios.post(url, data);
+  return instance.post(url, data);
 }
 
 /**
@@ -31,7 +34,5 @@ export function postLogin(data: ILoginDataProps) {
  */
 export function postSignup(data: ISignupProps) {
   const url = `${import.meta.env.VITE_BASE_URL}/wee/user/register`;
-  console.log(url);
-
-  return axios.post(url, data);
+  return instance.post(url, data);
 }
