@@ -6,8 +6,8 @@ import { postLogin } from "../apis/apis";
 import { useNavigate } from "react-router-dom";
 
 export interface ILoginDataProps {
-  loginId: string;
-  loginPassword: string;
+  email: string;
+  password: string;
 }
 
 /**
@@ -50,11 +50,11 @@ export default function Login() {
         </div>
         <div>
           <form onSubmit={handleSubmit(onValid)} className="flex flex-col w-72">
-            <label className="mb-1" htmlFor="loginId">
+            <label className="mb-1" htmlFor="email">
               이메일 또는 아이디
             </label>
             <input
-              {...register("loginId", {
+              {...register("email", {
                 minLength: {
                   message: "아이디는 최소 5글자 이상입니다.",
                   value: 5,
@@ -63,12 +63,12 @@ export default function Login() {
               type="text"
               autoComplete="off"
               placeholder="name@weemail.com"
-              id="loginId"
+              id="email"
               className="rounded-sm border-2 px-2 py-2 bg-transparent border-themeLime focus:outline-none focus:bg-transparent"
             />
             <label className="mb-1 mt-4">비밀번호</label>
             <input
-              {...register("loginPassword", {
+              {...register("password", {
                 minLength: {
                   message: "비밀번호는 최소 8글자 이상입니다.",
                   value: 8,
@@ -77,7 +77,7 @@ export default function Login() {
               type="password"
               autoComplete="off"
               placeholder="비밀번호"
-              id="loginPassword"
+              id="password"
               className="rounded-sm border-2 px-2 py-2 bg-transparent border-themeLime focus:outline-none focus:bg-transparent"
             />
 
