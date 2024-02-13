@@ -95,7 +95,10 @@ export default function Signup() {
         // 추후 API 추가
         const response = await postSignup(data);
         console.log(response);
-        reset("/");
+        if (response.status === 200) {
+          // 추후 조건 수정
+          reset("/login");
+        }
       } catch (error) {
       } finally {
         console.log(data);
