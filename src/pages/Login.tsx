@@ -3,6 +3,7 @@ import Container from "../components/Container";
 import useScrollReset from "../utils/useScrollReset";
 import { SiFacebook, SiGoogle, SiKakao, SiNaver } from "react-icons/si";
 import { postLogin } from "../apis/apis";
+import { useNavigate } from "react-router-dom";
 
 export interface ILoginDataProps {
   loginId: string;
@@ -16,6 +17,7 @@ export interface ILoginDataProps {
 export default function Login() {
   const { register, handleSubmit } = useForm<ILoginDataProps>();
   const reset = useScrollReset();
+  const nav = useNavigate();
 
   /**
    * validation 통과 시 실행 될 함수
@@ -27,6 +29,8 @@ export default function Login() {
       console.log(response);
 
       if (response.status === 200) {
+        console.log("=== LOGIN SUCCESS ===");
+        nav("/");
       }
     } catch (error) {
     } finally {
