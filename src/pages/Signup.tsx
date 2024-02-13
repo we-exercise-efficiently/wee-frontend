@@ -97,9 +97,11 @@ export default function Signup() {
         console.log(response);
         if (response.status === 200) {
           // 추후 조건 수정
+          console.log("==== Singup Success ====");
           reset("/login");
         }
       } catch (error) {
+        console.error(error);
       } finally {
         console.log(data);
       }

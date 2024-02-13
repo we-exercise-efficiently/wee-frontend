@@ -30,7 +30,7 @@ export function postLogin(data: ILoginDataProps) {
  * @returns 회원가입 요청 API 함수 (POST)
  */
 export function postSignup(data: ISignupProps) {
-  const url = `${process.env.REACT_APP_BASE_URL}/wee/user/register`;
+  const url = `${import.meta.env.VITE_BASE_URL}/wee/user/register`;
   console.log(url);
 
   return axios.post(url, data);
