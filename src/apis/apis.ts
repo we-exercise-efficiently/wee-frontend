@@ -12,6 +12,7 @@
 
 import axios from "axios";
 import { ILoginDataProps } from "../pages/Login";
+import { ISignupProps } from "../pages/Signup";
 
 /**
  * LJM 2024.01.07
@@ -19,16 +20,18 @@ import { ILoginDataProps } from "../pages/Login";
  * @returns 로그인 요청 API 함수 (POST)
  */
 export function postLogin(data: ILoginDataProps) {
-  const url = `${import.meta.env.VITE_BASE_URL}/wee/user/register`;
+  const url = `${import.meta.env.VITE_BASE_URL}/wee/user/login`;
+  console.log(url);
   return axios.post(url, data);
 }
 
-// /**
-//  * LJM 2024.01.07
-//  * @returns 회원가입 요청 API 함수 (POST)
-//  */
-// export function postSignup() {
-//   const url = `${process.env.REACT_APP_BASE_URL}/api/signup`;
+/**
+ * LJM 2024.01.07
+ * @returns 회원가입 요청 API 함수 (POST)
+ */
+export function postSignup(data: ISignupProps) {
+  const url = `${process.env.REACT_APP_BASE_URL}/wee/user/register`;
+  console.log(url);
 
-//   return console.log(url);
-// }
+  return axios.post(url, data);
+}

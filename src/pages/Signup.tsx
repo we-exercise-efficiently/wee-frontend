@@ -2,8 +2,9 @@ import Container from "../components/Container";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import useScrollReset from "../utils/useScrollReset";
+import { postSignup } from "../apis/apis";
 
-interface ISignupProps {
+export interface ISignupProps {
   signupId: string;
   signupPassword: string;
   signupPasswordCheck?: string;
@@ -87,11 +88,12 @@ export default function Signup() {
    * validation 을 만족 시켰을 시 실행될 함수
    * @param data 회원가입 데이터
    */
-  const onValid = (data: ISignupProps) => {
+  const onValid = async (data: ISignupProps) => {
     if (isTerms.needs1 && isTerms.needs2 && isTerms.needs3) {
       // 필수 선택란을 전부 선택했을 시
       try {
         // 추후 API 추가
+        const response = await postSignup(data);
         reset("/");
       } catch (error) {
       } finally {
