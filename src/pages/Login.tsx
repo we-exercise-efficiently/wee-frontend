@@ -24,6 +24,8 @@ export default function Login() {
   const onValid = async (data: ILoginDataProps) => {
     try {
       const response = await postLogin(data);
+      console.log(response);
+
       if (response.status === 200) {
       }
     } catch (error) {

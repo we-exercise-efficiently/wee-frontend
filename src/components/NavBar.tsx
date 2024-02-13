@@ -24,7 +24,7 @@ export default function NavBar() {
   return (
     <div className="sticky top-0 left-0 z-50 shadow-md">
       {/* Sticky Bar */}
-      <div className="relative flex flex-row justify-center items-center bg-white px-10 py-2">
+      <div className="relative flex flex-row justify-center items-center bg-white px-4 sm:px-10 py-2">
         <div
           id="main"
           onClick={onMove}
@@ -41,7 +41,7 @@ export default function NavBar() {
               <div
                 onClick={onMove}
                 key={index}
-                className="px-4 cursor-pointer text-themeDark text-sm font-bold"
+                className="px-4 cursor-pointer text-themeDark text-xs sm:text-sm font-bold"
                 id={`${destination}`}
               >
                 <h2>{destination}</h2>

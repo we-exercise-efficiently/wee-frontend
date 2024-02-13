@@ -19,7 +19,7 @@ import { ILoginDataProps } from "../pages/Login";
  * @returns 로그인 요청 API 함수 (POST)
  */
 export function postLogin(data: ILoginDataProps) {
-  const url = `${process.env.REACT_APP_BASE_URL}/wee/user/register`;
+  const url = `${import.meta.env.VITE_BASE_URL}/wee/user/register`;
   return axios.post(url, data);
 }
 
