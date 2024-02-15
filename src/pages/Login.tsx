@@ -10,6 +10,10 @@ export interface ILoginDataProps {
   password: string;
 }
 
+const REST_API_KEY = import.meta.env.VITE_KAKAO_REST_API_KEY;
+const REDIRECT_URI = "http://localhost:3000/wee/user/login/kakao/callback";
+const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+
 /**
  * LJM 2024.01.08
  * @returns 로그인 페이지
@@ -93,7 +97,9 @@ export default function Login() {
           </div>
           <div className="mt-8 flex flex-row items-center justify-around">
             <div className="cursor-pointer flex flex-col justify-center items-center w-12 h-12 rounded-full color-kakao">
-              <SiKakao fontSize={28} />
+              <a href={KAKAO_AUTH_URL}>
+                <SiKakao fontSize={28} />
+              </a>
             </div>
             <div className="cursor-pointer flex flex-col justify-center items-center w-12 h-12 rounded-full color-naver">
               <SiNaver />

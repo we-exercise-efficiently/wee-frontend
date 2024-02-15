@@ -36,3 +36,23 @@ export function postSignup(data: ISignupProps) {
   const url = `${import.meta.env.VITE_BASE_URL}/wee/user/register`;
   return instance.post(url, data);
 }
+
+/**
+ * LJM 2024.02.16
+ * @param code URL 에서 받아온 code
+ * @returns
+ */
+export function postLoginKakao(code: string) {
+  const url = `${import.meta.env.VITE_BASE_URL}/wee/user/login/kakao`;
+  console.log("request start...");
+  console.log(`code: ${code}`);
+  return instance.post(
+    url,
+    {},
+    {
+      headers: {
+        code: code,
+      },
+    }
+  );
+}

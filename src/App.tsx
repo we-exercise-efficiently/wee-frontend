@@ -5,6 +5,7 @@ import Community from "./pages/Community";
 import Login from "./pages/Login";
 import MyPage from "./pages/MyPage";
 import Signup from "./pages/Signup";
+import LoginHandler from "./pages/LoginHandler";
 
 export default function App() {
   return (
@@ -15,6 +16,10 @@ export default function App() {
       <Route path={`/community`} element={<Community />} />
       <Route path={`/mypage`} element={<MyPage />} />
       <Route path={`/signup`} element={<Signup />} />
+      <Route
+        path={`/wee/user/login/kakao/callback`}
+        element={<LoginHandler />}
+      />
     </Routes>
   );
 }
