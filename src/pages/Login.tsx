@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import Container from "../components/Container";
 import useScrollReset from "../utils/useScrollReset";
-import { SiFacebook, SiGoogle, SiKakao, SiNaver } from "react-icons/si";
+import { SiGoogle, SiKakao, SiNaver } from "react-icons/si";
 import { postLogin } from "../apis/apis";
 import { useNavigate } from "react-router-dom";
 
@@ -13,7 +13,7 @@ export interface ILoginDataProps {
 const REST_API_KEY = import.meta.env.VITE_KAKAO_REST_API_KEY;
 const REDIRECT_URI = "http://localhost:3000/wee/user/login/kakao/callback";
 const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
-
+const GOOGLE_AUTH_URL = `https://accounts.google.com/o/oauth2/auth?client_id=326088207856-f4pbv1d4d1m70ljp6td3t1funud76e0f.apps.googleusercontent.com&redirect_uri=http://localhost:3000/wee/user/login/google/callback&response_type=code&scope=profile`;
 /**
  * LJM 2024.01.08
  * @returns 로그인 페이지
@@ -104,12 +104,11 @@ export default function Login() {
             <div className="cursor-pointer flex flex-col justify-center items-center w-12 h-12 rounded-full color-naver">
               <SiNaver />
             </div>
-            <div className="cursor-pointer flex flex-col justify-center items-center w-12 h-12 rounded-full color-facebook">
-              <SiFacebook />
-            </div>
-            <div className="cursor-pointer flex flex-col justify-center items-center w-12 h-12 rounded-full bg-white text-themeDark">
-              <SiGoogle />
-            </div>
+            <a href={GOOGLE_AUTH_URL}>
+              <div className="cursor-pointer flex flex-col justify-center items-center w-12 h-12 rounded-full bg-white text-themeDark">
+                <SiGoogle />
+              </div>
+            </a>
           </div>
           <div className="flex-row flex mt-8 justify-between items-center">
             <h2 className="text-sm font-bold">아직 회원이 아니신가요?</h2>

@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { postLoginKakao } from "../apis/apis";
+import { postLoginKakao } from "../../apis/apis";
 
-export default function LoginHandler(props: any) {
+export default function KakaoLoginHandler(props: any) {
   const code = new URL(window.location.href).searchParams.get("code") || "";
   const nav = useNavigate();
 
