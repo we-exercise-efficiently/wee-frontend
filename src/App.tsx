@@ -7,6 +7,7 @@ import MyPage from "./pages/MyPage";
 import Signup from "./pages/Signup";
 import KakaoLoginHandler from "./pages/LoginHandler/KakaoLoginHandler";
 import GoogleLoginHandler from "./pages/LoginHandler/GoogleLoginHandler";
+import NaverLoginHandler from "./pages/LoginHandler/NaverLoginHandler";
 
 export default function App() {
   return (
@@ -24,6 +25,10 @@ export default function App() {
       <Route
         path={`/wee/user/login/google/callback`}
         element={<GoogleLoginHandler />}
+      />
+      <Route
+        path={`/wee/user/login/naver/callback`}
+        element={<NaverLoginHandler />}
       />
     </Routes>
   );

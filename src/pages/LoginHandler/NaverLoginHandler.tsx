@@ -1,16 +1,16 @@
 import { useEffect } from "react";
+import { postLoginNaver } from "../../apis/apis";
 import { useNavigate } from "react-router-dom";
-import { postLoginKakao } from "../../apis/apis";
 import Loading from "../../components/Loading";
 
-export default function KakaoLoginHandler(props: any) {
+export default function NaverLoginHandler(props: any) {
   const code = new URL(window.location.href).searchParams.get("code") || "";
   const nav = useNavigate();
 
   useEffect(() => {
-    const kakaoLogin = async () => {
+    const naverLogin = async () => {
       try {
-        const response = await postLoginKakao(code);
+        const response = await postLoginNaver(code);
         console.log("=== RESPONSE ===");
         console.log(response);
       } catch (error) {
@@ -21,7 +21,7 @@ export default function KakaoLoginHandler(props: any) {
       }
     };
 
-    kakaoLogin();
+    naverLogin();
   }, [props.history]);
 
   return (

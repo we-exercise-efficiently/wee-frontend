@@ -71,3 +71,17 @@ export function postLoginGoogle(code: string) {
     }
   );
 }
+
+export function postLoginNaver(code: string) {
+  const url = `${import.meta.env.VITE_BASE_URL}/wee/user/login/naver`;
+
+  return instance.post(
+    url,
+    {},
+    {
+      headers: {
+        code: code,
+      },
+    }
+  );
+}
