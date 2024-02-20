@@ -10,11 +10,17 @@ export interface ILoginDataProps {
   password: string;
 }
 
-const REST_API_KEY = import.meta.env.VITE_KAKAO_REST_API_KEY;
-const REDIRECT_URI = "http://localhost:3000/wee/user/login/kakao/callback";
-const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
-const GOOGLE_AUTH_URL = `https://accounts.google.com/o/oauth2/auth?client_id=326088207856-f4pbv1d4d1m70ljp6td3t1funud76e0f.apps.googleusercontent.com&redirect_uri=http://localhost:3000/wee/user/login/google/callback&response_type=code&scope=profile`;
-const NAVER_AUTH_URL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=GPBbrB2WDUzmSzFfFjIS&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fwee%2Fuser%2Flogin%2Fnaver%2Fcallback&state=1234`;
+const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${
+  import.meta.env.VITE_KAKAO_CLIENT_ID
+}&redirect_uri=${import.meta.env.VITE_KAKAO_REDIRECT_URI}&response_type=code`;
+const GOOGLE_AUTH_URL = `https://accounts.google.com/o/oauth2/auth?client_id=${
+  import.meta.env.VITE_GOOGLE_CLIENT_ID
+}&redirect_uri=${
+  import.meta.env.VITE_GOOGLE_REDIRECT_URI
+}&response_type=code&scope=profile`;
+const NAVER_AUTH_URL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${
+  import.meta.env.VITE_NAVER_CLIENT_ID
+}&redirect_uri=http%3A%2F%2F43.200.2.121%3A3000%2Fwee%2Fuser%2Flogin%2Fnaver%2Fcallback&state=1234`;
 
 /**
  * LJM 2024.01.08
