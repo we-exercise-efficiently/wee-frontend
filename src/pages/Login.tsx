@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import Container from "../components/Container";
 import useScrollReset from "../utils/useScrollReset";
-import { SiFacebook, SiGoogle, SiKakao, SiNaver } from "react-icons/si";
+import { SiGoogle, SiKakao, SiNaver } from "react-icons/si";
 import { postLogin } from "../apis/apis";
 import { useNavigate } from "react-router-dom";
 
@@ -9,6 +9,12 @@ export interface ILoginDataProps {
   email: string;
   password: string;
 }
+
+const REST_API_KEY = import.meta.env.VITE_KAKAO_REST_API_KEY;
+const REDIRECT_URI = "http://localhost:3000/wee/user/login/kakao/callback";
+const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+const GOOGLE_AUTH_URL = `https://accounts.google.com/o/oauth2/auth?client_id=326088207856-f4pbv1d4d1m70ljp6td3t1funud76e0f.apps.googleusercontent.com&redirect_uri=http://localhost:3000/wee/user/login/google/callback&response_type=code&scope=profile`;
+const NAVER_AUTH_URL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=GPBbrB2WDUzmSzFfFjIS&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fwee%2Fuser%2Flogin%2Fnaver%2Fcallback&state=1234`;
 
 /**
  * LJM 2024.01.08
@@ -93,17 +99,20 @@ export default function Login() {
           </div>
           <div className="mt-8 flex flex-row items-center justify-around">
             <div className="cursor-pointer flex flex-col justify-center items-center w-12 h-12 rounded-full color-kakao">
-              <SiKakao fontSize={28} />
+              <a href={KAKAO_AUTH_URL}>
+                <SiKakao fontSize={28} />
+              </a>
             </div>
-            <div className="cursor-pointer flex flex-col justify-center items-center w-12 h-12 rounded-full color-naver">
-              <SiNaver />
-            </div>
-            <div className="cursor-pointer flex flex-col justify-center items-center w-12 h-12 rounded-full color-facebook">
-              <SiFacebook />
-            </div>
-            <div className="cursor-pointer flex flex-col justify-center items-center w-12 h-12 rounded-full bg-white text-themeDark">
-              <SiGoogle />
-            </div>
+            <a href={NAVER_AUTH_URL}>
+              <div className="cursor-pointer flex flex-col justify-center items-center w-12 h-12 rounded-full color-naver">
+                <SiNaver />
+              </div>
+            </a>
+            <a href={GOOGLE_AUTH_URL}>
+              <div className="cursor-pointer flex flex-col justify-center items-center w-12 h-12 rounded-full bg-white text-themeDark">
+                <SiGoogle />
+              </div>
+            </a>
           </div>
           <div className="flex-row flex mt-8 justify-between items-center">
             <h2 className="text-sm font-bold">아직 회원이 아니신가요?</h2>

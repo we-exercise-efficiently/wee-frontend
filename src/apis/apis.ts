@@ -36,3 +36,52 @@ export function postSignup(data: ISignupProps) {
   const url = `${import.meta.env.VITE_BASE_URL}/wee/user/register`;
   return instance.post(url, data);
 }
+
+/**
+ * LJM 2024.02.16
+ * @param code URL 에서 받아온 code
+ * @returns
+ */
+export function postLoginKakao(code: string) {
+  const url = `${import.meta.env.VITE_BASE_URL}/wee/user/login/kakao`;
+
+  return instance.post(
+    url,
+    {},
+    {
+      headers: {
+        code: code,
+      },
+    }
+  );
+}
+
+export function postLoginGoogle(code: string) {
+  const url = `${import.meta.env.VITE_BASE_URL}/wee/user/login/google`;
+
+  // axios params 로 code를 전송
+  // LJM 2024.02.20. POST 요청이지만 params 로 요청
+  return instance.post(
+    url,
+    {},
+    {
+      params: {
+        code: code,
+      },
+    }
+  );
+}
+
+export function postLoginNaver(code: string) {
+  const url = `${import.meta.env.VITE_BASE_URL}/wee/user/login/naver`;
+
+  return instance.post(
+    url,
+    {},
+    {
+      headers: {
+        code: code,
+      },
+    }
+  );
+}
