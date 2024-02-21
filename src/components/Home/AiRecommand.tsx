@@ -48,7 +48,7 @@ export default function AiRecommand() {
       <div className="flex flex-col mt-8 gap-4">
         <div className="flex flex-row h-96 bg-themeDark rounded-xl justify-center items-center">
           <div className="text-white px-4">
-            <h2 className="font-bungee-outline text-6xl">A</h2>
+            <h2 className="font-bungee-outline text-6xl hidden sm:block">A</h2>
           </div>
           {/* Text-A */}
           <div
@@ -56,7 +56,7 @@ export default function AiRecommand() {
               isView && "sm:w-3/5"
             } flex flex-row justify-center items-center`}
           >
-            <div className="p-12 absolute gap-4 border-4 border-themeDark right-0 z-30 w-80 h-80 bg-themeBlue rounded-full flex flex-col justify-center items-center text-white">
+            <div className="p-12 sm:absolute gap-4 border-4 border-themeDark right-0 z-30 w-80 h-80 bg-themeBlue rounded-full flex flex-col justify-center items-center text-white">
               <div className="flex flex-col justify-center items-center">
                 <div className="h-2/5 flex-col mt-10">
                   <h2 className="font-extrabold text-4xl">SMART AI ROUTINE</h2>
@@ -84,14 +84,14 @@ export default function AiRecommand() {
                 </div>
               </div>
             </div>
-            <div className="absolute border-4 border-themeDark inset-0 m-auto z-20 w-80 h-80 bg-gray-400 rounded-full"></div>
-            <div className="pl-12 font-bold text-themeDark   text-6xl flex flex-row items-center justify-start absolute border-4 border-themeDark left-0 z-10 w-80 h-80 bg-themeLime rounded-full">
+            <div className="absolute border-4 border-themeDark hidden sm:block inset-0 m-auto z-20 w-80 h-80 bg-gray-400 rounded-full"></div>
+            <div className="pl-12 font-bold text-themeDark   text-6xl flex-row items-center justify-start absolute border-4 border-themeDark left-0 z-10 w-80 h-80  hidden sm:flex bg-themeLime rounded-full">
               <h2>:)</h2>
             </div>
           </div>
           {/* Circles */}
           <div className="text-white px-4">
-            <h2 className="font-bungee-outline text-6xl">I</h2>
+            <h2 className="font-bungee-outline text-6xl hidden sm:block">I</h2>
           </div>
           {/* Text-I */}
         </div>

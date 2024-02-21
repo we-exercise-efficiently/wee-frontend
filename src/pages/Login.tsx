@@ -1,13 +1,26 @@
 import { useForm } from "react-hook-form";
 import Container from "../components/Container";
 import useScrollReset from "../utils/useScrollReset";
-import { SiFacebook, SiGoogle, SiKakao, SiNaver } from "react-icons/si";
+import { SiGoogle, SiKakao, SiNaver } from "react-icons/si";
 import { postLogin } from "../apis/apis";
+import { useNavigate } from "react-router-dom";
 
 export interface ILoginDataProps {
-  loginId: string;
-  loginPassword: string;
+  email: string;
+  password: string;
 }
+
+const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${
+  import.meta.env.VITE_KAKAO_CLIENT_ID
+}&redirect_uri=${import.meta.env.VITE_KAKAO_REDIRECT_URI}&response_type=code`;
+const GOOGLE_AUTH_URL = `https://accounts.google.com/o/oauth2/auth?client_id=${
+  import.meta.env.VITE_GOOGLE_CLIENT_ID
+}&redirect_uri=${
+  import.meta.env.VITE_GOOGLE_REDIRECT_URI
+}&response_type=code&scope=profile`;
+const NAVER_AUTH_URL = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${
+  import.meta.env.VITE_NAVER_CLIENT_ID
+}&redirect_uri=http%3A%2F%2F43.200.2.121%3A3000%2Fwee%2Fuser%2Flogin%2Fnaver%2Fcallback&state=1234`;
 
 /**
  * LJM 2024.01.08
@@ -16,6 +29,7 @@ export interface ILoginDataProps {
 export default function Login() {
   const { register, handleSubmit } = useForm<ILoginDataProps>();
   const reset = useScrollReset();
+  const nav = useNavigate();
 
   /**
    * validation 통과 시 실행 될 함수
@@ -24,9 +38,14 @@ export default function Login() {
   const onValid = async (data: ILoginDataProps) => {
     try {
       const response = await postLogin(data);
+      console.log(response);
+
       if (response.status === 200) {
+        console.log("=== LOGIN SUCCESS ===");
+        nav("/");
       }
     } catch (error) {
+      console.error(error);
     } finally {
       console.log(data);
     }
@@ -43,11 +62,11 @@ export default function Login() {
         </div>
         <div>
           <form onSubmit={handleSubmit(onValid)} className="flex flex-col w-72">
-            <label className="mb-1" htmlFor="loginId">
+            <label className="mb-1" htmlFor="email">
               이메일 또는 아이디
             </label>
             <input
-              {...register("loginId", {
+              {...register("email", {
                 minLength: {
                   message: "아이디는 최소 5글자 이상입니다.",
                   value: 5,
@@ -56,12 +75,12 @@ export default function Login() {
               type="text"
               autoComplete="off"
               placeholder="name@weemail.com"
-              id="loginId"
+              id="email"
               className="rounded-sm border-2 px-2 py-2 bg-transparent border-themeLime focus:outline-none focus:bg-transparent"
             />
             <label className="mb-1 mt-4">비밀번호</label>
             <input
-              {...register("loginPassword", {
+              {...register("password", {
                 minLength: {
                   message: "비밀번호는 최소 8글자 이상입니다.",
                   value: 8,
@@ -70,7 +89,7 @@ export default function Login() {
               type="password"
               autoComplete="off"
               placeholder="비밀번호"
-              id="loginPassword"
+              id="password"
               className="rounded-sm border-2 px-2 py-2 bg-transparent border-themeLime focus:outline-none focus:bg-transparent"
             />
 
@@ -86,17 +105,20 @@ export default function Login() {
           </div>
           <div className="mt-8 flex flex-row items-center justify-around">
             <div className="cursor-pointer flex flex-col justify-center items-center w-12 h-12 rounded-full color-kakao">
-              <SiKakao fontSize={28} />
+              <a href={KAKAO_AUTH_URL}>
+                <SiKakao fontSize={28} />
+              </a>
             </div>
-            <div className="cursor-pointer flex flex-col justify-center items-center w-12 h-12 rounded-full color-naver">
-              <SiNaver />
-            </div>
-            <div className="cursor-pointer flex flex-col justify-center items-center w-12 h-12 rounded-full color-facebook">
-              <SiFacebook />
-            </div>
-            <div className="cursor-pointer flex flex-col justify-center items-center w-12 h-12 rounded-full bg-white text-themeDark">
-              <SiGoogle />
-            </div>
+            <a href={NAVER_AUTH_URL}>
+              <div className="cursor-pointer flex flex-col justify-center items-center w-12 h-12 rounded-full color-naver">
+                <SiNaver />
+              </div>
+            </a>
+            <a href={GOOGLE_AUTH_URL}>
+              <div className="cursor-pointer flex flex-col justify-center items-center w-12 h-12 rounded-full bg-white text-themeDark">
+                <SiGoogle />
+              </div>
+            </a>
           </div>
           <div className="flex-row flex mt-8 justify-between items-center">
             <h2 className="text-sm font-bold">아직 회원이 아니신가요?</h2>

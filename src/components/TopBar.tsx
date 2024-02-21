@@ -33,13 +33,13 @@ export default function TopBar() {
       <div id="main" onClick={onMove} className="cursor-pointer">
         <h2>심플로고</h2>
       </div>
-      <div className="flex flex-row  gap-5 sm:gap-12 text-xs text-slate-700">
+      <div className="flex flex-row  gap-2 sm:gap-12 text-xs text-slate-700">
         <div className="border-r border-slate-400 flex items-center justify-center">
           {isLogin ? (
             <h2
               onClick={onLogout}
               id="login"
-              className="mr-5 sm:mr-12 cursor-pointer"
+              className="mr-2 sm:mr-12 cursor-pointer"
             >
               로그 아웃
             </h2>
@@ -47,7 +47,7 @@ export default function TopBar() {
             <h2
               onClick={onMove}
               id="login"
-              className="mr-5 sm:mr-12 cursor-pointer"
+              className="mr-2 sm:mr-12 cursor-pointer"
             >
               로 그 인
             </h2>
@@ -57,7 +57,7 @@ export default function TopBar() {
           <h2
             onClick={onMove}
             id="signup"
-            className="mr-5 sm:mr-12 cursor-pointer"
+            className="mr-2 sm:mr-12 cursor-pointer"
           >
             회원 가입
           </h2>
@@ -66,7 +66,7 @@ export default function TopBar() {
           <h2
             onClick={onMove}
             id="mypage"
-            className="mr-5 sm:mr-12 cursor-pointer"
+            className="mr-2 sm:mr-12 cursor-pointer"
           >
             마이 페이지
           </h2>

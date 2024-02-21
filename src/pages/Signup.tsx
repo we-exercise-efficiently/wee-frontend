@@ -2,12 +2,13 @@ import Container from "../components/Container";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import useScrollReset from "../utils/useScrollReset";
+import { postSignup } from "../apis/apis";
 
-interface ISignupProps {
-  signupId: string;
-  signupPassword: string;
-  signupPasswordCheck?: string;
-  signupNickname: string;
+export interface ISignupProps {
+  email: string;
+  password: string;
+  passwordCheck?: string;
+  nickname: string;
 }
 
 interface ITermsProps {
@@ -87,13 +88,20 @@ export default function Signup() {
    * validation 을 만족 시켰을 시 실행될 함수
    * @param data 회원가입 데이터
    */
-  const onValid = (data: ISignupProps) => {
+  const onValid = async (data: ISignupProps) => {
     if (isTerms.needs1 && isTerms.needs2 && isTerms.needs3) {
       // 필수 선택란을 전부 선택했을 시
       try {
         // 추후 API 추가
-        reset("/");
+        const response = await postSignup(data);
+        console.log(response);
+        if (response.status === 200) {
+          // 추후 조건 수정
+          console.log("==== Singup Success ====");
+          reset("/login");
+        }
       } catch (error) {
+        console.error(error);
       } finally {
         console.log(data);
       }
@@ -108,15 +116,15 @@ export default function Signup() {
    * back-end 와 추후 validation 설정 논의
    */
   const onFirstTab = async () => {
-    const isIdValid = await trigger("signupId");
-    const isPasswordValid = await trigger("signupPassword");
-    const isPasswordCheckValid = await trigger("signupPasswordCheck");
+    const isIdValid = await trigger("email");
+    const isPasswordValid = await trigger("password");
+    const isPasswordCheckValid = await trigger("passwordCheck");
 
     if (isIdValid && isPasswordValid && isPasswordCheckValid) {
-      if (getValues("signupPassword") === getValues("signupPasswordCheck")) {
+      if (getValues("password") === getValues("passwordCheck")) {
         onNextPage();
       } else {
-        setError("signupPasswordCheck", {
+        setError("passwordCheck", {
           message: "* 비밀번호가 일치하지 않습니다",
         });
       }
@@ -127,7 +135,7 @@ export default function Signup() {
    * 두번째 회원가입 탭 유효성 검사 추후 duplicate 사용 예정
    */
   const onSecondTab = async () => {
-    const isNicknameValid = await trigger("signupNickname");
+    const isNicknameValid = await trigger("nickname");
 
     if (isNicknameValid) {
       // 닉네임 유효성이 통과했을 경우
@@ -182,7 +190,7 @@ export default function Signup() {
                 </label>
                 <div className="w-full relative">
                   <input
-                    {...register("signupId", {
+                    {...register("email", {
                       required: "* 아이디를 입력해 주세요.",
                       minLength: {
                         message: "* 아이디는 최소 5글자 이상입니다.",
@@ -190,25 +198,25 @@ export default function Signup() {
                       },
                     })}
                     onChange={() => {
-                      clearErrors("signupId");
+                      clearErrors("email");
                     }}
                     type="text"
                     autoComplete="off"
                     placeholder="name@weemail.com"
-                    id="signupId"
+                    id="email"
                     className="focus:outline-none focus:bg-transparent w-full rounded-sm border-2 px-2 py-2 bg-transparent border-themeLime"
                   />
                   <p className="absolute left-0 -bottom-5 text-xs text-red-400">
-                    {errors?.signupId?.message}
+                    {errors?.email?.message}
                   </p>
                 </div>
 
-                <label className="mb-1 mt-6" htmlFor="signupPassword">
+                <label className="mb-1 mt-6" htmlFor="password">
                   비밀번호
                 </label>
                 <div className="w-full relative">
                   <input
-                    {...register("signupPassword", {
+                    {...register("password", {
                       required: "* 비밀번호를 입력해 주세요.",
                       minLength: {
                         message: "* 비밀번호는 최소 8글자 이상입니다.",
@@ -216,24 +224,24 @@ export default function Signup() {
                       },
                     })}
                     onChange={() => {
-                      clearErrors("signupPassword");
+                      clearErrors("password");
                     }}
                     type="password"
                     autoComplete="off"
                     placeholder="비밀번호"
-                    id="signupPassword"
+                    id="password"
                     className="focus:outline-none w-full rounded-sm border-2 px-2 py-2 bg-transparent border-themeLime focus:bg-transparent"
                   />
                   <p className="absolute left-0 -bottom-5 text-xs text-red-400">
-                    {errors?.signupPassword?.message}
+                    {errors?.password?.message}
                   </p>
                 </div>
-                <label className="mb-1 mt-6" htmlFor="signupPasswordCheck">
+                <label className="mb-1 mt-6" htmlFor="passwordCheck">
                   비밀번호 확인
                 </label>
                 <div className="w-full relative">
                   <input
-                    {...register("signupPasswordCheck", {
+                    {...register("passwordCheck", {
                       required: "* 비밀번호를 입력해 주세요.",
                       minLength: {
                         message: "* 비밀번호는 최소 8글자 이상입니다.",
@@ -241,16 +249,16 @@ export default function Signup() {
                       },
                     })}
                     onChange={() => {
-                      clearErrors("signupPasswordCheck");
+                      clearErrors("passwordCheck");
                     }}
                     type="password"
                     autoComplete="off"
                     placeholder="비밀번호 확인"
-                    id="signupPasswordCheck"
+                    id="passwordCheck"
                     className="focus:outline-none w-full rounded-sm border-2 px-2 py-2 bg-transparent border-themeLime focus:bg-transparent"
                   />
                   <p className="absolute left-0 -bottom-5 text-xs text-red-400">
-                    {errors?.signupPasswordCheck?.message}
+                    {errors?.passwordCheck?.message}
                   </p>
                 </div>
 
@@ -276,7 +284,7 @@ export default function Signup() {
                 </label>
                 <div className="w-full relative">
                   <input
-                    {...register("signupNickname", {
+                    {...register("nickname", {
                       required: "* 닉네임을 입력해 주세요.",
                       minLength: {
                         message: "* 닉네임은 최소 2글자 이상입니다.",
@@ -284,16 +292,16 @@ export default function Signup() {
                       },
                     })}
                     onChange={() => {
-                      clearErrors("signupNickname");
+                      clearErrors("nickname");
                     }}
                     placeholder="닉네임 입력"
                     autoComplete="off"
                     type="text"
-                    id="signupNickname"
+                    id="nickname"
                     className="focus:outline-none focus:bg-transparent w-full rounded-sm border-2 px-2 py-2 bg-transparent border-themeLime"
                   />
                   <p className="absolute left-0 -bottom-5 text-xs text-red-400">
-                    {errors?.signupNickname?.message}
+                    {errors?.nickname?.message}
                   </p>
                 </div>
 

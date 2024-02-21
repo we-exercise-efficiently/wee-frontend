@@ -12,6 +12,11 @@
 
 import axios from "axios";
 import { ILoginDataProps } from "../pages/Login";
+import { ISignupProps } from "../pages/Signup";
+
+const instance = axios.create({
+  withCredentials: true,
+});
 
 /**
  * LJM 2024.01.07
@@ -19,19 +24,67 @@ import { ILoginDataProps } from "../pages/Login";
  * @returns 로그인 요청 API 함수 (POST)
  */
 export function postLogin(data: ILoginDataProps) {
-  const url = `${process.env.REACT_APP_BASE_URL}/wee/user/register`;
-  return axios.post(url, data);
+  const url = `${import.meta.env.VITE_BASE_URL}/wee/user/login`;
+  return instance.post(url, data);
 }
 
-// /**
-//  * LJM 2024.01.07
-//  * @returns 회원가입 요청 API 함수 (POST)
-//  */
-// export function postSignup() {
-//   const url = `${process.env.REACT_APP_BASE_URL}/api/signup`;
+/**
+ * LJM 2024.01.07
+ * @returns 회원가입 요청 API 함수 (POST)
+ */
+export function postSignup(data: ISignupProps) {
+  const url = `${import.meta.env.VITE_BASE_URL}/wee/user/register`;
+  return instance.post(url, data);
+}
 
-//   return console.log(url);
-// }
+/**
+ * LJM 2024.02.16
+ * @param code URL 에서 받아온 code
+ * @returns
+ */
+export function postLoginKakao(code: string) {
+  const url = `${import.meta.env.VITE_BASE_URL}/wee/user/login/kakao`;
+
+  return instance.post(
+    url,
+    {},
+    {
+      headers: {
+        code: code,
+      },
+    }
+  );
+}
+
+export function postLoginGoogle(code: string) {
+  const url = `${import.meta.env.VITE_BASE_URL}/wee/user/login/google`;
+
+  // axios params 로 code를 전송
+  // LJM 2024.02.20. POST 요청이지만 params 로 요청
+  return instance.post(
+    url,
+    {},
+    {
+      params: {
+        code: code,
+      },
+    }
+  );
+}
+
+export function postLoginNaver(code: string) {
+  const url = `${import.meta.env.VITE_BASE_URL}/wee/user/login/naver`;
+
+  return instance.post(
+    url,
+    {},
+    {
+      headers: {
+        code: code,
+      },
+    }
+  );
+}
 
 /**
  * JCJ 2024.02.21
@@ -44,7 +97,7 @@ export const getTodo = async () => {
 
 /**
  * JCJ 2024.02.21
- * 투두리스트 조회 (GET)
+ * 투두리스트 추가 (POST)
  */
 export const postTodo = async (id: number, content: string) => {
   const response = await axios.post("/DummyData.json", {
