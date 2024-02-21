@@ -1,0 +1,25 @@
+{
+    "code": "200",
+    "massage": "SUCCESS",
+    "data": [
+        {
+            "id":1,
+            "userId": 121,
+            "title":"식단 공유",
+            "contents":"안알려줄거임",
+            "like":0,
+            "date":"2024.02.19",
+            "viewCnt":50,
+            "type":"전신",
+            "status":"NO",
+            "comments":[
+                {
+                    "type":"share",
+                    "id":1224,
+                    "date":"2024.02.20",
+                    "contents":"왜 난리야"
+                }
+            ]
+        }
+    ]
+}

@@ -37,11 +37,7 @@ export default function Write() {
   return (
     <Container>
       <div className="w-[1194px] mx-auto py-[80px]">
-        {/* <h2 className="text-xl font-semibold mb-4">게시글 작성</h2> */}
-        {/* <button onClick={goBack} className="mb-4 text-indigo-600 hover:underline">이전 페이지로 돌아가기</button> */}
-        {/* <div className="w-1194 h-704 mx-auto px-10 py-10 rounded-3xl bg-gray-100"> */}
         <div className="px-[63px] rounded-3xl bg-gray-100 w-[1194px] h-[710px] py-[22px]">
-
           <form onSubmit={handleSubmit}>
             <div>
               <label htmlFor="title" className="block text-gray-700" ></label>

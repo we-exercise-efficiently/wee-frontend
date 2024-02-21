@@ -1,0 +1,45 @@
+{
+    "code": "200",
+    "massage": "SUCCESS",
+    "data": [
+        {
+            "id": 1,
+            "userId":1234,
+            "title":"운동 잘하는 방법",
+            "contents":"열심히 하면 됩니다.",
+            "like":3,
+            "date":"2024.02.19",
+            "viewCnt":24,
+            "type":"상체",
+            "status":"No",
+            "comments":[
+                {
+                    "type":"crew",
+                    "id":1224,
+                    "date":"2024.02.19",
+                    "contents":"뭐가 이래"
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "userId":1224,
+            "title":"운동 잘하는 방법",
+            "contents":"열심히 하면 됩니다.",
+            "like":7,
+            "date":"2024.02.19",
+            "viewCnt":34,
+            "type":"상체",
+            "status":"No",
+            "comments":[
+                {
+                    "type":"crew",
+                    "id":1234,
+                    "date":"2024.02.19",
+                    "contents":"뭐가 이래"
+                }
+            ]
+        }
+        
+    ]
+}

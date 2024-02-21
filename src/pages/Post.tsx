@@ -19,37 +19,62 @@ export default function Post() {
 
     const post = {
         title: '게시글 제목',
+        id: '닉네임',
+        date: '2024.02.21',
+        crew: '크루 모집방',
         content: '게시글 내용 Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
         likes: 10,
         views: 100,
         comments: [
-            { id: 1, author: '사용자1', content: '댓글 내용 1' },
-            { id: 2, author: '사용자2', content: '댓글 내용 2' },
-            // 필요한 만큼 댓글 추가
+            { id: 1, date: '2024.02.19', author: '사용자1', content: '댓글 내용 1' },
+            { id: 2, date: '2024.02.21', author: '사용자2', content: '댓글 내용 2' },
         ]
     };
 
     return(
         <Container>
-        <div className="flex ml-[96px] mt-[77px]">
+        <div className="flex ml-[96px] my-[77px]">
             {/* 왼쪽 영역 */}
             <SideBar handleWritePost={handleWritePost} />
-                <div className="mr-[294px] ml-[80px]">
-                    <h2>{post.title}</h2>
-                    <p>{post.content}</p>
-                    <p>Likes: {post.likes}</p>
-                    <p>Views: {post.views}</p>
+                <div className="flex flex-col justify-start mr-[294px] ml-[80px]">
+                    <div className="px-[41px] py-[39px] w-[1191px] h-[655px] bg-gray-100 rounded-3xl">
+                        <div>
+                            <h1>{post.title}</h1>
+                            <p className="my-[13px]">{post.id} | {post.date} | {post.crew}</p>
+                            <p>{post.content}</p>
+                        </div>
+                    </div>
+                    <div className="mt-[42px] px-[41px] py-[23px] w-[1191px] h-[220px] border border-gray-700 rounded-3xl">
+                        <div className="mt-[18px]">
+                            <p className='mb-[15px]'>{post.id}</p>
+                            <textarea 
+                                placeholder='댓글을 작성해주세요'
+                                className="resize-none w-full h-[57px] placeholder-black"
+                        />
+                        </div>
+                        <div className="flex justify-end">
+                            <button className="flex justify-center items-center bg-gray-100 hover:bg-gray-300 text-gray-700 w-[131px] h-[48px] rounded-full">
+                                등록
+                            </button>
+                        </div>
+                    </div>
+                    <div className='mt-[28px] mb-[60px]'>
+                        <ul>
+                           {post.comments.map(comment => (
+                                <li key={comment.id}>
+                                    <div className="my-[30px] px-[120px]">
+                                        <strong>{comment.author}</strong>
+                                        <p>{comment.date}</p> 
+                                        <p className="my-[21px]">{comment.content}</p>
+                                    </div>
+                                    <div className="border border-gray-300 h-[1px]"></div>
+                                </li>
+                                
+                            ))}
+                        </ul>
+                    </div>
                 </div>
-                <div>
-                    <h3>댓글</h3>
-                    <ul>
-                        {post.comments.map(comment => (
-                            <li key={comment.id}>
-                                <strong>{comment.author}</strong>: {comment.content}
-                            </li>
-                        ))}
-                    </ul>
-                </div>
+                
             </div>
         </Container>
     );

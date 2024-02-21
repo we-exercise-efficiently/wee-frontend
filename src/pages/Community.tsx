@@ -1,14 +1,4 @@
-// import Container from '../components/Container';
-
-// export default function Community() {
-//   return (
-//     <Container>
-//       <h2 className="font-bold text-red-700 text-3xl">COMMUNITY</h2>
-//     </Container>
-//   );
-// }
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Container from '../components/Container';
 import SideBar from '../components/SideBar'; // SideBar 컴포넌트 import
@@ -17,8 +7,9 @@ import Search from '../assets/Community/search.svg';
 interface Post {
   id: number;
   title: string;
-  likes: number;
-  views: number;
+  writer: string;
+  like: number;
+  cnt: number;
   date: string;
 }
 
@@ -39,12 +30,31 @@ export default function Community() {
   const navigate = useNavigate();
   // 검색 결과 게시글 목록 상태
   const [searchResults, setSearchResults] = useState<Post[]>([]);
+  // 외부 JSON 파일에서 가져온 게시글 목록 상태
+  const [posts, setPosts] = useState<Post[]>([]);
 
-  const posts: Post[] = [
-    { id: 1, title: '게시물 1', likes: 10, views: 100, date: '2024-01-30' },
-    { id: 2, title: '게시물 2', likes: 15, views: 120, date: '2024-01-29' },
-    // 다른 게시물들...
-  ];
+  // 게시글 목록을 외부 JSON 파일에서 가져옴
+  useEffect(() => {
+    fetch('/examples/PostExample.json') 
+      .then(response => response.json())
+      .then(data => {
+        if (data.code === '200') {
+          setPosts(data.data); // 가져온 데이터를 상태로 설정
+        } else {
+          console.error('Failed to fetch posts:', data.message);
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching posts:', error);
+      });
+  }, []); // 컴포넌트가 마운트될 때 한 번만 실행
+
+
+  // const posts: Post[] = [
+  //   { id: 1, title: '게시물 1', likes: 10, views: 100, date: '2024-01-30' },
+  //   { id: 2, title: '게시물 2', likes: 15, views: 120, date: '2024-01-29' },
+  //   // 다른 게시물들...
+  // ];
 
   // 검색어 변경 핸들러
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -56,22 +66,6 @@ export default function Community() {
     setSortBy(sortBy);
   };
   
-
-  // const filteredPosts = posts.filter((post) =>
-  //   post.title.toLowerCase().includes(searchTerm.toLowerCase())
-  // );
-
-  // const sortPosts = (sortBy: string) => (a: Post, b: Post): number => {
-  //   if (sortBy === 'latest') {
-  //     return new Date(b.date).getTime() - new Date(a.date).getTime();
-  //   } else if (sortBy === 'likes') {
-  //     return b.likes - a.likes;
-  //   } else if (sortBy === 'views') {
-  //     return b.views - a.views;
-  //   }
-  //   return 0;
-  // };
-
   // 게시글 개수 변경 핸들러
   const handlePostCountChange = (count: number) => {
     setPostCount(count);
@@ -106,61 +100,8 @@ export default function Community() {
   const displayPosts = hasSearchResults ? searchResults : posts;
 
   return (
-    // <Container>
-    //   <div className="mx-auto p-8">
-    //     <div className="flex mb-4">
-    //       <h2 className="font-bold text-red-700 text-3xl">COMMUNITY</h2>
-    //       <div className="flex mt-2 space-x-2 ml-auto">
-    //         <button
-    //           onClick={() => handleSortChange('latest')}
-    //           className={`px-4 py-2 border rounded ${sortBy === 'latest' ? 'font-bold' : ''}`}
-    //         >
-    //           최신순
-    //         </button>
-    //         <button
-    //           onClick={() => handleSortChange('likes')}
-    //           className={`px-4 py-2 border rounded ${sortBy === 'likes' ? 'font-bold' : ''}`}
-    //         >
-    //           좋아요순
-    //         </button>
-    //         <button
-    //           onClick={() => handleSortChange('views')}
-    //           className={`px-4 py-2 border rounded ${sortBy === 'views' ? 'font-bold' : ''}`}
-    //         >
-    //           조회수순
-    //         </button>
-    //       </div>
-    //       <input
-    //         type="text"
-    //         placeholder="검색"
-    //         value={searchTerm}
-    //         onChange={handleSearchChange}
-    //         className="px-2 py-1 border border-gray-300 rounded ml-2"
-    //       />
-    //     </div>
-    //   </div>
-
-    //     {/* 글 목록 출력 */}
-    //   <div className="mx-auto max-w-screen-lg mt-8">
-    //     <div className="mt-10 border rounded p-4">
-    //       <ul>
-    //         {filteredPosts.sort(sortPosts(sortBy)).map((post) => (
-    //           <li key={post.id} className="bg-white p-4 rounded-md shadow-md mb-4 flex justify-between items-center">
-    //             <div>
-    //               <h3 className="text-lg font-semibold">{post.title}</h3>
-    //             </div>
-    //             <div className="flex items-center">
-    //               <p className="text-gray-500 mr-2">Likes: {post.likes}</p>
-    //               <p className="text-gray-500">Views: {post.views}</p>
-    //             </div>
-    //           </li>
-    //         ))}
-    //       </ul>
-    //     </div>
-    //   </div>
-    // </Container>
     <Container>
-      <div className="flex mt-[77px] ml-[96px] mr-[443px]">
+      <div className="flex my-[77px] ml-[96px] mr-[443px]">
         {/* 왼쪽 영역 */}
         <SideBar handleWritePost={handleWritePost} />
 
@@ -181,7 +122,6 @@ export default function Community() {
           {/* 버튼 그룹 */}
           <div className="mb-[26px] flex items-center justify-between">
             <div className="flex space-x-[13px]">
-              {/* 버튼은 필요에 따라 수정하세요 */}
               <button onClick={() => handleSortChange('latest')} className={`w-[131px] h-[48px] px-4 py-2 rounded-3xl transition duration-300 ${sortBy === 'latest' ? 'bg-themeLime text-black' : 'bg-gray-200 text-gray-700 hover:bg-gray-300 hover:text-gray-900'}`}>최신순</button>
               <button onClick={() => handleSortChange('views')} className={`w-[131px] h-[48px] px-4 py-2 rounded-3xl transition duration-300 ${sortBy === 'views' ? 'bg-themeLime text-black' : 'bg-gray-200 text-gray-700 hover:bg-gray-300 hover:text-gray-900'}`} >조회수순</button>
               <button onClick={() => handleSortChange('likes')} className={`w-[131px] h-[48px] px-4 py-2 rounded-3xl transition duration-300 ${sortBy === 'likes' ? 'bg-themeLime text-black' : 'bg-gray-200 text-gray-700 hover:bg-gray-300 hover:text-gray-900'}`} >좋아요순</button>
@@ -209,12 +149,11 @@ export default function Community() {
           {/* 게시글 목록 */}
           <div>
             <ul className="space-y-[19px]">
-              {/* 게시글 아이템을 출력하는 로직 */}
+              {/* 게시글 아이템을 출력 */}
               {displayPosts.map((post) => (
                 <li key={post.id} className="w-[1035px] h-[225px] bg-gray-100 p-[33px] rounded-3xl cursor-pointer" onClick={() => handleViewPost(post.id)}>
                   <h3 className="text-lg font-semibold mb-2">{post.title}</h3>
-                  <p className="text-gray-500">Likes: {post.likes} | Views: {post.views}</p>
-                  {/* 추가적인 정보 표시 가능 */}
+                  <p className="text-gray-500">Likes: {post.like} | Views: {post.cnt}</p>
                 </li>
               ))}
             </ul>
@@ -222,6 +161,5 @@ export default function Community() {
         </div>
       </div>
     </Container>
-
   );
 }

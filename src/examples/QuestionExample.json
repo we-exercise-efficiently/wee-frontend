@@ -1,0 +1,25 @@
+{
+    "code": "200",
+    "massage": "SUCCESS",
+    "data": [
+        {
+            "id":1,
+            "userId": 111,
+            "title":"질문 있음",
+            "contents":"실은 없음",
+            "like":1,
+            "date":"2024.02.21",
+            "viewCnt":45,
+            "type":"상체",
+            "status":"NO",
+            "comments":[
+                {
+                    "type":"question",
+                    "id":1234,
+                    "date":"2024.02.21",
+                    "contents":"왜 난리야"
+                }
+            ]
+        }
+    ]
+}
