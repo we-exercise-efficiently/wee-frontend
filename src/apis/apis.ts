@@ -32,3 +32,24 @@ export function postLogin(data: ILoginDataProps) {
 
 //   return console.log(url);
 // }
+
+/**
+ * JCJ 2024.02.21
+ * 투두리스트 조회 (GET)
+ */
+export const getTodo = async () => {
+  const response = await axios.get('/DummyData.json');
+  return response.data.todos || [];
+};
+
+/**
+ * JCJ 2024.02.21
+ * 투두리스트 조회 (GET)
+ */
+export const postTodo = async (id: number, content: string) => {
+  const response = await axios.post("/DummyData.json", {
+    id,
+    content,
+  });
+  return response;
+};
