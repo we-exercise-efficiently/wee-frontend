@@ -1,7 +1,11 @@
 import { Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
 import TodoList from './pages/TodoList';
-import Community from './pages/Community';
+import CrewCommunity from './pages/CrewCommunity';
+import ShareCommunity from './pages/ShareCommunity';
+import QuestionCommunity from './pages/QuestionCommunity';
+import Write from "./pages/Write";
+import Post from "./pages/Post";
 import Login from './pages/Login';
 import MyPage from "./pages/MyPage";
 import Signup from "./pages/Signup";
@@ -15,7 +19,11 @@ export default function App() {
       <Route path={`/`} element={<Home />} />
       <Route path={`/login`} element={<Login />} />
       <Route path={`/todo`} element={<TodoList />} />
-      <Route path={`/community`} element={<Community />} />
+      <Route path={`/community/crew`} element={<CrewCommunity />} />
+      <Route path={`/community/question`} element={<QuestionCommunity />} />
+      <Route path={`/community/share`} element={<ShareCommunity />} />
+      <Route path={`/write`} element={<Write />} /> 
+      <Route path={`/post/:postId`} element={<Post />} />
       <Route path={`/mypage`} element={<MyPage />} />
       <Route path={`/signup`} element={<Signup />} />
       <Route
