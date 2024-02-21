@@ -3,42 +3,36 @@
     "massage": "SUCCESS",
     "data": [
         {
-            "id": 1,
+            "crewId": 1,
             "userId":1234,
-            "title":"운동 잘하는 방법",
-            "contents":"열심히 하면 됩니다.",
+            "title":"러닝 크루 모집합니다.",
+            "contents":"오세요",
             "like":3,
-            "date":"2024.02.19",
+            "createDate":"2024.02.19",
             "viewCnt":24,
-            "type":"상체",
-            "status":"No",
-            "comments":[
-                {
-                    "type":"crew",
-                    "id":1224,
-                    "date":"2024.02.19",
-                    "contents":"뭐가 이래"
-                }
-            ]
+            "commentCnt":1,
+            "startDate":"2024.03.01",
+            "endDate":"2024.06.01",
+            "location":"서울숲",
+            "type":"러닝",
+            "headcount":10,
+            "status":"No"
         },
         {
-            "id": 2,
+            "crewId": 2,
             "userId":1224,
-            "title":"운동 잘하는 방법",
-            "contents":"열심히 하면 됩니다.",
-            "like":7,
-            "date":"2024.02.19",
-            "viewCnt":34,
-            "type":"상체",
-            "status":"No",
-            "comments":[
-                {
-                    "type":"crew",
-                    "id":1234,
-                    "date":"2024.02.19",
-                    "contents":"뭐가 이래"
-                }
-            ]
+            "title":"배드민턴 크루 모집합니다.",
+            "contents":"오세요",
+            "like":5,
+            "createDate":"2024.02.21",
+            "viewCnt":9,
+            "commentCnt":2,
+            "startDate":"2024.03.01",
+            "endDate":"2024.06.01",
+            "location":"서울숲",
+            "type":"배드민턴",
+            "headcount":10,
+            "status":"No"
         }
         
     ]

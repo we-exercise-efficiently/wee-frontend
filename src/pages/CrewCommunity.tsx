@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Container from '../components/Container';
 import SideBar from '../components/SideBar'; // SideBar 컴포넌트 import
-import Search from '../assets/Community/search.svg';
+import PostList from '../components/PostList';
+// import Search from '../assets/Community/search.svg';
 
 interface Post {
   id: number;
@@ -35,7 +36,7 @@ export default function Community() {
 
   // 게시글 목록을 외부 JSON 파일에서 가져옴
   useEffect(() => {
-    fetch('/examples/PostExample.json') 
+    fetch('../examples/PostExample') 
       .then(response => response.json())
       .then(data => {
         if (data.code === '200') {
@@ -108,7 +109,7 @@ export default function Community() {
         {/* 오른쪽 영역 */}
         <div className="ml-[87px]">
           {/* 검색 창 */}
-          <div className="mb-[57px] w-[1034px] h-[51px] border-b border-black flex justify-between items-center">
+          {/* <div className="mb-[57px] w-[1034px] h-[51px] border-b border-black flex justify-between items-center">
             <input
               type="text"
               placeholder="검색하기"
@@ -117,9 +118,25 @@ export default function Community() {
               className="w-[981px] h-[38px] px-[8px] py-[12px] placeholder-gray-700"
             />
             <img className="w-[24px] h-[24px] mr-[21px] cursor-pointer" src={Search} alt="search" onClick={handleSearchIconClick}/>
-          </div>
+          </div> */}
 
-          {/* 버튼 그룹 */}
+          <PostList
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+            handleSearchIconClick={handleSearchIconClick}
+            handleSearchChange={handleSearchChange}
+            posts={posts}
+            displayPosts={displayPosts}
+            handleViewPost={handleViewPost}
+            handleSortChange={handleSortChange}
+            handlePostCountChange={handlePostCountChange}
+            postCount={postCount}
+            sortBy={sortBy}
+            toggle={toggle}
+            setToggle={setToggle}
+          />
+
+          {/* 버튼 그룹
           <div className="mb-[26px] flex items-center justify-between">
             <div className="flex space-x-[13px]">
               <button onClick={() => handleSortChange('latest')} className={`w-[131px] h-[48px] px-4 py-2 rounded-3xl transition duration-300 ${sortBy === 'latest' ? 'bg-themeLime text-black' : 'bg-gray-200 text-gray-700 hover:bg-gray-300 hover:text-gray-900'}`}>최신순</button>
@@ -127,7 +144,7 @@ export default function Community() {
               <button onClick={() => handleSortChange('likes')} className={`w-[131px] h-[48px] px-4 py-2 rounded-3xl transition duration-300 ${sortBy === 'likes' ? 'bg-themeLime text-black' : 'bg-gray-200 text-gray-700 hover:bg-gray-300 hover:text-gray-900'}`} >좋아요순</button>
             </div>
             
-            {/* 게시글 개수 토글 */}
+            {/* 게시글 개수 토글 
             <div className="relative">
               <button onClick={() => setToggle(!toggle)} className="w-[128px] h-[48px] px-[25px] py-[15px] bg-gray-200 text-gary-500 text-[18px] rounded-md hover:bg-gray-200 hover:text-black-500 transition duration-300 flex items-center justify-center border-gray-500">
                 {postCount}개씩
@@ -146,10 +163,10 @@ export default function Community() {
             </div>
           </div>
 
-          {/* 게시글 목록 */}
+          {/* 게시글 목록 
           <div>
             <ul className="space-y-[19px]">
-              {/* 게시글 아이템을 출력 */}
+              {/* 게시글 아이템을 출력 
               {displayPosts.map((post) => (
                 <li key={post.id} className="w-[1035px] h-[225px] bg-gray-100 p-[33px] rounded-3xl cursor-pointer" onClick={() => handleViewPost(post.id)}>
                   <h3 className="text-lg font-semibold mb-2">{post.title}</h3>
@@ -157,7 +174,7 @@ export default function Community() {
                 </li>
               ))}
             </ul>
-          </div>
+          </div> */}
         </div>
       </div>
     </Container>

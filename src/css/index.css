@@ -1,7 +1,11 @@
+@import url("https://fonts.googleapis.com/css2?family=Bungee+Outline&display=swap");
+/* GOOGLE FONT
+  폰트는 맨 위 최상단에 넣어야 함
+*/
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 /**
     해당 지시어는 무시해도 무방함
     2024.01.07 LJM
@@ -22,4 +26,41 @@
 
 .slick-active .custom-dot {
   background-color: rgb(51 65 85 / var(--tw-bg-opacity));
+}
+
+.truncate-3-lines {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(30%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.color-facebook {
+  background-color: #425a95;
+  color: white;
+}
+
+.color-naver {
+  background-color: #5bb134;
+  color: white;
+}
+
+.color-kakao {
+  background-color: #fade4b;
+  color: #3a1d1d;
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import Container from '../components/Container';
@@ -17,11 +17,12 @@ export default function Post() {
         navigate('/write');
     };
 
+
     const post = {
         title: '게시글 제목',
         id: '닉네임',
         date: '2024.02.21',
-        crew: '크루 모집방',
+        crewId: 123,
         content: '게시글 내용 Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
         likes: 10,
         views: 100,
@@ -40,7 +41,7 @@ export default function Post() {
                     <div className="px-[41px] py-[39px] w-[1191px] h-[655px] bg-gray-100 rounded-3xl">
                         <div>
                             <h1>{post.title}</h1>
-                            <p className="my-[13px]">{post.id} | {post.date} | {post.crew}</p>
+                            <p className="my-[13px]">{post.id} | {post.date} | {post.crewId}</p>
                             <p>{post.content}</p>
                         </div>
                     </div>

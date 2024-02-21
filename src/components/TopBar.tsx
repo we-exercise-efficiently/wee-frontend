@@ -13,7 +13,7 @@ export default function TopBar() {
     // console.log(event.currentTarget.id);
     let destination = event.currentTarget.id;
     // 이동 할 장소 지정
-    nav(`/${destination}`);
+    nav(`/${destination === "main" ? "" : destination}`);
   };
 
   const onLogout = () => {
@@ -29,29 +29,45 @@ export default function TopBar() {
   };
 
   return (
-    <div className="bg-blue-300 px-10 py-1 flex flex-row justify-between">
-      <div>
+    <div className="bg-slate-100 px-10 py-1 flex flex-row justify-between">
+      <div id="main" onClick={onMove} className="cursor-pointer">
         <h2>심플로고</h2>
       </div>
-      <div className="flex flex-row gap-6 text-sm">
-        <div className="border-r border-slate-700 flex items-center justify-center">
+      <div className="flex flex-row  gap-2 sm:gap-12 text-xs text-slate-700">
+        <div className="border-r border-slate-400 flex items-center justify-center">
           {isLogin ? (
-            <h2 onClick={onLogout} id="login" className="mr-6 cursor-pointer">
+            <h2
+              onClick={onLogout}
+              id="login"
+              className="mr-2 sm:mr-12 cursor-pointer"
+            >
               로그 아웃
             </h2>
           ) : (
-            <h2 onClick={onMove} id="login" className="mr-6 cursor-pointer">
+            <h2
+              onClick={onMove}
+              id="login"
+              className="mr-2 sm:mr-12 cursor-pointer"
+            >
               로 그 인
             </h2>
           )}
         </div>
-        <div className="border-r border-slate-700 flex items-center justify-center">
-          <h2 onClick={onMove} id="signup" className="mr-6 cursor-pointer">
+        <div className="border-r border-slate-400 flex items-center justify-center">
+          <h2
+            onClick={onMove}
+            id="signup"
+            className="mr-2 sm:mr-12 cursor-pointer"
+          >
             회원 가입
           </h2>
         </div>
         <div className="flex items-center justify-center">
-          <h2 onClick={onMove} id="mypage" className="mr-6 cursor-pointer">
+          <h2
+            onClick={onMove}
+            id="mypage"
+            className="mr-2 sm:mr-12 cursor-pointer"
+          >
             마이 페이지
           </h2>
         </div>
