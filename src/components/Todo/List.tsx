@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import PlusImg from '../../assets/Todo/Plus.svg';
 import TodoListItem from './ListItem';
 import { getTodo } from "../../apis/apis";
@@ -11,7 +11,6 @@ export default function List() {
   };
 
   const [showTextarea, setShowTextarea] = useState(false);
-  const [inputValue, setInputValue] = useState("");
   const [todoData, setTodoData] = useState<TodoData[]>([]); // 타입 정의 수정
 
   useEffect(() => {
