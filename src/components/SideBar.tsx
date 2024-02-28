@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -8,16 +8,20 @@ interface Props {
 
 const SideBar: React.FC<Props> = ({ handleWritePost }) => {
     const navigate = useNavigate();
+    const [selectedButton, setSelectedButton] = useState<number | null>(null);
 
     const handleClickCrew = () => {
-      navigate('/community/crew'); // '/community/crew' 경로로 이동
+        setSelectedButton(0);
+        navigate('/community/crew'); // '/community/crew' 경로로 이동
     };
   
     const handleClickShare = () => {
+        setSelectedButton(1);
         navigate('/community/share'); // '/community/share' 경로로 이동
     };
   
     const handleClickQuestion = () => {
+        setSelectedButton(2);
         navigate('/community/question'); // '/community/question' 경로로 이동
     };
 
@@ -34,15 +38,15 @@ const SideBar: React.FC<Props> = ({ handleWritePost }) => {
             <div className="mt-[30px]">
                 <div className="mt-[30px] w-[259px] h-[216px] bg-gray-100 rounded-3xl">
                     <div className="flex justify-center items-center">
-                        <button onClick={handleClickCrew} className="w-full h-[71px] hover:bg-black hover:text-white hover:rounded-t-3xl">크루 모집방</button>
+                        <button onClick={handleClickCrew} className={`w-full h-[71px] ${selectedButton === 0 ? 'bg-black text-white rounded-t-3xl' : 'hover:bg-black hover:text-white hover:rounded-t-3xl'}`}>크루 모집방</button>
                     </div>
                     <div className="mx-[18px] border border-b-gray-500 w-[224px]"></div>
                     <div className="flex justify-center items-center">
-                        <button onClick={handleClickShare} className="w-full h-[71px] hover:bg-black hover:text-white">운동 루틴방</button>
+                        <button onClick={handleClickShare} className={`w-full h-[71px] ${selectedButton === 1 ? 'bg-black text-white' : 'hover:bg-black hover:text-white'}`}>운동 루틴방</button>
                     </div>
                     <div className="mx-[18px] border border-b-gray-500 w-[224px]"></div>
                     <div className="flex justify-center items-center">
-                        <button onClick={handleClickQuestion} className="w-full h-[71px] hover:bg-black hover:text-white hover:rounded-b-3xl">운동 질문방</button>
+                        <button onClick={handleClickQuestion} className={`w-full h-[71px] ${selectedButton === 2 ? 'bg-black text-white rounded-b-3xl' : 'hover:bg-black hover:text-white hover:rounded-b-3xl'}`}>운동 질문방</button>
                     </div>
                 </div>
             </div>

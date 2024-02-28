@@ -6,17 +6,27 @@ import PostList from '../components/PostList';
 // import Search from '../assets/Community/search.svg';
 
 interface Post {
-  id: number;
+  crewId: number;
+  shareId: number;
+  questionId: number;
+  userId: number;
   title: string;
-  writer: string;
+  contents: string;
   like: number;
-  cnt: number;
-  date: string;
+  createDate: string;
+  viewCnt: number;
+  commentCnt: number;
+  startDate: Date;
+  endDate: Date;
+  location: string;
+  type: string;
+  headcount: number;
+  status: string;
 }
 
-interface Props {
-  handleWritePost: () => void;
-}
+// interface Props {
+//   handleWritePost: () => void;
+// }
 
 export default function Community() {
   // 검색어 상태
@@ -36,9 +46,10 @@ export default function Community() {
 
   // 게시글 목록을 외부 JSON 파일에서 가져옴
   useEffect(() => {
-    fetch('../examples/PostExample') 
+    fetch('../src/examples/CrewExample.json') 
       .then(response => response.json())
       .then(data => {
+        console.log(data); // 데이터 확인용 로그
         if (data.code === '200') {
           setPosts(data.data); // 가져온 데이터를 상태로 설정
         } else {
@@ -80,9 +91,9 @@ export default function Community() {
   };
 
   // 게시글 보기 핸들러
-  const handleViewPost = (postId: number) => {
+  const handleViewPost = (crewId: number) => {
     // 게시글 페이지 URL에 해당하는 경로 생성
-    const postPath = `/post/${postId}`;
+    const postPath = `/community/crew/${crewId}`;
     // 해당 경로로 이동
     navigate(postPath);
   };
@@ -125,9 +136,9 @@ export default function Community() {
             setSearchTerm={setSearchTerm}
             handleSearchIconClick={handleSearchIconClick}
             handleSearchChange={handleSearchChange}
-            posts={posts}
-            displayPosts={displayPosts}
-            handleViewPost={handleViewPost}
+            // posts={posts}
+            // displayPosts={displayPosts}
+            // handleViewPost={handleViewPost}
             handleSortChange={handleSortChange}
             handlePostCountChange={handlePostCountChange}
             postCount={postCount}
@@ -162,19 +173,20 @@ export default function Community() {
               )}
             </div>
           </div>
+          */}
 
-          {/* 게시글 목록 
+          {/* 게시글 목록 */}
           <div>
             <ul className="space-y-[19px]">
-              {/* 게시글 아이템을 출력 
+              {/* 게시글 아이템을 출력 */}
               {displayPosts.map((post) => (
-                <li key={post.id} className="w-[1035px] h-[225px] bg-gray-100 p-[33px] rounded-3xl cursor-pointer" onClick={() => handleViewPost(post.id)}>
+                <li key={post.crewId} className="w-[1035px] h-[225px] bg-gray-100 p-[33px] rounded-3xl cursor-pointer" onClick={() => handleViewPost(post.crewId)}>
                   <h3 className="text-lg font-semibold mb-2">{post.title}</h3>
-                  <p className="text-gray-500">Likes: {post.like} | Views: {post.cnt}</p>
+                  <p className="text-gray-500">Likes: {post.like} | Views: {post.viewCnt}</p>
                 </li>
               ))}
             </ul>
-          </div> */}
+          </div> 
         </div>
       </div>
     </Container>

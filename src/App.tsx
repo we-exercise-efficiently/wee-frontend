@@ -4,8 +4,10 @@ import TodoList from './pages/TodoList';
 import CrewCommunity from './pages/CrewCommunity';
 import ShareCommunity from './pages/ShareCommunity';
 import QuestionCommunity from './pages/QuestionCommunity';
-import Write from "./pages/Write";
-import Post from "./pages/Post";
+import CrewWrite from "./pages/CrewWrite";
+import CrewPost from "./pages/CrewPost";
+import SharePost from "./pages/SharePost";
+import QuestionPost from "./pages/QuestionPost";
 import Login from './pages/Login';
 import MyPage from "./pages/MyPage";
 import Signup from "./pages/Signup";
@@ -22,8 +24,10 @@ export default function App() {
       <Route path={`/community/crew`} element={<CrewCommunity />} />
       <Route path={`/community/question`} element={<QuestionCommunity />} />
       <Route path={`/community/share`} element={<ShareCommunity />} />
-      <Route path={`/write`} element={<Write />} /> 
-      <Route path={`/post/:postId`} element={<Post />} />
+      <Route path={`/community/crew/write`} element={<CrewWrite />} /> 
+      <Route path={`/community/crew/:crewId`} element={<CrewPost />} />
+      <Route path={`/community/share/:shareId`} element={<SharePost />} />
+      <Route path={`/community/question/:questionId`} element={<QuestionPost />} />
       <Route path={`/mypage`} element={<MyPage />} />
       <Route path={`/signup`} element={<Signup />} />
       <Route
