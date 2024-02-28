@@ -5,16 +5,22 @@ import SideBar from '../components/SideBar'; // SideBar 컴포넌트 import
 import PostList from '../components/PostList';
 
 interface Post {
-  id: number;
+  crewId: number;
+  shareId: number;
+  questionId: number;
+  userId: number;
   title: string;
-  writer: string;
+  contents: string;
   like: number;
-  cnt: number;
-  date: string;
-}
-
-interface Props {
-  handleWritePost: () => void;
+  createDate: string;
+  viewCnt: number;
+  commentCnt: number;
+  startDate: Date;
+  endDate: Date;
+  location: string;
+  type: string;
+  headcount: number;
+  status: string;
 }
 
 export default function Community() {
@@ -35,7 +41,7 @@ export default function Community() {
 
   // 게시글 목록을 외부 JSON 파일에서 가져옴
   useEffect(() => {
-    fetch('../examples/PostExample') 
+    fetch('../src/examples/QuestionExample.json') 
       .then(response => response.json())
       .then(data => {
         if (data.code === '200') {
@@ -49,12 +55,6 @@ export default function Community() {
       });
   }, []); // 컴포넌트가 마운트될 때 한 번만 실행
 
-
-  // const posts: Post[] = [
-  //   { id: 1, title: '게시물 1', likes: 10, views: 100, date: '2024-01-30' },
-  //   { id: 2, title: '게시물 2', likes: 15, views: 120, date: '2024-01-29' },
-  //   // 다른 게시물들...
-  // ];
 
   // 검색어 변경 핸들러
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -79,9 +79,9 @@ export default function Community() {
   };
 
   // 게시글 보기 핸들러
-  const handleViewPost = (postId: number) => {
+  const handleViewPost = (questionId: number) => {
     // 게시글 페이지 URL에 해당하는 경로 생성
-    const postPath = `/post/${postId}`;
+    const postPath = `/community/question/${questionId}`;
     // 해당 경로로 이동
     navigate(postPath);
   };
@@ -112,9 +112,9 @@ export default function Community() {
             setSearchTerm={setSearchTerm}
             handleSearchIconClick={handleSearchIconClick}
             handleSearchChange={handleSearchChange}
-            posts={posts}
-            displayPosts={displayPosts}
-            handleViewPost={handleViewPost}
+            // posts={posts}
+            // displayPosts={displayPosts}
+            // handleViewPost={handleViewPost}
             handleSortChange={handleSortChange}
             handlePostCountChange={handlePostCountChange}
             postCount={postCount}
@@ -122,6 +122,19 @@ export default function Community() {
             toggle={toggle}
             setToggle={setToggle}
           />
+
+          {/* 게시글 목록 */}
+          <div>
+            <ul className="space-y-[19px]">
+              {/* 게시글 아이템을 출력 */}
+              {displayPosts.map((post) => (
+                <li key={post.questionId} className="w-[1035px] h-[225px] bg-gray-100 p-[33px] rounded-3xl cursor-pointer" onClick={() => handleViewPost(post.questionId)}>
+                  <h3 className="text-lg font-semibold mb-2">{post.title}</h3>
+                  <p className="text-gray-500">Likes: {post.like} | Views: {post.viewCnt}</p>
+                </li>
+              ))}
+            </ul>
+          </div> 
         </div>
       </div>
     </Container>

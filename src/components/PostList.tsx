@@ -1,20 +1,38 @@
 import React from 'react';
 import Search from '../assets/Community/search.svg';
 
-interface Post {
-  id: number;
-  title: string;
-  writer: string;
-  like: number;
-  cnt: number;
-  date: string;
-}
+// interface Post {
+//   id: number;
+//   title: string;
+//   writer: string;
+//   like: number;
+//   cnt: number;
+//   date: string;
+// }
+// interface Post {
+//   crewId: number;
+//   shareId: number;
+//   questionId : number;
+//   userId: number;
+//   title: string;
+//   contents: string;
+//   like: number;
+//   createDate: string;
+//   viewCnt: number;
+//   commentCnt: number;
+//   startDate: Date;
+//   endDate: Date;
+//   location: string;
+//   type: string;
+//   headcount: number;
+//   status: string;
+// }
 
 interface Props {
   setSearchTerm: (term: string) => void;
-  posts: Post[];
-  displayPosts: Post[];
-  handleViewPost: (postId: number) => void;
+  // posts: Post[];
+  // displayPosts: Post[];
+  // handleViewPost: (postId: number) => void;
   handleSortChange: (sortBy: string) => void;
   handlePostCountChange: (count: number) => void;
   postCount: number;
@@ -29,11 +47,11 @@ interface Props {
 const PostList: React.FC<Props> = ({ 
   searchTerm,
   handleSearchChange, 
-  setSearchTerm,
-  posts,
+  //setSearchTerm,
+  // posts,
   handleSearchIconClick,
-  displayPosts, 
-  handleViewPost, 
+  // displayPosts, 
+  // handleViewPost, 
   handleSortChange, 
   handlePostCountChange, 
   postCount, 
@@ -80,19 +98,19 @@ const PostList: React.FC<Props> = ({
           )}
         </div>
       </div>
-
-      {/* 게시글 목록 */}
+{/* 
+      {/* 게시글 목록 
       <div>
         <ul className="space-y-[19px]">
-          {/* 게시글 아이템을 출력 */}
+          {/* 게시글 아이템을 출력 
           {displayPosts.map((post) => (
-            <li key={post.id} className="w-[1035px] h-[225px] bg-gray-100 p-[33px] rounded-3xl cursor-pointer" onClick={() => handleViewPost(post.id)}>
+            <li key={post.crewId} className="w-[1035px] h-[225px] bg-gray-100 p-[33px] rounded-3xl cursor-pointer" onClick={() => handleViewPost(post.crewId)}>
               <h3 className="text-lg font-semibold mb-2">{post.title}</h3>
-              <p className="text-gray-500">Likes: {post.like} | Views: {post.cnt}</p>
+              <p className="text-gray-500">Likes: {post.like} | Views: {post.viewCnt}</p>
             </li>
           ))}
         </ul>
-      </div>
+      </div> */}
     </div>
   );
 };
