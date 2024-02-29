@@ -4,6 +4,10 @@ export default {
   content: [],
   theme: {
     extend: {
+      backgroundImage: {
+        "custom-gradient":
+          "linear-gradient(to right,rgba(4, 15, 21, 0) 50%, rgba(4, 15, 21, 1) 90%)",
+      },
       keyframes: {
         shake: {
           "0%, 100%": { transform: "rotate(-5deg)" },
