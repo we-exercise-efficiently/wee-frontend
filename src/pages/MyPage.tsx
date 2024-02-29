@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Container from "../components/Container";
+import useScrollReset from "../utils/useScrollReset";
 
 /**
  *  2024.01.16
@@ -7,6 +8,12 @@ import Container from "../components/Container";
  */
 export default function Mypage() {
   const [isAdded, _] = useState<boolean>(false);
+  const nav = useScrollReset();
+
+  const onMove = (event: React.MouseEvent<HTMLDivElement>) => {
+    let destination = event.currentTarget.id;
+    nav(`/${destination}`);
+  };
 
   return (
     <Container>
@@ -110,7 +117,11 @@ export default function Mypage() {
                 <h2>건강 정보에 대해 입력해주시면</h2>
                 <h2>상태를 분석해드려요 :)</h2>
               </div>
-              <div className="bg-gray-400 flex justify-center items-center cursor-pointer rounded-md py-4">
+              <div
+                id="info-collect"
+                onClick={onMove}
+                className="bg-gray-400 flex justify-center items-center cursor-pointer rounded-md py-4"
+              >
                 <h2>건강정보 입력하러 가기</h2>
               </div>
             </div>

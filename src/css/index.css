@@ -64,3 +64,9 @@
   background-color: #fade4b;
   color: #3a1d1d;
 }
+
+.select-without-arrow {
+  -webkit-appearance: none; /* Chrome, Safari, Opera */
+  -moz-appearance: none; /* Firefox */
+  appearance: none; /* 표준 속성 */
+}

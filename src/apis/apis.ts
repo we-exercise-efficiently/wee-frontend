@@ -85,3 +85,12 @@ export function postLoginNaver(code: string) {
     }
   );
 }
+
+export function getGoogleLoginData(token: string) {
+  let url = `https://www.googleapis.com/oauth2/v3/userinfo`;
+  return instance.get(url, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}
