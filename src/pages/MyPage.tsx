@@ -1,6 +1,8 @@
 import { useState } from "react";
 import Container from "../components/Container";
 import useScrollReset from "../utils/useScrollReset";
+import InfoBlock, { IInfoBlockProps } from "../components/MyPages/InfoBlock";
+import { InfoBlocks } from "../jsons/statics";
 
 /**
  *  2024.01.16
@@ -18,7 +20,7 @@ export default function Mypage() {
   return (
     <Container>
       {/* BODY */}
-      <div className="px-12 py-6 flex flex-col gap-4 transition-all duration-300 ease-in-out">
+      <div className="px-12 py-6 flex flex-col gap-4 transition-all duration-300 ease-in-out bg-themeDark">
         {/* 1번째 */}
         <div className="flex flex-col sm:grid sm:grid-cols-2 gap-4">
           <div className="bg-transparent rounded-2xl p-4 h-48">
@@ -43,17 +45,16 @@ export default function Mypage() {
                 />
               </svg>
 
-              <h2 className="text-2xl font-bold">나의 목표치 혹은 꾸밈</h2>
+              <h2 className="text-3xl font-bold text-white">
+                <span className="block ">코끼리도 초식동물 님의</span> 목표를
+                입력하고, 달성해보세요!
+              </h2>
             </div>
           </div>
           <div className="bg-gray-300 rounded-2xl p-4 h-48">
-            <div className="h-full flex flex-row justify-between items-center">
-              <div>
-                <p className="text-sm">00 크루 소속 중 | 활동적 생활가</p>
-                <h1 className="text-4xl font-bold">코끼리도초식동물 님</h1>
-              </div>
-              <div className="flex flex-col lg:flex-row justify-between gap-3">
-                <div className="w-12 h-12 rounded-full bg-gray-400 flex justify-center items-center">
+            <div className="h-full flex flex-col justify-between items-end">
+              <div className="flex flex-col lg:flex-row justify-end w-full gap-3">
+                <div className="w-12 h-12 rounded-full bg-themeBlue flex justify-center items-center">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -69,7 +70,7 @@ export default function Mypage() {
                     />
                   </svg>
                 </div>
-                <div className="w-12 h-12 rounded-full bg-gray-400 flex justify-center items-center">
+                <div className="w-12 h-12 rounded-full bg-themeBlue flex justify-center items-center">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -85,7 +86,7 @@ export default function Mypage() {
                     />
                   </svg>
                 </div>
-                <div className="w-12 h-12 rounded-full bg-gray-400 flex justify-center items-center">
+                <div className="w-12 h-12 rounded-full bg-themeBlue flex justify-center items-center">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -101,6 +102,13 @@ export default function Mypage() {
                     />
                   </svg>
                 </div>
+              </div>
+              <div className="flex mb-4 flex-col justify-start items-start w-full">
+                <p className="text-sm">00 크루 소속 중 | 활동적 생활가</p>
+                <h1 className="text-4xl font-bold">코끼리도초식동물 님</h1>
+              </div>
+              <div className="border cursor-pointer border-slate-500 text-slate-500 rounded-full px-2 py-1 text-sm">
+                탈퇴하기
               </div>
             </div>
           </div>
@@ -120,9 +128,9 @@ export default function Mypage() {
               <div
                 id="info-collect"
                 onClick={onMove}
-                className="bg-gray-400 flex justify-center items-center cursor-pointer rounded-md py-4"
+                className="bg-themeLime flex justify-center items-center cursor-pointer rounded-xl py-4"
               >
-                <h2>건강정보 입력하러 가기</h2>
+                <h2 className="font-bold">건강정보 입력하러 가기</h2>
               </div>
             </div>
           </div>
@@ -142,7 +150,7 @@ export default function Mypage() {
                 viewBox="0 0 24 24"
                 strokeWidth="1.5"
                 stroke="currentColor"
-                className="w-20 h-20 absolute bottom-0 right-0 text-themeLime cursor-pointer"
+                className="w-20 h-20 absolute bottom-0 right-0 text-themeBlue cursor-pointer"
               >
                 <path
                   strokeLinecap="round"
@@ -169,7 +177,7 @@ export default function Mypage() {
                 viewBox="0 0 24 24"
                 strokeWidth="1.5"
                 stroke="currentColor"
-                className="w-20 h-20 absolute bottom-0 right-0 text-themeLime cursor-pointer"
+                className="w-20 h-20 absolute bottom-0 right-0 text-themeBlue cursor-pointer"
               >
                 <path
                   strokeLinecap="round"
@@ -184,58 +192,40 @@ export default function Mypage() {
         {/* 3번째 */}
         <div className="flex flex-col sm:grid sm:grid-cols-1 gap-4">
           <div className="bg-gray-300 rounded-2xl p-4 min-h-96">
-            <div className="flex flex-col gap-8 lg:flex-row h-full justify-between items-start py-12 px-16">
-              <div className="lg:w-1/2 flex flex-col gap-6">
-                <h2 className="text-2xl font-bold">간단하게 정보를 입력하고</h2>
-                <h2 className="text-2xl font-bold">BMI 지수를 측정해보세요!</h2>
-                <p className="text-xs">대한비만학회, 비만치료지침 기준</p>
-              </div>
-              <div className="lg:w-1/2 w-full">
-                <form className="flex flex-col w-full gap-4">
-                  <div className="flex flex-row w-full">
-                    <label
-                      className="w-2/12 flex flex-row justify-start items-center font-bold text-2xl"
-                      htmlFor="height"
-                    >
-                      신장
-                    </label>
-                    <input
-                      id="height"
-                      className="w-full px-4 rounded-md focus:outline-none"
-                      autoComplete="off"
-                    />
+            <div className="flex flex-col gap-8 lg:flex-row h-fulljustify-between items-start py-12 px-1">
+              <div className="flex flex-col gap-6">
+                {/* 상단 */}
+                <div className="grid grid-cols-5 justify-between gap-4 items-center">
+                  {/* 좌측 */}
+                  <div className="text-3xl flex flex-col font-bold col-span-2">
+                    <span className="block">건강정보를 입력하면</span>
+                    <span className="block">
+                      BMI 지수를 측정해볼 수 있어요!
+                    </span>
                   </div>
-                  <div className="flex flex-row w-full">
-                    <label
-                      className="w-2/12 flex flex-row justify-start items-center font-bold text-2xl"
-                      htmlFor="weight"
-                    >
-                      체중
-                    </label>
-                    <input
-                      id="weight"
-                      className="w-full px-4 rounded-md focus:outline-none"
-                      autoComplete="off"
-                    />
+                  {/* 우측 */}
+                  <div className="flex justify-center items-center col-span-3">
+                    <p className="text-sm">
+                      BMI 지수는 체질량지수로 비만을 평가하는 지수이며
+                      세계적으로 쓰이는 공통표준 지수입니다. 체지방의 정도를
+                      표준체중보다 비교적 정확하게 반영할 수 있고 매우 간단히
+                      규정할 수 있는 장점이 있습니다.
+                    </p>
                   </div>
-                  <div className="flex flex-row w-full">
-                    <label
-                      className="w-2/12 flex flex-row justify-start items-center font-bold text-2xl"
-                      htmlFor="age"
-                    >
-                      나이
-                    </label>
-                    <input
-                      id="age"
-                      className="w-full px-4 rounded-md focus:outline-none"
-                      autoComplete="off"
+                </div>
+                {/* 하단 */}
+                <div className="grid grid-cols-6 flex-row justify-around items-center h-32 rounded-xl border border-themeBlue">
+                  {InfoBlocks.map((value: IInfoBlockProps, index) => (
+                    <InfoBlock
+                      text={value.text}
+                      range={value.range}
+                      rank={index}
                     />
-                  </div>
-
-                  <button className="mt-12 bg-gray-400 py-4 rounded-md">
-                    BMI 지수 측정하기
-                  </button>
-                </form>
+                  ))}
+                </div>
+                <p className="text-slate-500 text-right text-sm">
+                  발췌. 2020 대한비만학회 진료지침
+                </p>
               </div>
             </div>
           </div>
@@ -260,7 +250,7 @@ export default function Mypage() {
                   viewBox="0 0 24 24"
                   strokeWidth="1.5"
                   stroke="currentColor"
-                  className="w-20 h-20 absolute bottom-0 right-0 text-themeLime cursor-pointer"
+                  className="w-20 h-20 absolute bottom-0 right-0 text-themeBlue cursor-pointer"
                 >
                   <path
                     strokeLinecap="round"
@@ -288,7 +278,7 @@ export default function Mypage() {
                   viewBox="0 0 24 24"
                   strokeWidth="1.5"
                   stroke="currentColor"
-                  className="w-20 h-20 absolute bottom-0 right-0 text-themeLime cursor-pointer"
+                  className="w-20 h-20 absolute bottom-0 right-0 text-themeBlue cursor-pointer"
                 >
                   <path
                     strokeLinecap="round"
@@ -301,11 +291,14 @@ export default function Mypage() {
           </div>
           <div className="bg-transparent rounded-2xl p-4 h-56 col-span-3">
             <div className="h-full relative">
-              <h2 className="font-bold text-3xl px-4 py-6 z-20 relative">
-                꾸밈공간 혹은 슬로건 이용
+              <h2 className="font-bold text-left text-6xl px-4 z-20 relative text-white">
+                We Exercise
+              </h2>
+              <h2 className="font-bold text-right text-6xl px-4 z-20 relative text-white">
+                Efficiently
               </h2>
 
-              <div className="w-28 h-28 bg-themeLime rounded-full absolute bottom-10 z-10 left-0" />
+              <div className="w-28 h-28 bg-themeBlue rounded-full absolute bottom-10 z-10 left-0" />
             </div>
           </div>
         </div>
