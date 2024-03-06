@@ -94,3 +94,18 @@ export function getGoogleLoginData(token: string) {
     },
   });
 }
+
+/**
+ * LJM 2024.03.06
+ * @param email 중복검사 할 이메일
+ * @returns
+ */
+export function getEmailValidation(email: string) {
+  const url = `${import.meta.env.VITE_BASE_URL}/wee/user/register/checkemail`;
+
+  return axios.get(url, {
+    params: {
+      email,
+    },
+  });
+}

@@ -7,8 +7,8 @@ export default function Goals() {
 
   return (
     <Container>
-      <div className="px-16 flex flex-row gap-4 justify-between items-start py-8 h-screen bg-slate-100">
-        <div className="div-container w-[40rem] max-h-[38rem] overflow-auto pr-4 flex flex-col gap-4">
+      <div className="px-16 flex flex-col-reverse lg:flex-row gap-4 justify-center lg:justify-between items-center lg:items-start py-8 min-h-screen h-auto bg-slate-100">
+        <div className="div-container w-full lg:w-[40rem] max-h-[38rem] overflow-auto pr-4 flex flex-col gap-4">
           {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((_, index) => (
             <GoalBox
               key={index}
@@ -23,8 +23,8 @@ export default function Goals() {
           ))}
         </div>
 
-        <div className="w-[28rem] h-auto gap-4 flex flex-col justify-start">
-          <div className="px-4 gap-1 text-3xl flex flex-col items-start justify-center w-full bg-themeLime h-48 rounded-2xl">
+        <div className="lg:w-[28rem] h-auto gap-4 flex flex-col justify-start">
+          <div className="px-4 gap-1 text-3xl flex flex-col items-start justify-center w-full bg-themeLime min-h-48 h-auto rounded-2xl">
             <div className="flex flex-row">
               <span className="font-bold underline underline-offset-4">
                 회원님의 목표
