@@ -106,3 +106,94 @@ export const postTodo = async (id: number, content: string) => {
   });
   return response;
 };
+
+/**
+ * SJW 2024.03.06
+ * 크루 모집방 조회 (GET)
+ */
+export const getCrew = async () => {
+  const response = await axios.get('/CrewExample.json');
+  return response.data.data || [];
+};
+
+/**
+ * SJW 2024.03.06
+ * 크루 모집방 추가 (POST)
+ */
+export const postCrew = async (crewId: number, userId: number, title: string, contents: string, like: number, createDate: Date, viewCnt: number, commentCnt: number, startDate: Date, endDate: Date, location: string, type: string, headcount: number, status: string) => {
+  const response = await axios.post('/CrewExample.json', {
+    crewId,
+    userId,
+    title,
+    contents,
+    like,
+    createDate,
+    viewCnt,
+    commentCnt,
+    startDate,
+    endDate,
+    location,
+    type,
+    headcount,
+    status,
+  });
+  return response;
+};
+
+/**
+ * SJW 2024.03.06
+ * 운동 루틴방 조회 (GET)
+ */
+export const getShare = async () => {
+  const response = await axios.get('/ShareExample.json');
+  return response.data.data || [];
+};
+
+/**
+ * SJW 2024.03.06
+ * 운동 루틴방 추가 (POST)
+ */
+export const postShare = async (shareId: number, userId: number, title: string, contents: string, like: number, createDate: Date, viewCnt: number, commentCnt: number) => {
+  const response = await axios.post('/ShareExample.json', {
+    shareId,
+    userId,
+    title,
+    contents,
+    like,
+    createDate,
+    viewCnt,
+    commentCnt,
+  });
+  return response;
+};
+
+/**
+ * SJW 2024.03.06
+ * 운동 질문방 조회 (GET)
+ */
+export const getQuestion = async () => {
+  const response = await axios.get('/QuestionExample.json');
+  return response.data.data || [];
+};
+
+/**
+ * SJW 2024.03.06
+ * 운동 질문방 추가 (POST)
+ */
+export const postQuestion = async (questionId: number, userId: number, title: string, contents: string, like: number, createDate: Date, viewCnt: number, commentCnt: number, type: string, status: string) => {
+  const response = await axios.post('/QuestionExample.json', {
+    questionId,
+    userId,
+    title,
+    contents,
+    like,
+    createDate,
+    viewCnt,
+    commentCnt,
+    location,
+    type,
+    status,
+  });
+  return response;
+};
+

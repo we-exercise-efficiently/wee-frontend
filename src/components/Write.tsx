@@ -39,8 +39,9 @@ useState(() => {
   return (
     <Container>
       <div className="w-[1194px] mx-auto py-[80px]">
-        <div className="px-[63px] rounded-3xl bg-gray-100 w-[1194px] h-[710px] py-[22px]">
-          <form onSubmit={handleSubmit}>
+        <div className="w-[1194px] h-[822px]">
+          <form onSubmit={handleSubmit} className="h-full">
+            <div className="px-[63px] py-[22px] w-[1194px] h-[705px] rounded-3xl bg-gray-100">
             <div>
               <label htmlFor="title" className="block text-gray-700" ></label>
               <input
@@ -55,7 +56,7 @@ useState(() => {
               />
             </div>
             <div className='border border-black-500 bg-black h-[3px]'>
-            {/* border */ }
+              {/* border */ }
             </div>
             <div>
               <label htmlFor="content" className="block text-[20px] text-gray-700"></label>
@@ -70,8 +71,8 @@ useState(() => {
                 className="mt-[22px] block w-full p-[5px] h-[560px] focus:border-gray-500 bg-gray-100 text-[20px] text-gray-700"
               ></textarea>
             </div>
-
-            <div className='mt-[18px] w-full h-[100px] flex items-center rounded-3xl border-[1px] border-black-500'>
+            </div>
+            <div className='mt-[18px] w-[1194px] h-[100px] flex items-center rounded-3xl border-[1px] border-black-500'>
               <div className="w-[120px] h-[50px] ml-[30px] mr-[710px] flex justify-between">
                 <img className="w-[48px] h-[48px] items-center" src={Gallary} alt="gallary"/>
                 <img className="w-[54px] h-[46px] items-center" src={Film} alt="film"/>
@@ -81,10 +82,9 @@ useState(() => {
                 <button type="submit" className="w-[142px] h-[64px] inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-full shadow-sm text-[22px] font-medium text-black bg-themeLime">작성</button>
               </div>
             </div>
-
           </form>
         </div>
-
+        
       </div>
     </Container>
   );

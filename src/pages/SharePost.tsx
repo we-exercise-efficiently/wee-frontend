@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import Container from '../components/Container';
 import SideBar from '../components/SideBar'; // SideBar 컴포넌트 import
+import { getShare } from '../apis/apis';
 
 interface Post {
     crewId: number;
@@ -45,22 +46,22 @@ export default function Post() {
     //const [comments, setComments] = useState<Comment[]>([]);
 
 
-    // 게시글 목록을 외부 JSON 파일에서 가져옴
     useEffect(() => {
-        fetch('/src/examples/ShareExample.json') 
-        .then(response => response.json())
-        .then(data => {
-            const foundPost = data.data.find((item: Post) => item.shareId === Number(shareId))
+        async function fetchData() {
+          try {
+            const shareData = await getShare();
+            const foundPost = shareData.find((item: Post) => item.shareId === Number(shareId));
             if (foundPost) {
-                setPosts(foundPost); // 가져온 데이터를 상태로 설정
+              setPosts(foundPost);
             } else {
-            console.error('Post not found');
+              console.error('Post not found');
             }
-        })
-        .catch(error => {
+          } catch (error) {
             console.error('Error fetching posts:', error);
-        });
-    }, [shareId]); // 컴포넌트가 마운트될 때 한 번만 실행
+          }
+        }
+        fetchData();
+      }, [shareId]);
 
     // const post = {
     //     title: '게시글 제목',

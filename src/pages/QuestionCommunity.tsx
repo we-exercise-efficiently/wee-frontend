@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Container from '../components/Container';
 import SideBar from '../components/SideBar'; // SideBar 컴포넌트 import
 import PostList from '../components/PostList';
+import { getQuestion } from '../apis/apis';
 
 interface Post {
   crewId: number;
@@ -29,7 +30,7 @@ export default function Community() {
   // 최신순 정렬
   const [sortBy, setSortBy] = useState('latest');
   // 게시글 개수 상태
-  const [postCount, setPostCount] = useState(10); // 초기값: 10개
+  const [postCount, setPostCount] = useState(5); 
   // 토글 상태
   const [toggle, setToggle] = useState(false);
   // useNavigate 훅을 사용하여 navigate 객체 가져오기
@@ -38,44 +39,83 @@ export default function Community() {
   const [searchResults, setSearchResults] = useState<Post[]>([]);
   // 외부 JSON 파일에서 가져온 게시글 목록 상태
   const [posts, setPosts] = useState<Post[]>([]);
+  // 페이지 번호 상태
+  const [pageNum, setPageNum] = useState(1); 
+  // 페이지당 보여질 게시글 수 상태
+  const [postCountPerPage, setPostPerPage] = useState(5); 
+  // 현재 보여지는 게시글 상태
+  const [displayedPosts, setDisplayedPosts] = useState<Post[]>([]);
+
+    // 검색 결과가 있는지 확인
+    const hasSearchResults = searchTerm !== '' && searchResults.length > 0;
+
+    // 출력할 게시글 목록
+    const displayPosts = hasSearchResults ? searchResults : posts.filter(post =>
+      post.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    useEffect(() => {
+      const startIndex = (pageNum - 1) * postCountPerPage;
+      const endIndex = startIndex + postCountPerPage;
+      const displayedPosts = displayPosts.slice(startIndex, endIndex);
+      setDisplayedPosts(displayedPosts);
+    }, [pageNum, postCountPerPage, displayPosts]);
 
   // 게시글 목록을 외부 JSON 파일에서 가져옴
   useEffect(() => {
-    fetch('../src/examples/QuestionExample.json') 
-      .then(response => response.json())
-      .then(data => {
-        if (data.code === '200') {
-          setPosts(data.data); // 가져온 데이터를 상태로 설정
-        } else {
-          console.error('Failed to fetch posts:', data.message);
-        }
-      })
-      .catch(error => {
+    async function fetchData() {
+      try {
+        const data = await getQuestion();
+        setPosts(data); // 가져온 데이터를 상태로 설정
+        setSearchResults(data); // 검색 결과 초기화
+      } catch (error) {
         console.error('Error fetching posts:', error);
-      });
+      }
+    }
+    fetchData();
   }, []); // 컴포넌트가 마운트될 때 한 번만 실행
 
 
   // 검색어 변경 핸들러
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value);
+    const { value } = e.target;
+    setSearchTerm(value);
+    // 검색어가 비어있으면 전체 게시글 보여줌
+    if (value === '') {
+      setSearchResults([]);
+    } else {
+      // 검색 결과 필터링
+      const results = posts.filter(post =>
+        post.title.toLowerCase().includes(value.toLowerCase()));
+        setSearchResults(results);
+    }
   };
 
   // 정렬 변경 핸들러
   const handleSortChange = (sortBy: string) => {
     setSortBy(sortBy);
+    let sortedPosts = [...posts];
+    if (sortBy === 'views') {
+      sortedPosts.sort((a, b) => b.viewCnt - a.viewCnt); // 조회수순으로 정렬
+    } else if (sortBy === 'likes') {
+      sortedPosts.sort((a, b) => b.like - a.like); // 좋아요순으로 정렬
+    } else if (sortBy === 'latest') {
+      sortedPosts.sort((a, b) => new Date(b.createDate).getTime() - new Date(a.createDate).getTime()); // 최신순으로 정렬
+    }
+    setPosts(sortedPosts); // 정렬된 게시글을 상태로 업데이트
   };
   
   // 게시글 개수 변경 핸들러
   const handlePostCountChange = (count: number) => {
     setPostCount(count);
+    setPostPerPage(count);
     setToggle(false); // 토글 닫기
   };
 
   // 글쓰기 버튼 클릭 핸들러
   const handleWritePost = () => {
     // 글쓰기 페이지로 이동
-    navigate('/write');
+    navigate('/community/question/write');
   };
 
   // 게시글 보기 핸들러
@@ -93,11 +133,14 @@ export default function Community() {
     setSearchResults(results);
   };
 
-  // 검색 결과가 있는지 확인
-  const hasSearchResults = searchTerm !== '' && searchResults.length > 0;
+  // 페이지네이션 UI
+  const pageCount = Math.ceil(displayPosts.length / postCountPerPage); // 전체 페이지 수
+  const pageNumbers = Array.from({ length: pageCount }, (_, index) => index + 1); // 페이지 번호 배열
 
-  // 출력할 게시글 목록
-  const displayPosts = hasSearchResults ? searchResults : posts;
+  // 페이지 번호 클릭 핸들러
+  const handlePageClick = (pageNumber: number) => {
+    setPageNum(pageNumber);
+  };
 
   return (
     <Container>
@@ -113,7 +156,7 @@ export default function Community() {
             handleSearchIconClick={handleSearchIconClick}
             handleSearchChange={handleSearchChange}
             // posts={posts}
-            // displayPosts={displayPosts}
+            displayPosts={displayPosts}
             // handleViewPost={handleViewPost}
             handleSortChange={handleSortChange}
             handlePostCountChange={handlePostCountChange}
@@ -127,14 +170,28 @@ export default function Community() {
           <div>
             <ul className="space-y-[19px]">
               {/* 게시글 아이템을 출력 */}
-              {displayPosts.map((post) => (
+              {displayedPosts.map((post) => (
                 <li key={post.questionId} className="w-[1035px] h-[225px] bg-gray-100 p-[33px] rounded-3xl cursor-pointer" onClick={() => handleViewPost(post.questionId)}>
                   <h3 className="text-lg font-semibold mb-2">{post.title}</h3>
                   <p className="text-gray-500">Likes: {post.like} | Views: {post.viewCnt}</p>
                 </li>
               ))}
             </ul>
-          </div> 
+          </div>
+           {/* 페이지네이션 UI */}
+          <div className='mt-[20px] flex justify-center items-center'>
+            <button className="mx-[10px]" disabled={pageNum === 1} onClick={() => handlePageClick(pageNum - 1)}>이전</button>
+            {pageNumbers.map((pageNumber) => (
+              <span
+                key={pageNumber}
+                className={`mx-[10px] cursor-pointer ${pageNum === pageNumber && 'font-bold'}`}
+                onClick={() => handlePageClick(pageNumber)}
+              >
+                {pageNumber}
+              </span>
+            ))}
+            <button className="mx-[10px]" disabled={pageNum === pageCount} onClick={() => handlePageClick(pageNum + 1)}>다음</button>
+          </div>
         </div>
       </div>
     </Container>

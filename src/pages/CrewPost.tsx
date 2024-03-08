@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import Container from '../components/Container';
 import SideBar from '../components/SideBar'; // SideBar 컴포넌트 import
+import { getCrew } from '../apis/apis';
 
 interface Post {
     crewId: number;
@@ -42,29 +43,45 @@ export default function Post() {
     // 글쓰기 버튼 클릭 핸들러
     const handleWritePost = () => {
         // 글쓰기 페이지로 이동
-        navigate('/write');
+        navigate('/community/crew/write');
     };
 
     const [post, setPosts] = useState<Post | null>(null);
     // const [comments, setComments] = useState<Comment[]>([]);
 
-
-    // 게시글 목록을 외부 JSON 파일에서 가져옴
     useEffect(() => {
-        fetch('/src/examples/CrewExample.json') 
-        .then(response => response.json())
-        .then(data => {
-            const foundPost = data.data.find((item: Post) => item.crewId === Number(crewId))
+        async function fetchData() {
+          try {
+            const crewData = await getCrew();
+            const foundPost = crewData.find((item: Post) => item.crewId === Number(crewId));
             if (foundPost) {
-                setPosts(foundPost); // 가져온 데이터를 상태로 설정
+              setPosts(foundPost);
             } else {
-            console.error('Post not found:');
+              console.error('Post not found');
             }
-        })
-        .catch(error => {
+          } catch (error) {
             console.error('Error fetching posts:', error);
-        });
-    }, [crewId]); // 컴포넌트가 마운트될 때 한 번만 실행
+          }
+        }
+        fetchData();
+      }, [crewId]);
+
+    // // 게시글 목록을 외부 JSON 파일에서 가져옴
+    // useEffect(() => {
+    //     fetch('/src/examples/CrewExample.json') 
+    //     .then(response => response.json())
+    //     .then(data => {
+    //         const foundPost = data.data.find((item: Post) => item.crewId === Number(crewId))
+    //         if (foundPost) {
+    //             setPosts(foundPost); // 가져온 데이터를 상태로 설정
+    //         } else {
+    //         console.error('Post not found:');
+    //         }
+    //     })
+    //     .catch(error => {
+    //         console.error('Error fetching posts:', error);
+    //     });
+    // }, [crewId]); // 컴포넌트가 마운트될 때 한 번만 실행
 
     // const post = {
     //     title: '게시글 제목',

@@ -9,29 +9,29 @@ import Search from '../assets/Community/search.svg';
 //   cnt: number;
 //   date: string;
 // }
-// interface Post {
-//   crewId: number;
-//   shareId: number;
-//   questionId : number;
-//   userId: number;
-//   title: string;
-//   contents: string;
-//   like: number;
-//   createDate: string;
-//   viewCnt: number;
-//   commentCnt: number;
-//   startDate: Date;
-//   endDate: Date;
-//   location: string;
-//   type: string;
-//   headcount: number;
-//   status: string;
-// }
+interface Post {
+  crewId: number;
+  shareId: number;
+  questionId : number;
+  userId: number;
+  title: string;
+  contents: string;
+  like: number;
+  createDate: string;
+  viewCnt: number;
+  commentCnt: number;
+  startDate: Date;
+  endDate: Date;
+  location: string;
+  type: string;
+  headcount: number;
+  status: string;
+}
 
 interface Props {
   setSearchTerm: (term: string) => void;
   // posts: Post[];
-  // displayPosts: Post[];
+  displayPosts: Post[];
   // handleViewPost: (postId: number) => void;
   handleSortChange: (sortBy: string) => void;
   handlePostCountChange: (count: number) => void;
@@ -50,7 +50,7 @@ const PostList: React.FC<Props> = ({
   //setSearchTerm,
   // posts,
   handleSearchIconClick,
-  // displayPosts, 
+  displayPosts, 
   // handleViewPost, 
   handleSortChange, 
   handlePostCountChange, 
