@@ -14,6 +14,8 @@ import Signup from "./pages/Signup";
 import KakaoLoginHandler from "./pages/LoginHandler/KakaoLoginHandler";
 import GoogleLoginHandler from "./pages/LoginHandler/GoogleLoginHandler";
 import NaverLoginHandler from "./pages/LoginHandler/NaverLoginHandler";
+import InfoCollect from "./pages/InfoCollect";
+import Goals from "./pages/Goals";
 
 export default function App() {
   return (
@@ -42,6 +44,8 @@ export default function App() {
         path={`/wee/user/login/naver/callback`}
         element={<NaverLoginHandler />}
       />
+      <Route path={`/info-collect`} element={<InfoCollect />} />
+      <Route path={`/goals`} element={<Goals />} />
     </Routes>
   );
 }
