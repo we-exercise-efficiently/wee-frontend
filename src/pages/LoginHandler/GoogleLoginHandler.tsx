@@ -1,11 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getGoogleLoginData, postLoginGoogle } from "../../apis/apis";
 import Loading from "../../components/Loading";
 
 export default function GoogleLoginHandler(props: any) {
   const code = new URL(window.location.href).searchParams.get("code") || "";
-  const [isEmail, setIsEmail] = useState<string>("");
   const nav = useNavigate();
 
   useEffect(() => {
