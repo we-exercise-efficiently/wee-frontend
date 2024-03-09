@@ -30,11 +30,11 @@ const Write: React.FC<WriteProps> = ({ navigateTo, saveToExample }) => {
   };
 
   // 컴포넌트가 마운트될 때 저장된 임시 데이터가 있는지 확인하고 있다면 상태에 설정
-useState(() => {
-  const tempPost = JSON.parse(localStorage.getItem('tempPost') || '{}');
-  setTitle(tempPost.title || '');
-  setContent(tempPost.content || '');
-});
+  useState(() => {
+    const tempPost = JSON.parse(localStorage.getItem('tempPost') || '{}');
+    setTitle(tempPost.title || '');
+    setContent(tempPost.content || '');
+  });
 
   return (
     <Container>

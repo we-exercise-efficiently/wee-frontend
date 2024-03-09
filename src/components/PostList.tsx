@@ -50,7 +50,7 @@ const PostList: React.FC<Props> = ({
   //setSearchTerm,
   // posts,
   handleSearchIconClick,
-  displayPosts, 
+  // displayPosts, 
   // handleViewPost, 
   handleSortChange, 
   handlePostCountChange, 
@@ -98,19 +98,6 @@ const PostList: React.FC<Props> = ({
           )}
         </div>
       </div>
-{/* 
-      {/* 게시글 목록 
-      <div>
-        <ul className="space-y-[19px]">
-          {/* 게시글 아이템을 출력 
-          {displayPosts.map((post) => (
-            <li key={post.crewId} className="w-[1035px] h-[225px] bg-gray-100 p-[33px] rounded-3xl cursor-pointer" onClick={() => handleViewPost(post.crewId)}>
-              <h3 className="text-lg font-semibold mb-2">{post.title}</h3>
-              <p className="text-gray-500">Likes: {post.like} | Views: {post.viewCnt}</p>
-            </li>
-          ))}
-        </ul>
-      </div> */}
     </div>
   );
 };

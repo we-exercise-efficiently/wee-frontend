@@ -120,24 +120,40 @@ export const getCrew = async () => {
  * SJW 2024.03.06
  * 크루 모집방 추가 (POST)
  */
-export const postCrew = async (crewId: number, userId: number, title: string, contents: string, like: number, createDate: Date, viewCnt: number, commentCnt: number, startDate: Date, endDate: Date, location: string, type: string, headcount: number, status: string) => {
-  const response = await axios.post('/CrewExample.json', {
-    crewId,
-    userId,
-    title,
-    contents,
-    like,
-    createDate,
-    viewCnt,
-    commentCnt,
-    startDate,
-    endDate,
-    location,
-    type,
-    headcount,
-    status,
-  });
-  return response;
+export const postCrew = async (userId: number, title: string, contents: string, like: number, createDate: Date, viewCnt: number, commentCnt: number, startDate: Date, endDate: Date, location: string, type: string, headcount: number, status: string) => {
+  try {
+    // 서버에서 가장 최근에 추가된 crewId 값을 가져옵니다.
+    const response = await axios.get('/CrewExample.json');
+    const data = response.data.data;
+    const lastCrew = data[data.length - 1];
+    const lastCrewId = lastCrew ? lastCrew.crewId : 0; // 마지막 crewId 값이 없으면 0으로 초기화합니다.
+
+    // 새로운 crewId 값을 계산합니다.
+    const newCrewId = lastCrewId + 1;
+
+    // 새로운 데이터를 서버에 추가합니다.
+    const postResponse = await axios.post('/CrewExample.json', {
+      crewId: newCrewId,
+      userId,
+      title,
+      contents,
+      like,
+      createDate,
+      viewCnt,
+      commentCnt,
+      startDate,
+      endDate,
+      location,
+      type,
+      headcount,
+      status,
+    });
+
+    return postResponse;
+  } catch (error) {
+    console.error('Error posting crew:', error);
+    throw error;
+  }
 };
 
 /**

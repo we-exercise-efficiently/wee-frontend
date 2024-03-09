@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Container from '../components/Container';
 import SideBar from '../components/SideBar'; // SideBar 컴포넌트 import
@@ -47,21 +47,55 @@ export default function Community() {
   // 현재 보여지는 게시글 상태
   const [displayedPosts, setDisplayedPosts] = useState<Post[]>([]);
 
-    // 검색 결과가 있는지 확인
-    const hasSearchResults = searchTerm !== '' && searchResults.length > 0;
+  // 검색 결과가 있는지 확인
+  const hasSearchResults = searchTerm !== '' && searchResults.length > 0;
 
-    // 출력할 게시글 목록
-    const displayPosts = hasSearchResults ? searchResults : posts.filter(post =>
+  // 검색어 변경 핸들러
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    setSearchTerm(value);
+  };
+
+  // 검색 결과 필터링
+  const filteredPosts = useMemo(() => {
+    return posts.filter(post =>
       post.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
+  }, [posts, searchTerm]);
 
-    useEffect(() => {
-      const startIndex = (pageNum - 1) * postCountPerPage;
-      const endIndex = startIndex + postCountPerPage;
-      const displayedPosts = displayPosts.slice(startIndex, endIndex);
-      setDisplayedPosts(displayedPosts);
-    }, [pageNum, postCountPerPage, displayPosts]);
+  useEffect(() => {
+    // 검색 결과 필터링
+    const results = posts.filter(post =>
+      post.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setSearchResults(results);
+  }, [posts, searchTerm]);
 
+  // 출력할 게시글 목록
+  const displayPosts = hasSearchResults ? searchResults : filteredPosts;
+
+  // 페이지네이션을 위한 게시글 목록
+  const paginatedPosts = useMemo(() => {
+    const startIndex = (pageNum - 1) * postCountPerPage;
+    const endIndex = startIndex + postCountPerPage;
+    return displayPosts.slice(startIndex, endIndex);
+  }, [displayPosts, pageNum, postCountPerPage]);
+
+  // 검색어나 검색 결과가 변경될 때 페이지 번호를 1로 초기화
+  useEffect(() => {
+    setPageNum(1);
+  }, [searchTerm, searchResults]);
+
+  useEffect(() => {
+    setDisplayedPosts(paginatedPosts);
+  }, [paginatedPosts]);
+
+  useEffect(() => {
+    const startIndex = (pageNum - 1) * postCountPerPage;
+    const endIndex = startIndex + postCountPerPage;
+    const displayedPosts = displayPosts.slice(startIndex, endIndex);
+    setDisplayedPosts(displayedPosts);
+  }, [pageNum, postCountPerPage, displayPosts]);
 
   // 게시글 목록을 외부 JSON 파일에서 가져옴
   useEffect(() => {
@@ -77,38 +111,47 @@ export default function Community() {
     fetchData();
   }, []); // 컴포넌트가 마운트될 때 한 번만 실행
 
-  // // 게시글 목록을 외부 JSON 파일에서 가져옴
-  // useEffect(() => {
-  //   fetch('/CrewExample.json') 
-  //     .then(response => response.json())
-  //     .then(data => {
-  //       console.log(data); // 데이터 확인용 로그
-  //       if (data.code === '200') {
-  //         setPosts(data.data); // 가져온 데이터를 상태로 설정
-  //       } else {
-  //         console.error('Failed to fetch posts:', data.message);
-  //       }
-  //     })
-  //     .catch(error => {
-  //       console.error('Error fetching posts:', error);
-  //     });
-  // }, []); // 컴포넌트가 마운트될 때 한 번만 실행
+      // // 출력할 게시글 목록
+    // const displayPosts = hasSearchResults ? searchResults : posts.filter(post =>
+    //   post.title.toLowerCase().includes(searchTerm.toLowerCase())
+    // );
 
-
-  // 검색어 변경 핸들러
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    setSearchTerm(value);
-    // 검색어가 비어있으면 전체 게시글 보여줌
-    if (value === '') {
-      setSearchResults([]);
-    } else {
-      // 검색 결과 필터링
-      const results = posts.filter(post =>
-        post.title.toLowerCase().includes(value.toLowerCase()));
-        setSearchResults(results);
-    }
-  };
+    // // 검색어 변경 핸들러
+    // const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //   const { value } = e.target;
+    //   setSearchTerm(value);
+    //   // 검색어가 비어있으면 전체 게시글 보여줌
+    //   if (value === '') {
+    //     setSearchResults([]);
+    //   } else {
+    //     // 검색 결과 필터링
+    //     const results = posts.filter(post =>
+    //       post.title.toLowerCase().includes(value.toLowerCase()));
+    //       setSearchResults(results);
+    //   }
+    // };
+    // useEffect(() => {
+    //   const startIndex = (pageNum - 1) * postCountPerPage;
+    //   const endIndex = startIndex + postCountPerPage;
+    //   const displayedPosts = displayPosts.slice(startIndex, endIndex);
+    //   setDisplayedPosts(displayedPosts);
+    // }, [pageNum, postCountPerPage, displayPosts]);
+    //
+    // // 게시글 목록을 외부 JSON 파일에서 가져옴
+    // useEffect(() => {
+    //   fetch('/CrewExample.json') 
+    //     .then(response => response.json())
+    //     .then(data => {
+    //       if (data.code === '200') {
+    //         setPosts(data.data); // 가져온 데이터를 상태로 설정
+    //       } else {
+    //         console.error('Failed to fetch posts:', data.message);
+    //       }
+    //     })
+    //     .catch(error => {
+    //       console.error('Error fetching posts:', error);
+    //     });
+    // }, []); // 컴포넌트가 마운트될 때 한 번만 실행
 
   // 정렬 변경 핸들러
   const handleSortChange = (sortBy: string) => {
@@ -166,10 +209,8 @@ export default function Community() {
       <div className="flex my-[77px] ml-[96px] mr-[443px]">
         {/* 왼쪽 영역 */}
         <SideBar handleWritePost={handleWritePost} />
-
         {/* 오른쪽 영역 */}
         <div className="ml-[87px]">
-
           <PostList
             searchTerm={searchTerm}
             setSearchTerm={setSearchTerm}
