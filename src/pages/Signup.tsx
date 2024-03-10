@@ -165,7 +165,7 @@ export default function Signup() {
         console.log(`response start ::`);
         const response = await getEmailValidation(email);
         console.log(response);
-        if (response.data.status === 200) {
+        if (response.data.code === 200) {
           // 정상적으로 사용 가능한 이메일이면
           setIsUsable("사용 가능한 이메일 입니다.");
           setIsDuplicated(false);

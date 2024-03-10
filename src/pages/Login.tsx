@@ -80,12 +80,7 @@ export default function Login() {
             />
             <label className="mb-1 mt-4">비밀번호</label>
             <input
-              {...register("password", {
-                minLength: {
-                  message: "비밀번호는 최소 8글자 이상입니다.",
-                  value: 8,
-                },
-              })}
+              {...register("password")}
               type="password"
               autoComplete="off"
               placeholder="비밀번호"
