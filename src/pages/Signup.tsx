@@ -2,7 +2,7 @@ import Container from "../components/Container";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import useScrollReset from "../utils/useScrollReset";
-import { postSignup } from "../apis/apis";
+import { getEmailValidation, postSignup } from "../apis/apis";
 
 export interface ISignupProps {
   email: string;
@@ -48,6 +48,10 @@ export default function Signup() {
     select1: false,
     select2: false,
   }); // 동의 체크여부
+
+  const [isDuplicated, setIsDuplicated] = useState<boolean>(true);
+
+  const [isUsable, setIsUsable] = useState<string>("");
 
   const reset = useScrollReset();
 
@@ -120,7 +124,7 @@ export default function Signup() {
     const isPasswordValid = await trigger("password");
     const isPasswordCheckValid = await trigger("passwordCheck");
 
-    if (isIdValid && isPasswordValid && isPasswordCheckValid) {
+    if (isIdValid && isPasswordValid && isPasswordCheckValid && !isDuplicated) {
       if (getValues("password") === getValues("passwordCheck")) {
         onNextPage();
       } else {
@@ -143,6 +147,41 @@ export default function Signup() {
         onNextPage();
       } catch (error) {
       } finally {
+      }
+    }
+  };
+
+  /**
+   * LJM 2024.03.06
+   * 현재 Server Network Error 가 발생
+   * DeadLine 이 다가오므로 일단 구현
+   */
+  const onCheck = async () => {
+    let email = getValues("email");
+    let validate = await trigger("email");
+    if (email && validate) {
+      console.log(email);
+      try {
+        console.log(`response start ::`);
+        const response = await getEmailValidation(email);
+        console.log(response);
+        if (response.data.code === 200) {
+          // 정상적으로 사용 가능한 이메일이면
+          setIsUsable("사용 가능한 이메일 입니다.");
+          setIsDuplicated(false);
+          //
+        } else {
+          setIsUsable("");
+          setIsDuplicated(true);
+          // 그렇지 않으면
+          setError("email", {
+            message: "사용 할 수 없는 이메일 입니다.",
+          });
+        }
+      } catch (error) {
+        console.error(error);
+      } finally {
+        console.log(`:: response end`);
       }
     }
   };
@@ -188,7 +227,7 @@ export default function Signup() {
                 <label className="mb-1" htmlFor="loginId">
                   이메일 또는 아이디
                 </label>
-                <div className="w-full relative">
+                <div className="flex flex-row justify-between items-center w-full relative">
                   <input
                     {...register("email", {
                       required: "* 아이디를 입력해 주세요.",
@@ -199,16 +238,33 @@ export default function Signup() {
                     })}
                     onChange={() => {
                       clearErrors("email");
+                      setIsDuplicated(true);
+                      setIsUsable("");
                     }}
                     type="text"
                     autoComplete="off"
                     placeholder="name@weemail.com"
                     id="email"
-                    className="focus:outline-none focus:bg-transparent w-full rounded-sm border-2 px-2 py-2 bg-transparent border-themeLime"
+                    className="focus:outline-none focus:bg-transparent w-full rounded-t-sm rounded-b-sm rounded-l-sm border-2 px-2 py-2 bg-transparent border-themeLime"
                   />
-                  <p className="absolute left-0 -bottom-5 text-xs text-red-400">
-                    {errors?.email?.message}
-                  </p>
+                  <div
+                    onClick={onCheck}
+                    className="cursor-pointer flex rounded-r-sm bg-themeLime py-1 border-themeLime border-2 flex-col justify-center items-center px-4 text-xs"
+                  >
+                    <h2 className="text-center text-themeDark font-bold">
+                      중복 확인
+                    </h2>
+                  </div>
+
+                  {isUsable === "" ? (
+                    <p className="absolute left-0 -bottom-5 text-xs text-red-400">
+                      {errors?.email?.message}
+                    </p>
+                  ) : (
+                    <p className="absolute left-0 -bottom-5 text-xs text-green-400">
+                      {isUsable}
+                    </p>
+                  )}
                 </div>
 
                 <label className="mb-1 mt-6" htmlFor="password">

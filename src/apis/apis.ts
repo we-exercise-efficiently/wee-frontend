@@ -86,12 +86,36 @@ export function postLoginNaver(code: string) {
   );
 }
 
+export function getGoogleLoginData(token: string) {
+  let url = `https://www.googleapis.com/oauth2/v3/userinfo`;
+  return instance.get(url, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}
+
+/**
+ * LJM 2024.03.06
+ * @param email 중복검사 할 이메일
+ * @returns
+ */
+export function getEmailValidation(email: string) {
+  const url = `${import.meta.env.VITE_BASE_URL}/wee/user/register/checkemail`;
+
+  return axios.get(url, {
+    params: {
+      email,
+    },
+  });
+}
+
 /**
  * JCJ 2024.02.21
  * 투두리스트 조회 (GET)
  */
 export const getTodo = async () => {
-  const response = await axios.get('/DummyData.json');
+  const response = await axios.get("/DummyData.json");
   return response.data.todos || [];
 };
 
@@ -288,4 +312,5 @@ export const postQuestion = async (questionId: number, userId: number, title: st
   });
   return response;
 };
+
 

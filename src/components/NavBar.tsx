@@ -16,7 +16,9 @@ export default function NavBar() {
           ? "/ai"
           : destination === "main"
           ? "/"
-          : destination
+          : destination === "community"
+          ? "/community/crew"
+          : `/${destination}`
       }`
     );
   };

@@ -64,3 +64,33 @@
   background-color: #fade4b;
   color: #3a1d1d;
 }
+
+.select-without-arrow {
+  -webkit-appearance: none; /* Chrome, Safari, Opera */
+  -moz-appearance: none; /* Firefox */
+  appearance: none; /* 표준 속성 */
+}
+
+/* 스크롤바의 전체 컨테이너를 위한 스타일 */
+.div-container::-webkit-scrollbar {
+  border-radius: 4px;
+  width: 8px; /* 스크롤바의 너비 */
+}
+
+/* 스크롤바 트랙(바탕)을 위한 스타일 */
+.div-container::-webkit-scrollbar-track {
+  border-radius: 4px;
+  background: #f1f1f1; /* 트랙의 배경 색상 */
+}
+
+/* 스크롤바 핸들(썸)을 위한 스타일 */
+.div-container::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background: #0627f0; /* 핸들의 배경 색상 */
+  cursor: pointer;
+}
+
+/* 스크롤바 핸들(썸)을 위한 hover 스타일 */
+.div-container::-webkit-scrollbar-thumb:hover {
+  background: #0627f0; /* 핸들을 호버했을 때의 배경 색상 */
+}
