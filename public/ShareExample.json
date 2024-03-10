@@ -1,0 +1,16 @@
+{
+    "code": "200",
+    "message": "SUCCESS",
+    "data": [
+        {
+            "shareId":1,
+            "userId": 121,
+            "title":"식단 공유",
+            "contents":"안알려줄거임",
+            "like":3,
+            "createDate":"2024.02.19",
+            "viewCnt":50,
+            "commentCnt":1
+        }
+    ]
+}

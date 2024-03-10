@@ -5,6 +5,8 @@ import CrewCommunity from './pages/CrewCommunity';
 import ShareCommunity from './pages/ShareCommunity';
 import QuestionCommunity from './pages/QuestionCommunity';
 import CrewWrite from "./pages/CrewWrite";
+import QuestionWrite from "./pages/QuestionWrite";
+import ShareWrite from "./pages/ShareWrite";
 import CrewPost from "./pages/CrewPost";
 import SharePost from "./pages/SharePost";
 import QuestionPost from "./pages/QuestionPost";
@@ -27,6 +29,8 @@ export default function App() {
       <Route path={`/community/question`} element={<QuestionCommunity />} />
       <Route path={`/community/share`} element={<ShareCommunity />} />
       <Route path={`/community/crew/write`} element={<CrewWrite />} /> 
+      <Route path={`/community/question/write`} element={<QuestionWrite />} /> 
+      <Route path={`/community/share/write`} element={<ShareWrite />} /> 
       <Route path={`/community/crew/:crewId`} element={<CrewPost />} />
       <Route path={`/community/share/:shareId`} element={<SharePost />} />
       <Route path={`/community/question/:questionId`} element={<QuestionPost />} />

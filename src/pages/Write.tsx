@@ -26,7 +26,15 @@ export default function Write() {
 
   // 임시 저장 함수
   const handleTempSave = () => {
-    // 여기에 임시 저장 로직 추가
+    // 임시 저장 로직 추가
+    saveTempPost({ title, content });
+  };
+
+  // 임시 저장된 게시글을 로컬 스토리지에 저장하는 함수
+  const saveTempPost = (post: { title: string; content: string }) => {
+    const tempPosts = JSON.parse(localStorage.getItem('tempPosts') || '[]');
+    tempPosts.push(post);
+    localStorage.setItem('tempPosts', JSON.stringify(tempPosts));
   };
 
   return (
