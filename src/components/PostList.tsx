@@ -9,29 +9,38 @@ import Search from '../assets/Community/search.svg';
 //   cnt: number;
 //   date: string;
 // }
-interface Post {
+interface IPost {
   crewId: number;
   shareId: number;
   questionId : number;
   userId: number;
   title: string;
-  contents: string;
-  like: number;
+  content: string;
+  likes: number;
   createDate: string;
-  viewCnt: number;
+  hit: number;
   commentCnt: number;
-  startDate: Date;
-  endDate: Date;
+  period: string;
   location: string;
   type: string;
-  headcount: number;
-  status: string;
+  headCount: number;
+  crewStatus: string;
+  answerStatus: string;
+  shareStatus: string;
+  comments: Array<IComment>;
+}
+
+interface IComment {
+  id: number;
+  date: string;
+  author: string;
+  content: string;
 }
 
 interface Props {
   setSearchTerm: (term: string) => void;
   // posts: Post[];
-  displayPosts: Post[];
+  displayPosts: IPost[];
   // handleViewPost: (postId: number) => void;
   handleSortChange: (sortBy: string) => void;
   handlePostCountChange: (count: number) => void;
@@ -60,9 +69,9 @@ const PostList: React.FC<Props> = ({
   setToggle 
 }) => {
   return (
-    <div>
+    <div className="mx-auto">
         {/* 검색 창 */}
-        <div className="mb-[57px] w-[1034px] h-[51px] border-b border-black flex justify-between items-center">
+        <div className="sm:w-[500px] md:w-[700px] lg:w-[1034px] xl:w-full mb-[57px] h-[51px] border-b border-black flex justify-between items-center">
             <input
                 type="text"
                 placeholder="검색하기"

@@ -5,23 +5,50 @@ import SideBar from '../components/SideBar'; // SideBar 컴포넌트 import
 import PostList from '../components/PostList';
 import { getQuestion } from '../apis/apis';
 
-interface Post {
+// interface IPost {
+//   crewId: number;
+//   shareId: number;
+//   questionId: number;
+//   userId: number;
+//   title: string;
+//   contents: string;
+//   like: number;
+//   createDate: string;
+//   viewCnt: number;
+//   commentCnt: number;
+//   startDate: Date;
+//   endDate: Date;
+//   location: string;
+//   type: string;
+//   headcount: number;
+//   status: string;
+// }
+interface IPost {
   crewId: number;
   shareId: number;
   questionId: number;
   userId: number;
   title: string;
-  contents: string;
-  like: number;
+  content: string;
+  likes: number;
   createDate: string;
-  viewCnt: number;
+  hit: number;
+  image: string;
   commentCnt: number;
-  startDate: Date;
-  endDate: Date;
+  period: string;
   location: string;
   type: string;
-  headcount: number;
-  status: string;
+  headCount: number;
+  crewStatus: string;
+  answerStatus: string;
+  shareStatus: string;
+  comments: Array<IComment>;
+}
+interface IComment {
+  id: number;
+  date: string;
+  author: string;
+  content: string;
 }
 
 export default function Community() {
@@ -36,15 +63,15 @@ export default function Community() {
   // useNavigate 훅을 사용하여 navigate 객체 가져오기
   const navigate = useNavigate();
   // 검색 결과 게시글 목록 상태
-  const [searchResults, setSearchResults] = useState<Post[]>([]);
+  const [searchResults, setSearchResults] = useState<IPost[]>([]);
   // 외부 JSON 파일에서 가져온 게시글 목록 상태
-  const [posts, setPosts] = useState<Post[]>([]);
+  const [posts, setPosts] = useState<IPost[]>([]);
   // 페이지 번호 상태
   const [pageNum, setPageNum] = useState(1); 
   // 페이지당 보여질 게시글 수 상태
   const [postCountPerPage, setPostPerPage] = useState(5); 
   // 현재 보여지는 게시글 상태
-  const [displayedPosts, setDisplayedPosts] = useState<Post[]>([]);
+  const [displayedPosts, setDisplayedPosts] = useState<IPost[]>([]);
 
   // 검색 결과가 있는지 확인
   const hasSearchResults = searchTerm !== '' && searchResults.length > 0;
@@ -101,8 +128,9 @@ export default function Community() {
     async function fetchData() {
       try {
         const data = await getQuestion();
-        setPosts(data); // 가져온 데이터를 상태로 설정
-        setSearchResults(data); // 검색 결과 초기화
+        const posts: IPost[] = data.content || [];
+        setPosts(posts); // 가져온 데이터를 상태로 설정
+        setSearchResults(posts); // 검색 결과 초기화
       } catch (error) {
         console.error('Error fetching posts:', error);
       }
@@ -115,9 +143,9 @@ export default function Community() {
     setSortBy(sortBy);
     let sortedPosts = [...posts];
     if (sortBy === 'views') {
-      sortedPosts.sort((a, b) => b.viewCnt - a.viewCnt); // 조회수순으로 정렬
+      sortedPosts.sort((a, b) => b.hit - a.hit); // 조회수순으로 정렬
     } else if (sortBy === 'likes') {
-      sortedPosts.sort((a, b) => b.like - a.like); // 좋아요순으로 정렬
+      sortedPosts.sort((a, b) => b.likes - a.likes); // 좋아요순으로 정렬
     } else if (sortBy === 'latest') {
       sortedPosts.sort((a, b) => new Date(b.createDate).getTime() - new Date(a.createDate).getTime()); // 최신순으로 정렬
     }
@@ -163,12 +191,12 @@ export default function Community() {
 
   return (
     <Container>
-      <div className="flex my-[77px] ml-[96px] mr-[443px]">
+      <div className="flex my-[77px] ml-[96px] mr-[443px] border border-blue-500">
         {/* 왼쪽 영역 */}
         <SideBar handleWritePost={handleWritePost} />
 
         {/* 오른쪽 영역 */}
-        <div className="ml-[87px]">
+        <div className="ml-[87px] border border-red-500">
           <PostList
             searchTerm={searchTerm}
             setSearchTerm={setSearchTerm}
@@ -192,7 +220,7 @@ export default function Community() {
               {displayedPosts.map((post) => (
                 <li key={post.questionId} className="w-[1035px] h-[225px] bg-gray-100 p-[33px] rounded-3xl cursor-pointer" onClick={() => handleViewPost(post.questionId)}>
                   <h3 className="text-lg font-semibold mb-2">{post.title}</h3>
-                  <p className="text-gray-500">Likes: {post.like} | Views: {post.viewCnt}</p>
+                  <p className="text-gray-500">Likes: {post.likes} | Views: {post.hit}</p>
                 </li>
               ))}
             </ul>

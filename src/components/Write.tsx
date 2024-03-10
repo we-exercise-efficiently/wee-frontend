@@ -7,14 +7,17 @@ import Film from '../assets/Community/film.svg';
 interface WriteProps {
   navigateTo: string; // 작성 후 이동할 경로
   saveToExample: (data: any) => void;
+  showPeriodAndLocation?: boolean; // period와 location을 표시할지 여부를 결정하는 프로퍼티
 }
 
-const Write: React.FC<WriteProps> = ({ navigateTo, saveToExample }) => {
+const Write: React.FC<WriteProps> = ({ navigateTo, saveToExample,showPeriodAndLocation }) => {
   const navigate = useNavigate();
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [period, setPeriod] = useState(''); 
+  const [location, setLocation] = useState(''); 
+  const [type, setType] = useState(''); 
 
-  
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // 게시글 작성 후 데이터 저장
@@ -68,9 +71,44 @@ const Write: React.FC<WriteProps> = ({ navigateTo, saveToExample }) => {
                 onChange={(e) => setContent(e.target.value)}
                 required
                 placeholder='내용'
-                className="mt-[22px] block w-full p-[5px] h-[560px] focus:border-gray-500 bg-gray-100 text-[20px] text-gray-700"
+                className="my-[22px] block w-full p-[5px] h-[300px] focus:border-gray-500 bg-gray-100 text-[20px] text-gray-700"
               ></textarea>
             </div>
+            {showPeriodAndLocation && (
+              <div>
+                <label htmlFor="period" className="block text-gray-700">기간</label>
+                <input
+                  type="text"
+                  id="period"
+                  name="period"
+                  value={period}
+                  onChange={(e) => setPeriod(e.target.value)}
+                  placeholder='기간을 입력하세요'
+                  className="mb-[22px] block w-full p-[5px] h-[24px] focus:border-gray-500 bg-gray-100 text-[18px] placeholder-black"
+                />
+
+                <label htmlFor="location" className="block text-gray-700">위치</label>
+                <input
+                  type="text"
+                  id="location"
+                  name="location"
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
+                  placeholder='위치를 입력하세요'
+                  className="mb-[22px] block w-full p-[5px] h-[24px] focus:border-gray-500 bg-gray-100 text-[18px] placeholder-black"
+                />
+              </div>
+            )}
+            <label htmlFor="type" className="block text-gray-700">유형</label>
+            <input
+              type="text"
+              id="type"
+              name="type"
+              value={type}
+              onChange={(e) => setType(e.target.value)}
+              placeholder='유형을 입력하세요'
+              className="mb-[22px] block w-full p-[5px] h-[24px] focus:border-gray-500 bg-gray-100 text-[18px] placeholder-black"
+            />
             </div>
             <div className='mt-[18px] w-[1194px] h-[100px] flex items-center rounded-3xl border-[1px] border-black-500'>
               <div className="w-[120px] h-[50px] ml-[30px] mr-[710px] flex justify-between">

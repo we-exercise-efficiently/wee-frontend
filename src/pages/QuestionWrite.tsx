@@ -17,7 +17,7 @@ const QuestionWrite: React.FC = () => {
 
   return (
     <div>
-      <Write navigateTo={navigateTo} saveToExample={saveToExample} />
+      <Write navigateTo={navigateTo} saveToExample={saveToExample} showPeriodAndLocation={false}/>
     </div>
   );
 };

@@ -15,7 +15,7 @@ const SideBar: React.FC<Props> = ({ handleWritePost }) => {
   };
 
   return (
-    <div className="w-[259px] h-[483px]">
+    <div className="w-[259px] h-[483px] ">
       <div className="mt-[71px]">
         {/* 사용자 프로필 */}
         <div className="pt-[46px] mb-[30px] w-[259px] h-[166px] bg-gray-100 rounded-3xl">

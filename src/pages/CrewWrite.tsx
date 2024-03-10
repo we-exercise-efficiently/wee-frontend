@@ -4,7 +4,8 @@ import { postCrew } from '../apis/apis';
 
 const CrewWrite: React.FC = () => {
   const saveToExample = (data: any) => {
-    postCrew(data.userId, data.title, data.contents, data.like, data.createDate, data.viewCnt, data.commentCnt, data.startDate, data.endDate, data.location, data.type, data.headcount, data.status)
+    // data.crewId, data.userId, data.title, data.contents, data.like, data.createDate, data.viewCnt, data.commentCnt, data.startDate, data.endDate, data.location, data.type, data.headcount, data.status
+    postCrew(data)
     .then(response => {
       console.log('Data added to CrewExample.json:', response.data);
     })
@@ -26,7 +27,7 @@ const CrewWrite: React.FC = () => {
   return (
     <div>
       {/* Write 컴포넌트를 CrewWrite 안에서 사용합니다. */}
-      <Write navigateTo={navigateTo} saveToExample={handleSubmit}/>
+      <Write navigateTo={navigateTo} saveToExample={handleSubmit} showPeriodAndLocation={true}/>
     </div>
   );
 };
