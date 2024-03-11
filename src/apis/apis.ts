@@ -25,7 +25,26 @@ const instance = axios.create({
  */
 export function postLogin(data: ILoginDataProps) {
   const url = `${import.meta.env.VITE_BASE_URL}/wee/user/login`;
-  return instance.post(url, data);
+
+  return instance
+    .post(url, data)
+    .then((response) => {
+      if (response.data.code === 200) {
+        // 200 login success
+        const accessToken = response.data.data["accessToken"];
+
+        instance.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${accessToken}`;
+
+        return true;
+      } else {
+        throw new Error("Login Failed");
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+    });
 }
 
 /**
