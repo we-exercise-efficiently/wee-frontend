@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import useScrollReset from "../../utils/useScrollReset";
 
 /**
  * LJM 2024.01.08
@@ -7,6 +8,12 @@ import { useEffect, useRef, useState } from "react";
 export default function AiRecommand() {
   const targetRef = useRef<HTMLDivElement | null>(null);
   const [isView, setIsView] = useState<boolean>(false);
+  const nav = useScrollReset();
+
+  const onMove = (event: React.MouseEvent<HTMLDivElement>) => {
+    let destination = event.currentTarget.id;
+    nav(`/${destination}`);
+  };
 
   useEffect(() => {
     const options: IntersectionObserverInit = {
@@ -56,7 +63,11 @@ export default function AiRecommand() {
               isView && "sm:w-3/5"
             } flex flex-row justify-center items-center`}
           >
-            <div className="p-12 sm:absolute gap-4 border-4 border-themeDark right-0 z-30 w-80 h-80 bg-themeBlue rounded-full flex flex-col justify-center items-center text-white">
+            <div
+              onClick={onMove}
+              id="ai"
+              className="cursor-pointer p-12 sm:absolute gap-4 border-4 border-themeDark right-0 z-30 w-80 h-80 bg-themeBlue rounded-full flex flex-col justify-center items-center text-white"
+            >
               <div className="flex flex-col justify-center items-center">
                 <div className="h-2/5 flex-col mt-10">
                   <h2 className="font-extrabold text-4xl">SMART AI ROUTINE</h2>
