@@ -36,18 +36,10 @@ export default function Login() {
    * @param data 로그인 데이터
    */
   const onValid = async (data: ILoginDataProps) => {
-    try {
-      const response = await postLogin(data);
-      console.log(response);
-
-      if (response.status === 200) {
-        console.log("=== LOGIN SUCCESS ===");
-        nav("/");
-      }
-    } catch (error) {
-      console.error(error);
-    } finally {
-      console.log(data);
+    const response = await postLogin(data);
+    console.log(response);
+    if (response) {
+      nav("/");
     }
   };
 
