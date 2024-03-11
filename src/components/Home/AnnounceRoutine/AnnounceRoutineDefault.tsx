@@ -1,3 +1,5 @@
+import useScrollReset from "../../../utils/useScrollReset";
+
 interface IAnnounceTestProps {
   setHasData: Function;
 }
@@ -13,6 +15,12 @@ interface IAnnounceTestProps {
 export default function AnnounceRoutineDefault({
   setHasData,
 }: IAnnounceTestProps) {
+  const nav = useScrollReset();
+  const onMove = (event: React.MouseEvent<HTMLDivElement>) => {
+    let destination = event.currentTarget.id;
+    nav(`/${destination}`);
+  };
+
   return (
     <div className="my-48 mx-16 flex flex-col justify-start items-start">
       <h2 className="font-bold text-2xl">
@@ -26,7 +34,9 @@ export default function AnnounceRoutineDefault({
         }}
       >
         <div
-          className="bg-white border relative text-themeBlue rounded-xl min-h-[32rem] sm:h-auto flex flex-col gap-2 justify-start py-8 items-start px-8"
+          onClick={onMove}
+          id="community/crew"
+          className="bg-white cursor-pointer border relative text-themeBlue rounded-xl min-h-[32rem] sm:h-auto flex flex-col gap-2 justify-start py-8 items-start px-8"
           style={{
             gridColumn: "4 / span 2", // 1열
             gridRow: "1 / span 2", // 2행에서 시작해 3행까지 차지
@@ -64,7 +74,9 @@ export default function AnnounceRoutineDefault({
         </div>
 
         <div
-          className="bg-themeDark relative text-white rounded-xl min-h-[32rem] sm:h-auto flex flex-col gap-2 justify-start py-8 items-start px-8"
+          onClick={onMove}
+          id="ai"
+          className="bg-themeDark cursor-pointer relative text-white rounded-xl min-h-[32rem] sm:h-auto flex flex-col gap-2 justify-start py-8 items-start px-8"
           style={{
             gridColumn: "1 / span 3", // 2열에서 시작해 3열을 차지
             gridRow: "1 / span 2", // 2행에서 시작해 3행까지 차지
