@@ -13,8 +13,12 @@
 import axios from "axios";
 import { ILoginDataProps } from "../pages/Login";
 import { ISignupProps } from "../pages/Signup";
+import { IInfoFormDataProps } from "../pages/InfoCollect";
+import tokenRefresher from "./refresh";
 
+// refresh 가 필요없는 일반 인스턴스
 const instance = axios.create({
+  baseURL: import.meta.env.VITE_BASE_URL,
   withCredentials: true,
 });
 
@@ -23,12 +27,13 @@ const instance = axios.create({
  * @param data login interface
  * @returns 로그인 요청 API 함수 (POST)
  */
-export function postLogin(data: ILoginDataProps) {
+export async function postLogin(data: ILoginDataProps) {
   const url = `${import.meta.env.VITE_BASE_URL}/wee/user/login`;
 
-  return instance
+  return tokenRefresher
     .post(url, data)
     .then((response) => {
+      console.log(response);
       if (response.data.code === 200) {
         // 200 login success
         const accessToken = response.data.data["accessToken"];
@@ -53,7 +58,7 @@ export function postLogin(data: ILoginDataProps) {
  */
 export function postSignup(data: ISignupProps) {
   const url = `${import.meta.env.VITE_BASE_URL}/wee/user/register`;
-  return instance.post(url, data);
+  return tokenRefresher.post(url, data);
 }
 
 /**
@@ -127,4 +132,50 @@ export function getEmailValidation(email: string) {
       email,
     },
   });
+}
+
+/**
+ * LJM 2024.03.11
+ * 회원 탈퇴
+ */
+export function deleteMemberInfo() {
+  const url = `${import.meta.env.VITE_BASE_URL}/wee/user/mypage`;
+
+  return tokenRefresher.delete(url);
+}
+
+/**
+ * LJM 2024.03.11
+ * 회원 정보 가져오기
+ * @returns
+ */
+export function getMemberInfo() {
+  let url = `${import.meta.env.VITE_BASE_URL}/wee/user/mypage`;
+
+  return tokenRefresher.get(url);
+}
+
+/**
+ * LJM 2024.03.12
+ * 회원 정보 수정
+ * @returns
+ */
+export function patchMemberInfo(data: IInfoFormDataProps) {
+  let url = `${import.meta.env.VITE_BASE_URL}/wee/user/mypage`;
+
+  return tokenRefresher.patch(url, {
+    body: data,
+  });
+}
+
+/**
+ * LJM 2024.03.12
+ * 현재 더미데이터를 가져오는 로직. 추후 수정 예정.
+ * Promise 로 lazy loading test 중
+ *
+ */
+export async function getRoutineData() {
+  let url = `${import.meta.env.VITE_BASE_URL}/wee/user/mainpage`;
+
+  return tokenRefresher.get(url);
 }
