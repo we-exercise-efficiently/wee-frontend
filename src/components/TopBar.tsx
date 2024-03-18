@@ -30,7 +30,8 @@ export default function TopBar() {
   return (
     <div className="bg-slate-100 px-10 py-1 flex flex-row justify-between">
       <div id="main" onClick={onMove} className="cursor-pointer">
-        <h2>심플로고</h2>
+        {/* Symbol-Logo */}
+        <img src="logo-symbol.svg" width={"28"} height={"27"} />
       </div>
       <div className="flex flex-row  gap-2 sm:gap-12 text-xs text-slate-700">
         <div className="border-r border-slate-400 flex items-center justify-center">

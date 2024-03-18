@@ -33,7 +33,7 @@ export default function NavBar() {
           className="absolute left-10 hidden sm:block cursor-pointer"
         >
           {/* Typo-Logo */}
-          <h2>타이포 로고</h2>
+          <img src="logo-typo.svg" width={"142"} height={"29"} />
         </div>
 
         <div className="flex flex-row justify-between items-center gap-4">
