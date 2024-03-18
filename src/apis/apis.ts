@@ -13,8 +13,12 @@
 import axios from "axios";
 import { ILoginDataProps } from "../pages/Login";
 import { ISignupProps } from "../pages/Signup";
+import { IInfoFormDataProps } from "../pages/InfoCollect";
+import tokenRefresher from "./refresh";
 
+// refresh 가 필요없는 일반 인스턴스
 const instance = axios.create({
+  baseURL: import.meta.env.VITE_BASE_URL,
   withCredentials: true,
 });
 
@@ -23,12 +27,13 @@ const instance = axios.create({
  * @param data login interface
  * @returns 로그인 요청 API 함수 (POST)
  */
-export function postLogin(data: ILoginDataProps) {
+export async function postLogin(data: ILoginDataProps) {
   const url = `${import.meta.env.VITE_BASE_URL}/wee/user/login`;
 
-  return instance
+  return tokenRefresher
     .post(url, data)
     .then((response) => {
+      console.log(response);
       if (response.data.code === 200) {
         // 200 login success
         const accessToken = response.data.data["accessToken"];
@@ -53,7 +58,7 @@ export function postLogin(data: ILoginDataProps) {
  */
 export function postSignup(data: ISignupProps) {
   const url = `${import.meta.env.VITE_BASE_URL}/wee/user/register`;
-  return instance.post(url, data);
+  return tokenRefresher.post(url, data);
 }
 
 /**
@@ -130,6 +135,52 @@ export function getEmailValidation(email: string) {
 }
 
 /**
+ * LJM 2024.03.11
+ * 회원 탈퇴
+ */
+export function deleteMemberInfo() {
+  const url = `${import.meta.env.VITE_BASE_URL}/wee/user/mypage`;
+
+  return tokenRefresher.delete(url);
+}
+
+/**
+ * LJM 2024.03.11
+ * 회원 정보 가져오기
+ * @returns
+ */
+export function getMemberInfo() {
+  let url = `${import.meta.env.VITE_BASE_URL}/wee/user/mypage`;
+
+  return tokenRefresher.get(url);
+}
+
+/**
+ * LJM 2024.03.12
+ * 회원 정보 수정
+ * @returns
+ */
+export function patchMemberInfo(data: IInfoFormDataProps) {
+  let url = `${import.meta.env.VITE_BASE_URL}/wee/user/mypage`;
+
+  return tokenRefresher.patch(url, {
+    body: data,
+  });
+}
+
+/**
+ * LJM 2024.03.12
+ * 현재 더미데이터를 가져오는 로직. 추후 수정 예정.
+ * Promise 로 lazy loading test 중
+ *
+ */
+export async function getRoutineData() {
+  let url = `${import.meta.env.VITE_BASE_URL}/wee/user/mainpage`;
+
+  return tokenRefresher.get(url);
+}
+
+/**
  * JCJ 2024.02.21
  * 투두리스트 조회 (GET)
  */
@@ -161,13 +212,13 @@ export const postTodo = async (id: number, content: string) => {
 // };
 
 export const getCrew = async () => {
-  try{
+  try {
     const url = `${import.meta.env.VITE_BASE_URL}/wee/comm/crew/list`;
     const response = await axios.get(url);
     const crewData = response.data.data || [];
     return crewData;
   } catch (error) {
-    console.error('Error fetchig crew:', error);
+    console.error("Error fetchig crew:", error);
     throw error;
   }
 };
@@ -218,12 +269,27 @@ export const postCrew = async (crewData: any) => {
     const postResponse = await axios.post(url, crewData);
     return postResponse;
   } catch (error) {
-    console.error('Error posting crew:', error);
+    console.error("Error posting crew:", error);
     throw error;
   }
 };
 
-export const postCrew1 = async (crewId: number, userId: number, title: string, contents: string, like: number, createDate: Date, viewCnt: number, commentCnt: number, startDate: Date, endDate: Date, location: string, type: string, headcount: number, status: string) => {
+export const postCrew1 = async (
+  crewId: number,
+  userId: number,
+  title: string,
+  contents: string,
+  like: number,
+  createDate: Date,
+  viewCnt: number,
+  commentCnt: number,
+  startDate: Date,
+  endDate: Date,
+  location: string,
+  type: string,
+  headcount: number,
+  status: string
+) => {
   try {
     const url = `${import.meta.env.VITE_BASE_URL}/wee/comm/crew`;
     // 서버에서 가장 최근에 추가된 crewId 값을 가져옵니다.
@@ -255,7 +321,7 @@ export const postCrew1 = async (crewId: number, userId: number, title: string, c
 
     return postResponse;
   } catch (error) {
-    console.error('Error posting crew:', error);
+    console.error("Error posting crew:", error);
     throw error;
   }
 };
@@ -265,24 +331,32 @@ export const postCrew1 = async (crewId: number, userId: number, title: string, c
  * 운동 루틴방 조회 (GET)
  */
 export const getShare = async () => {
-  try{
+  try {
     const url = `${import.meta.env.VITE_BASE_URL}/wee/comm/share/list`;
     const response = await axios.get(url);
     const shareData = response.data.data || [];
     return shareData;
   } catch (error) {
-    console.error('Error fetchig crew:', error);
+    console.error("Error fetchig crew:", error);
     throw error;
   }
 };
-
 
 /**
  * SJW 2024.03.06
  * 운동 루틴방 추가 (POST)
  */
-export const postShare = async (shareId: number, userId: number, title: string, contents: string, like: number, createDate: Date, viewCnt: number, commentCnt: number) => {
-  const response = await axios.post('/ShareExample.json', {
+export const postShare = async (
+  shareId: number,
+  userId: number,
+  title: string,
+  contents: string,
+  like: number,
+  createDate: Date,
+  viewCnt: number,
+  commentCnt: number
+) => {
+  const response = await axios.post("/ShareExample.json", {
     shareId,
     userId,
     title,
@@ -300,13 +374,13 @@ export const postShare = async (shareId: number, userId: number, title: string, 
  * 운동 질문방 조회 (GET)
  */
 export const getQuestion = async () => {
-  try{
+  try {
     const url = `${import.meta.env.VITE_BASE_URL}/wee/comm/question/list`;
     const response = await axios.get(url);
     const questionData = response.data.data || [];
     return questionData;
   } catch (error) {
-    console.error('Error fetchig crew:', error);
+    console.error("Error fetchig crew:", error);
     throw error;
   }
 };
@@ -315,8 +389,19 @@ export const getQuestion = async () => {
  * SJW 2024.03.06
  * 운동 질문방 추가 (POST)
  */
-export const postQuestion = async (questionId: number, userId: number, title: string, contents: string, like: number, createDate: Date, viewCnt: number, commentCnt: number, type: string, status: string) => {
-  const response = await axios.post('/QuestionExample.json', {
+export const postQuestion = async (
+  questionId: number,
+  userId: number,
+  title: string,
+  contents: string,
+  like: number,
+  createDate: Date,
+  viewCnt: number,
+  commentCnt: number,
+  type: string,
+  status: string
+) => {
+  const response = await axios.post("/QuestionExample.json", {
     questionId,
     userId,
     title,
@@ -331,5 +416,3 @@ export const postQuestion = async (questionId: number, userId: number, title: st
   });
   return response;
 };
-
-

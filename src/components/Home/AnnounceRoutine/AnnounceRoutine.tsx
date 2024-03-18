@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import AnnounceRoutineLine from "../AnnounceRoutine/AnnounceRoutineLine";
 
 interface IAnnounceTestProps {
@@ -13,6 +14,12 @@ interface IAnnounceTestProps {
  * @returns 홈페이지 루틴소개
  */
 export default function AnnounceRoutine({ setHasData }: IAnnounceTestProps) {
+  useEffect(() => {
+    const getData = async () => {};
+
+    getData();
+  }, []);
+
   return (
     <div className="my-48 mx-16 flex flex-col justify-start items-start">
       <h2 className="font-bold text-2xl">
@@ -33,7 +40,7 @@ export default function AnnounceRoutine({ setHasData }: IAnnounceTestProps) {
           }}
         >
           <div className="flex items-center justify-start gap-2 w-full">
-            <h2 className="font-extrabold underline">{`${"3KG 건강하게 빼기"}`}</h2>
+            <h2 className="font-extrabold underline">{`${"3kg 감량"}`}</h2>
             <h2 className=" font-medium">까지</h2>
           </div>
           <h2 className="font-medium">WEE 가 함께해요</h2>
@@ -48,7 +55,7 @@ export default function AnnounceRoutine({ setHasData }: IAnnounceTestProps) {
           <h2 className="text-lg font-medium text-white">현재 몸무게는</h2>
           <div className="w-full">
             <h2 className="text-6xl font-bold text-center text-themeLime">
-              80Kg
+              {"60kg"}
             </h2>
           </div>
         </div>
@@ -70,7 +77,7 @@ export default function AnnounceRoutine({ setHasData }: IAnnounceTestProps) {
               <h2 className="text-3xl">달성률</h2>
             </div>
             <div className="flex flex-row items-end justify-center">
-              <h2 className="text-8xl font-bold">60</h2>
+              <h2 className="text-8xl font-bold">{"70"}</h2>
               <h2 className="text-4xl pb-1">%</h2>
             </div>
           </div>
