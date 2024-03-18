@@ -28,9 +28,5 @@ export default function GoogleLoginHandler(props: any) {
     googleLogin();
   }, [props.history]);
 
-  return (
-    <div className="w-screen h-screen bg-themeDark">
-      <Loading />
-    </div>
-  );
+  return <Loading />;
 }

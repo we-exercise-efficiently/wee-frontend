@@ -1,4 +1,5 @@
 import axios from "axios";
+import { ILogTypes, logHandler } from "../utils/logHandler";
 
 const tokenRefresher = axios.create({
   baseURL: import.meta.env.VITE_BASE_URL,
@@ -7,23 +8,30 @@ const tokenRefresher = axios.create({
 
 tokenRefresher.interceptors.request.use(
   function (config) {
-    console.log(`>> INTERCEPTED REQUEST <<`);
+    logHandler({ text: `>> INTERCEPTED REQUEST <<`, type: ILogTypes.ALERT });
     return config;
   },
   function (error) {
-    console.log(`>> INTERCEPTED REQUEST, BUT ERROR OCCURED <<`, error);
+    logHandler({
+      text: `>> INTERCEPTED REQUEST, BUT ERROR OCCURED <<`,
+      type: ILogTypes.WARNNING,
+      error,
+    });
     return Promise.reject(error);
   }
 );
 
 tokenRefresher.interceptors.response.use(
   async function (response) {
-    console.log(`>> INTERCEPTED RESPONSE <<`);
+    logHandler({ text: `>> INTERCEPTED RESPONSE <<`, type: ILogTypes.ALERT });
     return response;
   },
   async function (error) {
-    console.log(`>> INTERCEPTED RESPONSE, BUT ERROR OCCURED <<`);
-
+    logHandler({
+      text: `>> INTERCEPTED RESPONSE, BUT ERROR OCCURED <<`,
+      type: ILogTypes.WARNNING,
+      error,
+    });
     // 401 에러 발생 시 "/" 페이지 이동
     if (error.response.status === 401) {
       window.location.href = "/";

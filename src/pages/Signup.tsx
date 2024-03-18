@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import useScrollReset from "../utils/useScrollReset";
 import { getEmailValidation, postSignup } from "../apis/apis";
+import { ILogTypes, logHandler } from "../utils/logHandler";
 
 export interface ISignupProps {
   email: string;
@@ -97,17 +98,20 @@ export default function Signup() {
       // 필수 선택란을 전부 선택했을 시
       try {
         // 추후 API 추가
+        logHandler({ text: `SIGNUP START >>`, type: ILogTypes.NORMAL });
         const response = await postSignup(data);
         console.log(response);
         if (response.status === 200) {
           // 추후 조건 수정
-          console.log("==== Singup Success ====");
+          logHandler({ text: `SIGNUP SUCCESS`, type: ILogTypes.NORMAL });
           reset("/login");
         }
       } catch (error) {
         console.error(error);
+        logHandler({ text: `SIGNUP FAILED`, type: ILogTypes.WARNNING });
       } finally {
         console.log(data);
+        logHandler({ text: `<< SIGNUP END`, type: ILogTypes.NORMAL });
       }
     } else {
       setIsTermMessage("* 필수 선택란을 선택해 주세요.");
@@ -155,22 +159,35 @@ export default function Signup() {
    * LJM 2024.03.06
    * 현재 Server Network Error 가 발생
    * DeadLine 이 다가오므로 일단 구현
+   * (2024.03.18 수정 완료)
    */
   const onCheck = async () => {
     let email = getValues("email");
     let validate = await trigger("email");
     if (email && validate) {
-      console.log(email);
       try {
-        console.log(`response start ::`);
         const response = await getEmailValidation(email);
-        console.log(response);
+        logHandler({
+          text: `REQUEST START >>`,
+          type: ILogTypes.NORMAL,
+        });
+
         if (response.data.code === 200) {
+          console.log(response);
           // 정상적으로 사용 가능한 이메일이면
+          logHandler({
+            text: `USABLE EMAIL`,
+            type: ILogTypes.SUCCESS,
+          });
           setIsUsable("사용 가능한 이메일 입니다.");
           setIsDuplicated(false);
           //
         } else {
+          logHandler({
+            text: `CANNOT USABLE EMAIL`,
+            type: ILogTypes.WARNNING,
+          });
+
           setIsUsable("");
           setIsDuplicated(true);
           // 그렇지 않으면
@@ -181,7 +198,7 @@ export default function Signup() {
       } catch (error) {
         console.error(error);
       } finally {
-        console.log(`:: response end`);
+        logHandler({ text: `<< REQUEST END`, type: ILogTypes.NORMAL });
       }
     }
   };
