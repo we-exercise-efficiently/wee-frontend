@@ -5,6 +5,7 @@ import InfoBlock, { IInfoBlockProps } from "../components/MyPages/InfoBlock";
 import { InfoBlocks } from "../jsons/statics";
 import { deleteMemberInfo, getMemberInfo } from "../apis/apis";
 import Loading from "../components/Loading";
+import { ILogTypes, logHandler } from "../utils/logHandler";
 
 /**
  *  2024.01.16
@@ -12,12 +13,12 @@ import Loading from "../components/Loading";
  */
 export default function Mypage() {
   const [isAdded, _] = useState<boolean>(false);
-  const [isLoading, __] = useState<boolean>(false);
-  const nav = useScrollReset();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const reset = useScrollReset();
 
   const onMove = (event: React.MouseEvent<HTMLDivElement>) => {
     let destination = event.currentTarget.id;
-    nav(`/${destination}`);
+    reset(`/${destination}`);
   };
 
   /**
@@ -27,13 +28,19 @@ export default function Mypage() {
    */
   const onWithdraw = async () => {
     try {
+      setIsLoading(true);
+      logHandler({ text: `WITHDRAW START >>`, type: ILogTypes.NORMAL });
       const response = await deleteMemberInfo();
-      console.log(response);
+      if (response.data.status === 200) {
+        logHandler({ text: `WITHDRAW SUCCESS`, type: ILogTypes.SUCCESS });
+        console.log(response);
+      }
     } catch (error) {
+      logHandler({ text: `WITHDRAW FAILED`, type: ILogTypes.WARNNING });
       console.error(error);
     } finally {
       // 탈퇴 성공 시, 에러 발생시 main page 로 이동
-      nav("/");
+      reset("/");
     }
   };
 
@@ -49,6 +56,7 @@ export default function Mypage() {
    * 4. 해당 데이터와 일치하는 값을 출력
    */
   useEffect(() => {
+    // 첫 마운팅 시
     const getData = async () => {
       try {
         const response = await getMemberInfo();
@@ -56,9 +64,13 @@ export default function Mypage() {
         if (response.data.code === 200) {
           // 성공 했을 시
           // 기존 데이터 삽입
+          setIsLoading(false);
+          // 로딩 상태 해제
         }
       } catch (error) {
         // 실패 시
+        // 로그인을 다시 시키기 위해
+        reset("/");
       }
     };
 
