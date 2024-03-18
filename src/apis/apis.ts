@@ -32,11 +32,9 @@ export async function postLogin(data: ILoginDataProps) {
   const url = `${import.meta.env.VITE_BASE_URL}/wee/user/login`;
 
   return tokenRefresher.post(url, data).then((response) => {
-    logHandler({ text: `LOGIN START >>`, type: ILogTypes.NORMAL });
     console.log(response);
     if (response.data.code === 200) {
       // 200 login success
-      logHandler({ text: `LOGIN SUCCESS`, type: ILogTypes.SUCCESS });
       const accessToken = response.data.data["accessToken"];
 
       instance.defaults.headers.common[
