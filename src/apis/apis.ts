@@ -15,6 +15,7 @@ import { ILoginDataProps } from "../pages/Login";
 import { ISignupProps } from "../pages/Signup";
 import { IInfoFormDataProps } from "../pages/InfoCollect";
 import tokenRefresher from "./refresh";
+import { ILogTypes, logHandler } from "../utils/logHandler";
 
 // refresh 가 필요없는 일반 인스턴스
 const instance = axios.create({
@@ -30,26 +31,26 @@ const instance = axios.create({
 export async function postLogin(data: ILoginDataProps) {
   const url = `${import.meta.env.VITE_BASE_URL}/wee/user/login`;
 
-  return tokenRefresher
-    .post(url, data)
-    .then((response) => {
-      console.log(response);
-      if (response.data.code === 200) {
-        // 200 login success
-        const accessToken = response.data.data["accessToken"];
+  return tokenRefresher.post(url, data).then((response) => {
+    logHandler({ text: `LOGIN START >>`, type: ILogTypes.NORMAL });
+    console.log(response);
+    if (response.data.code === 200) {
+      // 200 login success
+      logHandler({ text: `LOGIN SUCCESS`, type: ILogTypes.SUCCESS });
+      const accessToken = response.data.data["accessToken"];
 
-        instance.defaults.headers.common[
-          "Authorization"
-        ] = `Bearer ${accessToken}`;
+      instance.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${accessToken}`;
 
-        return true;
-      } else {
-        throw new Error("Login Failed");
-      }
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+      return true;
+    } else {
+      logHandler({ text: `LOGIN FAILED`, type: ILogTypes.WARNNING });
+    }
+  });
+  // .catch((_) => {
+  //   // console.error(error);
+  // });
 }
 
 /**

@@ -10,7 +10,6 @@ export default function TopBar() {
   const nav = useNavigate();
 
   const onMove = (event: React.MouseEvent<HTMLHeadElement>) => {
-    // console.log(event.currentTarget.id);
     let destination = event.currentTarget.id;
     // 이동 할 장소 지정
     nav(`/${destination === "main" ? "" : destination}`);

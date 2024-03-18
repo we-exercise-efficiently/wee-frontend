@@ -24,9 +24,5 @@ export default function NaverLoginHandler(props: any) {
     naverLogin();
   }, [props.history]);
 
-  return (
-    <div className="w-screen h-screen bg-themeDark">
-      <Loading />
-    </div>
-  );
+  return <Loading />;
 }
