@@ -2,13 +2,9 @@ import { useEffect, useState } from "react";
 import AnnounceRoutineLine from "../AnnounceRoutine/AnnounceRoutineLine";
 import { IUserInfoProps } from "../../../models/userInfo.model";
 import { getMemberInfo } from "../../../apis/apis";
-import { FaFaceDizzy } from "react-icons/fa6";
-
-import { cardio } from "ldrs";
-import { FaSmileWink } from "react-icons/fa";
 import { ILogTypes, logHandler } from "../../../utils/logHandler";
-
-cardio.register();
+import Error from "../../../pages/Error";
+import Loading from "../../Loading";
 
 // Default values shown
 
@@ -59,23 +55,12 @@ export default function AnnounceRoutine() {
   }, []);
 
   return isError ? (
-    <div className="my-16 rounded-xl mx-16 flex flex-col gap-2 h-96 bg-themeDark text-white justify-center items-center">
-      <FaFaceDizzy className="text-themeLime mb-8 animate-shake" size={82} />
-      <div className="flex flex-row justify-between items-center gap-4 text-themeLime">
-        <span className="text-3xl font-bold">오류가 발생했어요... :(</span>
-      </div>
-      <p className="text-slate-500 text-lg">
-        새로고침을 하거나 다시 접속해주세요
-      </p>
+    <div className="my-16 rounded-xl mx-16 h-96 bg-themeDark text-white">
+      <Error />
     </div>
   ) : isLoading ? (
-    <div className="my-16 rounded-xl mx-16 flex flex-col gap-2 h-96 bg-themeDark text-white justify-center items-center">
-      <FaSmileWink className="text-themeLime mb-8 animate-shake" size={82} />
-      <div className="flex flex-row justify-between items-center gap-4 text-themeLime">
-        <span className="text-3xl font-bold">잠시만 기다려 주세요</span>
-        <l-bouncy size="24" speed="1.75" color="rgb(209 253 10)" />
-      </div>
-      <p className="text-slate-500 text-lg">환영하기 위해 준비 중 입니다!</p>
+    <div className="my-16 rounded-xl mx-16 h-96 bg-themeDark text-white">
+      <Loading />
     </div>
   ) : (
     <div className="my-16 mx-16 flex flex-col justify-start items-start">
