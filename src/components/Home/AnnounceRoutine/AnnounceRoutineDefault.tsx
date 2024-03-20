@@ -1,9 +1,5 @@
 import useScrollReset from "../../../utils/useScrollReset";
 
-interface IAnnounceTestProps {
-  setHasData: Function;
-}
-
 /**
  * LJM 2024.02.02
  *
@@ -12,9 +8,7 @@ interface IAnnounceTestProps {
  * @param setHasData TEST-TOGGLE BUTTON
  * @returns 루틴 설정을 안했을 시 나타나는 component
  */
-export default function AnnounceRoutineDefault({
-  setHasData,
-}: IAnnounceTestProps) {
+export default function AnnounceRoutineDefault() {
   const nav = useScrollReset();
   const onMove = (event: React.MouseEvent<HTMLDivElement>) => {
     let destination = event.currentTarget.id;
@@ -104,13 +98,6 @@ export default function AnnounceRoutineDefault({
             />
           </svg>
         </div>
-      </div>
-
-      <div
-        className="bg-slate-300 px-4 py-2 rounded-full text-white cursor-pointer"
-        onClick={() => setHasData((current: boolean) => !current)}
-      >
-        TEST
       </div>
     </div>
   );

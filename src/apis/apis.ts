@@ -172,6 +172,9 @@ export function patchMemberInfo(data: IInfoFormDataProps) {
  * LJM 2024.03.12
  * 현재 더미데이터를 가져오는 로직. 추후 수정 예정.
  * Promise 로 lazy loading test 중
+ * ----
+ * LJM 2024.03.18
+ * 수정 완료
  *
  */
 export async function getRoutineData() {
