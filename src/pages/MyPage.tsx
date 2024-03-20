@@ -6,7 +6,7 @@ import { InfoBlocks } from "../jsons/statics";
 import { deleteMemberInfo, getMemberInfo } from "../apis/apis";
 import Loading from "../components/Loading";
 import { ILogTypes, logHandler } from "../utils/logHandler";
-import { IUserInfoProps } from "../models/mypage.model";
+// import { IUserInfoProps } from "../models/mypage.model";
 
 /**
  *  2024.01.16
@@ -17,7 +17,7 @@ export default function Mypage() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const reset = useScrollReset();
 
-  const [isUserInfo, setIsUserInfo] = useState<IUserInfoProps>();
+  // const [isUserInfo, setIsUserInfo] = useState<IUserInfoProps>();
 
   const onMove = (event: React.MouseEvent<HTMLDivElement>) => {
     let destination = event.currentTarget.id;
