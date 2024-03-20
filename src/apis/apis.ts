@@ -36,8 +36,9 @@ export async function postLogin(data: ILoginDataProps) {
     if (response.data.code === 200) {
       // 200 login success
       const accessToken = response.data.data["accessToken"];
+      console.log(accessToken);
 
-      instance.defaults.headers.common[
+      tokenRefresher.defaults.headers.common[
         "Authorization"
       ] = `Bearer ${accessToken}`;
 

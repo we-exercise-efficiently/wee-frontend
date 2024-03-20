@@ -34,7 +34,7 @@ tokenRefresher.interceptors.response.use(
     });
     // 401 에러 발생 시 "/" 페이지 이동
     if (error.response.status === 401) {
-      window.location.href = "/";
+      // window.location.href = "/";
     }
     return Promise.reject(error);
   }
