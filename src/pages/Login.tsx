@@ -61,7 +61,9 @@ export default function Login() {
   return (
     <Container>
       {isLoading ? (
-        <Loading />
+        <div className="w-screen h-screen bg-themeDark">
+          <Loading />
+        </div>
       ) : (
         <div className="bg-themeDark text-gray-100 min-h-[100vh] flex flex-col justify-start items-center">
           <div className="flex flex-col gap-2 justify-start items-start mt-12 mb-12 w-72">

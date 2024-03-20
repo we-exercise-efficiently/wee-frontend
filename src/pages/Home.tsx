@@ -14,7 +14,7 @@ import AnnounceRoutine from "../components/Home/AnnounceRoutine/AnnounceRoutine"
  */
 export default function Home() {
   // 추후 zustand 연결 시 loggedIn 으로 global logic 화 할 예정
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(true);
+  const [isLoggedIn, _] = useState<boolean>(true);
 
   useEffect(() => {}, []);
 
