@@ -1,4 +1,4 @@
-import { Suspense, useState } from "react";
+import { useEffect, useState } from "react";
 import Container from "../components/Container";
 import AiRecommand from "../components/Home/AiRecommand";
 import CommunityRecommand from "../components/Home/CommunityRecommand";
@@ -13,7 +13,10 @@ import AnnounceRoutine from "../components/Home/AnnounceRoutine/AnnounceRoutine"
  * @returns 메인페이지
  */
 export default function Home() {
-  const [_, setHasData] = useState<boolean>(false);
+  // 추후 zustand 연결 시 loggedIn 으로 global logic 화 할 예정
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(true);
+
+  useEffect(() => {}, []);
 
   return (
     <Container>
@@ -32,9 +35,7 @@ export default function Home() {
       <TodayTips />
 
       {/* Announce Routine */}
-      <Suspense fallback={<AnnounceRoutineDefault setHasData={setHasData} />}>
-        <AnnounceRoutine setHasData={setHasData} />
-      </Suspense>
+      {isLoggedIn ? <AnnounceRoutine /> : <AnnounceRoutineDefault />}
     </Container>
   );
 }

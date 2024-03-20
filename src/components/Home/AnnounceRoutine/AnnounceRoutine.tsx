@@ -1,9 +1,16 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import AnnounceRoutineLine from "../AnnounceRoutine/AnnounceRoutineLine";
+import { IUserInfoProps } from "../../../models/userInfo.model";
+import { getMemberInfo } from "../../../apis/apis";
+import { FaFaceDizzy } from "react-icons/fa6";
 
-interface IAnnounceTestProps {
-  setHasData: Function;
-}
+import { cardio } from "ldrs";
+import { FaSmileWink } from "react-icons/fa";
+import { ILogTypes, logHandler } from "../../../utils/logHandler";
+
+cardio.register();
+
+// Default values shown
 
 /**
  * LJM 2024.01.08
@@ -13,17 +20,69 @@ interface IAnnounceTestProps {
  *
  * @returns 홈페이지 루틴소개
  */
-export default function AnnounceRoutine({ setHasData }: IAnnounceTestProps) {
+export default function AnnounceRoutine() {
+  const [isUserInfo, setIsUserInfo] = useState<IUserInfoProps>();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isError, setIsError] = useState<boolean>(false);
+
   useEffect(() => {
-    const getData = async () => {};
+    // 첫 마운팅 시
+    const getData = async () => {
+      try {
+        const response = await getMemberInfo();
+        console.log(response);
+        if (response.data.code === 200) {
+          // 성공 했을 시
+          setIsUserInfo(response.data.data);
+          // 기존 데이터 삽입
+          setTimeout(() => {
+            setIsLoading(false);
+          }, 3000);
+          // 로딩 상태 해제
+        }
+      } catch (error) {
+        // 실패 시
+        // 로그인을 다시 시키기 위해
+        // reset("/");
+        console.error(error);
+        logHandler({
+          text: "MAINPAGE INFO ERROR OCCURED",
+          type: ILogTypes.WARNNING,
+        });
+        setTimeout(() => {
+          setIsError(true);
+        }, 3000);
+      }
+    };
 
     getData();
   }, []);
 
-  return (
-    <div className="my-48 mx-16 flex flex-col justify-start items-start">
+  return isError ? (
+    <div className="my-16 rounded-xl mx-16 flex flex-col gap-2 h-96 bg-themeDark text-white justify-center items-center">
+      <FaFaceDizzy className="text-themeLime mb-8 animate-shake" size={82} />
+      <div className="flex flex-row justify-between items-center gap-4 text-themeLime">
+        <span className="text-3xl font-bold">오류가 발생했어요... :(</span>
+      </div>
+      <p className="text-slate-500 text-lg">
+        새로고침을 하거나 다시 접속해주세요
+      </p>
+    </div>
+  ) : isLoading ? (
+    <div className="my-16 rounded-xl mx-16 flex flex-col gap-2 h-96 bg-themeDark text-white justify-center items-center">
+      <FaSmileWink className="text-themeLime mb-8 animate-shake" size={82} />
+      <div className="flex flex-row justify-between items-center gap-4 text-themeLime">
+        <span className="text-3xl font-bold">잠시만 기다려 주세요</span>
+        <l-bouncy size="24" speed="1.75" color="rgb(209 253 10)" />
+      </div>
+      <p className="text-slate-500 text-lg">환영하기 위해 준비 중 입니다!</p>
+    </div>
+  ) : (
+    <div className="my-16 mx-16 flex flex-col justify-start items-start">
       <h2 className="font-bold text-2xl">
-        {`${3}일 연속 루틴 달성 중인 ${"이준모"}님의 오늘 루틴입니다!`}
+        {`${3}일 연속 루틴 달성 중인 ${
+          isUserInfo?.nickname
+        }님의 오늘 루틴입니다!`}
       </h2>
       <div
         className="bg-transparent p-1 xl:grid flex flex-col w-full min-h-[32rem] gap-4 rounded-xl mt-4"
@@ -40,7 +99,9 @@ export default function AnnounceRoutine({ setHasData }: IAnnounceTestProps) {
           }}
         >
           <div className="flex items-center justify-start gap-2 w-full">
-            <h2 className="font-extrabold underline">{`${"3kg 감량"}`}</h2>
+            <h2 className="font-extrabold underline">
+              {isUserInfo?.info.goal}
+            </h2>
             <h2 className=" font-medium">까지</h2>
           </div>
           <h2 className="font-medium">WEE 가 함께해요</h2>
@@ -77,7 +138,7 @@ export default function AnnounceRoutine({ setHasData }: IAnnounceTestProps) {
               <h2 className="text-3xl">달성률</h2>
             </div>
             <div className="flex flex-row items-end justify-center">
-              <h2 className="text-8xl font-bold">{"70"}</h2>
+              <h2 className="text-8xl font-bold">{"60"}</h2>
               <h2 className="text-4xl pb-1">%</h2>
             </div>
           </div>
@@ -107,12 +168,6 @@ export default function AnnounceRoutine({ setHasData }: IAnnounceTestProps) {
             />
           </div>
         </div>
-      </div>
-      <div
-        className="bg-slate-300 px-4 py-2 rounded-full text-white cursor-pointer"
-        onClick={() => setHasData((current: boolean) => !current)}
-      >
-        TEST
       </div>
     </div>
   );

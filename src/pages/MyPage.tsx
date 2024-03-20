@@ -6,7 +6,7 @@ import { InfoBlocks } from "../jsons/statics";
 import { deleteMemberInfo, getMemberInfo } from "../apis/apis";
 import Loading from "../components/Loading";
 import { ILogTypes, logHandler } from "../utils/logHandler";
-// import { IUserInfoProps } from "../models/mypage.model";
+import { IUserInfoProps } from "../models/userInfo.model";
 
 /**
  *  2024.01.16
@@ -15,9 +15,9 @@ import { ILogTypes, logHandler } from "../utils/logHandler";
 export default function Mypage() {
   const [isAdded, _] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const reset = useScrollReset();
+  const [isUserInfo, setIsUserInfo] = useState<IUserInfoProps>();
 
-  // const [isUserInfo, setIsUserInfo] = useState<IUserInfoProps>();
+  const reset = useScrollReset();
 
   const onMove = (event: React.MouseEvent<HTMLDivElement>) => {
     let destination = event.currentTarget.id;
@@ -66,7 +66,7 @@ export default function Mypage() {
         console.log(response);
         if (response.data.code === 200) {
           // 성공 했을 시
-
+          setIsUserInfo(response.data.data);
           // 기존 데이터 삽입
           setIsLoading(false);
           // 로딩 상태 해제
@@ -92,7 +92,7 @@ export default function Mypage() {
           {/* 1번째 */}
           <div className="flex flex-col sm:grid sm:grid-cols-2 gap-4">
             <div className="bg-transparent rounded-2xl p-4 h-48">
-              <div className="flex flex-row gap-4 justify-start items-center">
+              <div className="flex flex-row gap-4 justify-start items-center h-full">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -114,73 +114,87 @@ export default function Mypage() {
                 </svg>
 
                 <h2 className="text-3xl font-bold text-white">
-                  <span className="hidden lg:inline-block">
-                    코끼리도 초식동물 님의
-                  </span>
-                  목표를 입력하고, 달성해보세요!
+                  <div>
+                    <span className="hidden lg:inline-block">
+                      {isUserInfo?.nickname.toUpperCase() || "CUSTOMER"}님의,
+                    </span>
+                    목표를 입력하고,
+                  </div>
+                  달성해보세요!
                 </h2>
               </div>
+              {/* <div className="text-white bg-green-300" onClick={onTest}>
+                TEST
+              </div> */}
             </div>
-            <div className="bg-gray-300 rounded-2xl p-4 h-48">
-              <div className="h-full flex flex-row lg:flex-col gap-2 lg:gap-0 lg:justify-between items-center lg:items-end">
-                {/* BUBBLES */}
-                <div className="flex flex-col lg:flex-row justify-end lg:w-full gap-3">
-                  <div className="w-12 h-12 rounded-full bg-themeBlue flex justify-center items-center">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth="1.5"
-                      stroke="currentColor"
-                      className="w-6 h-6 text-white"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"
-                      />
-                    </svg>
+            <div className="bg-white rounded-2xl px-8 py-8 min-h-48">
+              <div className="h-full flex flex-col gap-2 justify-between items-center lg:items-end">
+                <div className="w-full flex flex-col gap-2 lg:flex-row-reverse border-b">
+                  {/* BUBBLES */}
+                  <div className="flex flex-row justify-end lg:w-1/3 gap-3">
+                    <div className="w-12 h-12 rounded-full bg-themeBlue flex justify-center items-center">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth="1.5"
+                        stroke="currentColor"
+                        className="w-6 h-6 text-white"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"
+                        />
+                      </svg>
+                    </div>
+                    <div className="w-12 h-12 rounded-full bg-themeBlue flex justify-center items-center">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth="1.5"
+                        stroke="currentColor"
+                        className="w-6 h-6 text-white"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"
+                        />
+                      </svg>
+                    </div>
+                    <div className="w-12 h-12 rounded-full bg-themeBlue flex justify-center items-center">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth="1.5"
+                        stroke="currentColor"
+                        className="w-6 h-6 text-white"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125"
+                        />
+                      </svg>
+                    </div>
                   </div>
-                  <div className="w-12 h-12 rounded-full bg-themeBlue flex justify-center items-center">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth="1.5"
-                      stroke="currentColor"
-                      className="w-6 h-6 text-white"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"
-                      />
-                    </svg>
-                  </div>
-                  <div className="w-12 h-12 rounded-full bg-themeBlue flex justify-center items-center">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth="1.5"
-                      stroke="currentColor"
-                      className="w-6 h-6 text-white"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125"
-                      />
-                    </svg>
-                  </div>
-                </div>
-                <div className="w-full justify-between inline-block">
                   {/* INFO LINE */}
                   <div className="flex mb-4 flex-col justify-start items-start w-full">
-                    <p className="hidden lg:inline-block text-sm">
-                      00 크루 소속 중 | 활동적 생활가
-                    </p>
-                    <h1 className="text-4xl font-bold">코끼리도초식동물 님</h1>
+                    <h1 className="text-4xl font-bold">
+                      {isUserInfo?.nickname.toUpperCase()} 님
+                    </h1>
+                  </div>
+                </div>
+                <div className="flex flex-row w-full h-12 justify-between items-center">
+                  <div
+                    id="info-collect"
+                    onClick={onMove}
+                    className="bg-themeLime flex justify-center items-center cursor-pointer rounded-xl px-4 py-2 hover:bg-themeBlue hover:text-white transition-colors duration-300"
+                  >
+                    <h2 className="font-bold">건강정보 입력하러 가기</h2>
                   </div>
                   {/* WITHDRAW BUTTON */}
                   <span
@@ -197,25 +211,7 @@ export default function Mypage() {
           {/* 2번째 */}
           <div className="flex flex-col lg:flex-row gap-4 w-full">
             <div
-              className={`flex flex-col bg-gray-300 rounded-2xl p-4 h-96 lg:w-1/3
-                   `}
-            >
-              <div className="flex flex-col justify-between h-full py-8">
-                <div className="font-bold text-2xl">
-                  <h2>건강 정보에 대해 입력해주시면</h2>
-                  <h2>상태를 분석해드려요 :)</h2>
-                </div>
-                <div
-                  id="info-collect"
-                  onClick={onMove}
-                  className="bg-themeLime flex justify-center items-center cursor-pointer rounded-xl py-4"
-                >
-                  <h2 className="font-bold">건강정보 입력하러 가기</h2>
-                </div>
-              </div>
-            </div>
-            <div
-              className={`flex flex-col bg-gray-300 rounded-2xl p-4 h-96 lg:w-1/3
+              className={`flex flex-col bg-white rounded-2xl p-4 h-96 lg:w-2/3
                     `}
             >
               <div
@@ -223,10 +219,9 @@ export default function Mypage() {
                 id="todo"
                 className="flex flex-col justify-between h-full py-8 relative cursor-pointer"
               >
-                <div className="font-bold text-2xl">
-                  <h2>야심찬 운동계획</h2>
-                  <h2>투두리스트</h2>
-                  <h2>계획 하기</h2>
+                <div className="font-bold text-3xl">
+                  <h2>야심찬 운동</h2>
+                  <h2>투두리스트 계획 하러 가기!</h2>
                 </div>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -246,7 +241,7 @@ export default function Mypage() {
             </div>
             <div
               id="3"
-              className={`flex flex-col bg-gray-300 rounded-2xl p-4 h-96 lg:w-1/3
+              className={`flex flex-col bg-white rounded-2xl p-4 h-96 lg:w-1/3
                     `}
             >
               <div
@@ -254,7 +249,7 @@ export default function Mypage() {
                 id="ai"
                 className="flex flex-col justify-between h-full py-8 relative cursor-pointer"
               >
-                <div className="font-bold text-2xl">
+                <div className="font-bold text-3xl">
                   <h2>AI가 설정해주는</h2>
                   <h2>맞춤형 루틴 받고</h2>
                   <h2>현황 확인하기!</h2>
@@ -279,7 +274,7 @@ export default function Mypage() {
 
           {/* 3번째 */}
           <div className="flex flex-col sm:grid sm:grid-cols-1 gap-4">
-            <div className="bg-gray-300 rounded-2xl p-4 min-h-96">
+            <div className="bg-white rounded-2xl p-4 min-h-96">
               <div className="flex flex-col gap-8 lg:flex-row h-fulljustify-between items-start py-12 px-1">
                 <div className="flex flex-col gap-6">
                   {/* 상단 */}
@@ -322,7 +317,7 @@ export default function Mypage() {
 
           {/* 4번째 */}
           <div className="flex flex-col lg:grid lg:grid-cols-5 gap-4">
-            <div className="bg-gray-300 rounded-2xl p-4 h-44">
+            <div className="bg-white rounded-2xl p-4 h-44">
               {isAdded ? (
                 <div className="flex flex-col gap-4 justify-start items-center">
                   <h2 className="text-2xl font-bold">커뮤니티</h2>
@@ -350,7 +345,7 @@ export default function Mypage() {
                 </div>
               )}
             </div>
-            <div className="bg-gray-300 rounded-2xl p-4 h-44">
+            <div className="bg-white rounded-2xl p-4 h-44">
               {isAdded ? (
                 <div className="flex flex-col gap-4 justify-start items-center">
                   <h2 className="text-2xl font-bold">커뮤니티</h2>
