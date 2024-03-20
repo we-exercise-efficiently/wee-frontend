@@ -6,6 +6,7 @@ import { InfoBlocks } from "../jsons/statics";
 import { deleteMemberInfo, getMemberInfo } from "../apis/apis";
 import Loading from "../components/Loading";
 import { ILogTypes, logHandler } from "../utils/logHandler";
+import { IUserInfoProps } from "../models/mypage.model";
 
 /**
  *  2024.01.16
@@ -15,6 +16,8 @@ export default function Mypage() {
   const [isAdded, _] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const reset = useScrollReset();
+
+  const [isUserInfo, setIsUserInfo] = useState<IUserInfoProps>();
 
   const onMove = (event: React.MouseEvent<HTMLDivElement>) => {
     let destination = event.currentTarget.id;
@@ -63,6 +66,7 @@ export default function Mypage() {
         console.log(response);
         if (response.data.code === 200) {
           // 성공 했을 시
+
           // 기존 데이터 삽입
           setIsLoading(false);
           // 로딩 상태 해제
@@ -70,7 +74,7 @@ export default function Mypage() {
       } catch (error) {
         // 실패 시
         // 로그인을 다시 시키기 위해
-        reset("/");
+        // reset("/");
       }
     };
 
